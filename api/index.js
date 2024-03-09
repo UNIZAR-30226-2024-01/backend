@@ -6,6 +6,7 @@ const { createServer } = require('http');
 require('dotenv').config();
 const { logger }  = require ('morgan');
 const morgan = require('morgan');
+const src = require('./src.js');
 
 
 const app = express()
@@ -26,7 +27,7 @@ const pool = new Pool({
 })
 
 // Servir archivos estáticos desde la carpeta 'build' (o la carpeta que contiene tu aplicación React compilada)
-app.use(express.static("../front-end-web/front-end-react/dist"));
+app.use(express.static("../../front-end-web/front-end-react/dist"));
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 
@@ -84,6 +85,52 @@ process.on('SIGINT', () => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.sendFile("../front-end-web/front-end-react/dist/index.html");
+
+app.post('/createAccount', async (req, res) => {
+
+  const username = req.body.username;
+  const password = req.body.password;
+ 
+  try {
+    const createSuccessfully = await src.createAccount(username,password);
+
+    if (createSuccessfully) {
+      res.json({ success: true, message: 'Usuario creado correctamente' });
+      console.log(`Usuario creado correctamente:  ${createSuccessfully}`);
+    } else {
+      res.json({ success: false, message: 'Usuario no creado' });
+      console.log(`Usuario no creado correctamente`);
+    }
+} catch (error) {
+    if (error.code == '23505') {
+      res.status(23505).json({ success: false, message: error.message });
+    }
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+
+}
+});
+
+
+app.post('/login', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+ // console.log('dentro de login');
+
+ 
+  try {
+    const resultadoLogin = await src.login(username,password);
+
+    if (resultadoLogin.exito) {
+      res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
+      console.log('Se ha iniciado sesión correctamente');
+    } else { //mirar fallos
+      res.json({ success: false, message: 'No se ha iniciado sesión' });
+      console.log('No se ha iniciado sesión');
+    }
+
+  } catch (error) {
+    console.error('Error al realizar el inicio de sesión:', error);
+    res.status(500).json({ success: false, message: 'Error en el servidor al realizar el inicio de sesión' });
+  }
 });
