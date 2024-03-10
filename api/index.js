@@ -14,7 +14,7 @@ const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-    origin: "https://localhost:3000"
+    origin: "http://localhost:5173", 
   }
 });
 
@@ -27,15 +27,11 @@ const pool = new Pool({
 })
 
 // Servir archivos estáticos desde la carpeta 'build' (o la carpeta que contiene tu aplicación React compilada)
-app.use(express.static("../../front-end-web/front-end-react/dist"));
-app.use(bodyParser.json())
-app.use(morgan('dev'))
+// app.use(express.static("../../front-end-web/front-end-react/dist"));
+// app.use(bodyParser.json())
+// app.use(morgan('dev'))
 
-/*// Handle joining a room
-    socket.on('joinRoom', (room) => {
-        socket.join(room);
-        console.log(`User joined room: ${room}`);
-    });*/
+
 const addSocketToGroup = (socket) => {
   const username = socket.handshake.auth.username
   const group = socket.handshake.auth.group
@@ -53,10 +49,8 @@ io.on('connection', (socket) => {
   })
   
   socket.on('chat message', (msg) => {
-    //io.emit('chat response', socket.handshake.auth.username, msg)
 
     io.to(socket.handshake.auth.group).emit('chat response', socket.handshake.auth.username, msg);
-
     console.log(`Msg: ${msg}`)
   })
 
@@ -72,10 +66,22 @@ pool.connect((err, client, done) => {
   done();
 
 });
+
+
+// Middleware para habilitar CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 // Start the server
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
 
 // Handle SIGINT signal to close the database connection properly
 process.on('SIGINT', () => {
@@ -107,7 +113,6 @@ app.post('/createAccount', async (req, res) => {
     }
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
-
 }
 });
 
