@@ -1,6 +1,10 @@
 const express = require('express');
+
+
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+
+
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 require('dotenv').config();
@@ -29,8 +33,9 @@ const pool = new Pool({
 
 // Servir archivos estáticos desde la carpeta 'build' (o la carpeta que contiene tu aplicación React compilada)
 // app.use(express.static("../../front-end-web/front-end-react/dist"));
-// app.use(bodyParser.json())
+app.use(bodyParser.json());
 // app.use(morgan('dev'))
+// parse application/json
 
 
 const addSocketToGroup = (socket) => {
