@@ -14,7 +14,8 @@ const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-    origin: "http://localhost:5173", 
+    origin: "http://localhost:5173",
+    // origin: ["http://localhost:5173", "http://localhost:4200"],
   }
 });
 
@@ -118,6 +119,7 @@ app.post('/createAccount', async (req, res) => {
 
 
 app.post('/login', async (req, res) => {
+  console.log(req)
   const username = req.body.username;
   const password = req.body.password;
  // console.log('dentro de login');
