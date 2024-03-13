@@ -18,9 +18,7 @@ const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-    //origin: "http://localhost:5173",
-    origin: "http://localhost:4200",
-    // origin: ["http://localhost:5173", "http://localhost:4200"],
+    origin: ["http://localhost:5173", "http://localhost:4200"],
   }
 });
 
@@ -77,7 +75,12 @@ pool.connect((err, client, done) => {
 
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const allowedOrigins = ['http://localhost:5173', 'http://localhost:4200'];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
@@ -125,7 +128,6 @@ app.post('/createAccount', async (req, res) => {
 
 
 app.post('/login', async (req, res) => {
-  console.log(req)
   const username = req.body.username;
   const password = req.body.password;
  // console.log('dentro de login');
