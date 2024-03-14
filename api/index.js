@@ -26,10 +26,40 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 })
 
-// Servir archivos estáticos desde la carpeta 'build' (o la carpeta que contiene tu aplicación React compilada)
-// app.use(express.static("../../front-end-web/front-end-react/dist"));
-// app.use(bodyParser.json())
-// app.use(morgan('dev'))
+async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
+  try {
+    const msgSaved = await src.saveMsg(currentTimestamp, group, isQ, msg, emisor);
+
+    if (msgSaved.exito) {
+      res.json({ success: true, message: msgSaved.msg });
+      console.log(msgSaved.msg);
+    } else {
+      res.json({ success: false, message: msgSaved.msg });
+      console.log(msgSaved.msg);
+    }
+  } catch (error) {
+    console.error('Error al almacenar mensaje:', error);
+    res.status(500).json({ success: false, message: 'Error en el servidor al realizar almacen mensaje' });
+  }
+}
+
+
+function obtenerFechaActual() {
+  const fecha = new Date();
+  const año = fecha.getFullYear();
+  const mes = ('0' + (fecha.getMonth() + 1)).slice(-2);
+  const dia = ('0' + fecha.getDate()).slice(-2);
+  const hora = ('0' + fecha.getHours()).slice(-2);
+  const minutos = ('0' + fecha.getMinutes()).slice(-2);
+  const segundos = ('0' + fecha.getSeconds()).slice(-2);
+  const milisegundos = ('0' + fecha.getMilliseconds()).slice(-6); // Limitar a tres dígitos de precisión
+  const zonaHorariaOffset = fecha.getTimezoneOffset();
+  const signoZonaHoraria = zonaHorariaOffset > 0 ? '-' : '+';
+  const horasZonaHoraria = ('00');
+
+  return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
+  //"2024-03-14 12:54:56.419369+00"
+}
 
 
 const addSocketToGroup = (socket) => {
@@ -43,17 +73,24 @@ io.on('connection', (socket) => {
   console.log('a user has connected')
   
   addSocketToGroup(socket)
-
+  
   socket.on('disconnect', () => {
     console.log('a user has disconnected')
   })
   
-  socket.on('chat message', (msg) => {
-
+  socket.on('chat message', async (msg) => {
+    
     io.to(socket.handshake.auth.group).emit('chat response', socket.handshake.auth.username, msg);
     console.log(`Msg: ${msg}`)
+    const emisor = socket.handshake.auth.username;
+    const currentTimestamp = obtenerFechaActual();
+    console.log(currentTimestamp);
+    const group = socket.handshake.auth.group;
+    const isQ = 0;
+    const mensaje = msg;
+    storeMsg(currentTimestamp,group,isQ,mensaje,emisor);
   })
-
+  
 })
 
 // Test the database connection
@@ -64,7 +101,7 @@ pool.connect((err, client, done) => {
   }
   console.log('Connected to the database');
   done();
-
+  
 });
 
 
@@ -93,13 +130,13 @@ process.on('SIGINT', () => {
 
 
 app.post('/createAccount', async (req, res) => {
-
+  
   const username = req.body.username;
   const password = req.body.password;
- 
+  
   try {
     const createSuccessfully = await src.createAccount(username,password);
-
+    
     if (createSuccessfully) {
       res.json({ success: true, message: 'Usuario creado correctamente' });
       console.log(`Usuario creado correctamente:  ${createSuccessfully}`);
@@ -107,25 +144,25 @@ app.post('/createAccount', async (req, res) => {
       res.json({ success: false, message: 'Usuario no creado' });
       console.log(`Usuario no creado correctamente`);
     }
-} catch (error) {
+  } catch (error) {
     if (error.code == '23505') {
       res.status(23505).json({ success: false, message: error.message });
     }
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
-}
+  }
 });
 
 
 app.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
- // console.log('dentro de login');
-
- 
+  // console.log('dentro de login');
+  
+  
   try {
     const resultadoLogin = await src.login(username,password);
-
+    
     if (resultadoLogin.exito) {
       res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
       console.log('Se ha iniciado sesión correctamente');
@@ -133,9 +170,13 @@ app.post('/login', async (req, res) => {
       res.json({ success: false, message: 'No se ha iniciado sesión' });
       console.log('No se ha iniciado sesión');
     }
-
+    
   } catch (error) {
     console.error('Error al realizar el inicio de sesión:', error);
     res.status(500).json({ success: false, message: 'Error en el servidor al realizar el inicio de sesión' });
   }
 });
+
+
+//----------------------------FUNCTION------------------------------------
+

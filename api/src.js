@@ -64,8 +64,35 @@ async function login(username, password) {
     }
 }
 
+async function saveMsg(currentTimestamp,group,msg,isQ,emisor) {
+
+    const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, partida, "isQuestion", contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
+    //isQ falta tratarlo bn
+    const insertValues = [currentTimestamp,group,'0',msg,emisor];
+
+    const client = await pool.connect();
+    try {
+        // Realizar la consulta SELECT para verificar si la dirección ya existe
+        const insertResult = await client.query(insertQuery, insertValues);
+
+        if(insertResult.rows.length == 0){
+            //usuario no existe
+            return {exito: false, msg: "Error al almacenar el mensaje."};
+        } else {
+            //login correcto
+            return {exito: true, msg: "Mensaje alamacenado correctamente."};
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+
 
 module.exports = {
     createAccount,
-    login
+    login,
+    saveMsg
 };
