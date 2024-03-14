@@ -1,6 +1,10 @@
 const express = require('express');
+
+
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+
+
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 require('dotenv').config();
@@ -14,7 +18,7 @@ const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-    origin: "http://localhost:5173", 
+    origin: ["http://localhost:5173", "http://localhost:4200"],
   }
 });
 
@@ -25,6 +29,7 @@ const pool = new Pool({
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
 })
+app.use(bodyParser.json());
 
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
   try {
@@ -107,7 +112,12 @@ pool.connect((err, client, done) => {
 
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const allowedOrigins = ['http://localhost:5173', 'http://localhost:4200'];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
