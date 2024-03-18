@@ -31,23 +31,42 @@ const pool = new Pool({
 })
 app.use(bodyParser.json());
 
+
+//----------------------------FUNCTION------------------------------------
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
   try {
-    const msgSaved = await src.saveMsg(currentTimestamp, group, isQ, msg, emisor);
+    const msgSaved = await src.saveMsg(currentTimestamp, group,isQ, msg, emisor);
 
     if (msgSaved.exito) {
-      res.json({ success: true, message: msgSaved.msg });
       console.log(msgSaved.msg);
     } else {
-      res.json({ success: false, message: msgSaved.msg });
       console.log(msgSaved.msg);
     }
   } catch (error) {
     console.error('Error al almacenar mensaje:', error);
-    res.status(500).json({ success: false, message: 'Error en el servidor al realizar almacen mensaje' });
   }
 }
 
+
+async function ldrMsg(socket) {
+  if (!socket.recovered) {
+    try {
+      const group = socket.handshake.auth.group;
+      const result = await src.restoreMsg( group);
+      const mensajes = result.mensajes;
+      if (Array.isArray(mensajes)) {
+        mensajes.forEach(mensaje => {
+          // Hacer algo con cada mensaje
+          //console.log(mensaje);
+          // Emitir un mensaje a un grupo específico
+          io.to(group).emit('chat message', mensaje);
+        });
+      } 
+    }catch (error) {
+      console.error('Error al enviar mensaje:', error);
+   }
+  }
+}
 
 function obtenerFechaActual() {
   const fecha = new Date();
@@ -65,7 +84,7 @@ function obtenerFechaActual() {
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
   //"2024-03-14 12:54:56.419369+00"
 }
-
+//--------------------------------------------------------------------------------
 
 const addSocketToGroup = (socket) => {
   const username = socket.handshake.auth.username
@@ -87,14 +106,17 @@ io.on('connection', (socket) => {
     
     io.to(socket.handshake.auth.group).emit('chat response', socket.handshake.auth.username, msg);
     console.log(`Msg: ${msg}`)
+    
     const emisor = socket.handshake.auth.username;
     const currentTimestamp = obtenerFechaActual();
     console.log(currentTimestamp);
     const group = socket.handshake.auth.group;
-    const isQ = 0;
-    const mensaje = msg;
-    storeMsg(currentTimestamp,group,isQ,mensaje,emisor);
+    const isQ = '0';
+    await storeMsg(currentTimestamp,group,isQ,msg,emisor);
   })
+  
+  // Luego llamas a esta función donde sea necesario
+  ldrMsg(socket);
   
 })
 
@@ -188,5 +210,4 @@ app.post('/login', async (req, res) => {
 });
 
 
-//----------------------------FUNCTION------------------------------------
 
