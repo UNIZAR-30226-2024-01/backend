@@ -26,7 +26,7 @@ async function createAccount(username, password) {
             const insertResult_jugador = await client.query(insertQuery_jugador, insertValues_jugador);
             const insertResult_user = await client.query(insertQuery_user, insertValues_user);
             //return {exito: true};
-            return {exito: true, username: insertResult.rows[0].userName};
+            return {exito: true, username: selectResult.rows[0].userName};
         }
     } catch (error) {
         throw error;
