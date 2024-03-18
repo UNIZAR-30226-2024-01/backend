@@ -1,5 +1,7 @@
 const pool = require('./connectionManager');
 
+
+//**************************************LOGIN************************************************* */
 async function createAccount(username, password) {
 
     const selectQuery = 'SELECT "userName" FROM grace_hopper."usuario" WHERE "userName" = $1';
@@ -26,7 +28,7 @@ async function createAccount(username, password) {
             const insertResult_jugador = await client.query(insertQuery_jugador, insertValues_jugador);
             const insertResult_user = await client.query(insertQuery_user, insertValues_user);
             //return {exito: true};
-            return {exito: true, username: selectResult.rows[0].userName};
+            return {exito: true, username: insertResult_user.rows[0].userName};
         }
     } catch (error) {
         throw error;
@@ -34,8 +36,6 @@ async function createAccount(username, password) {
         client.release();
     }
 }
-
-
 
 async function login(username, password) {
 
@@ -64,11 +64,14 @@ async function login(username, password) {
     }
 }
 
-async function saveMsg(currentTimestamp,group,msg,isQ,emisor) {
+async function changePassword(id) {}
 
-    const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, partida, "isQuestion", contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
+//*****************************************CHAT*********************************************** */
+async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
+
+    const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
     //isQ falta tratarlo bn
-    const insertValues = [currentTimestamp,group,'0',msg,emisor];
+    const insertValues = [currentTimestamp,isQ,group,msg,emisor];
 
     const client = await pool.connect();
     try {
@@ -89,10 +92,57 @@ async function saveMsg(currentTimestamp,group,msg,isQ,emisor) {
     }
 }
 
+async function restoreMsg(group) {
+
+    const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  partida = $1';
+    const selectValues = [group];
+
+    const client = await pool.connect();
+    try {
+        // Realizar la consulta SELECT para verificar si la dirección ya existe
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if(selectResult.rows.length == 0){
+            //usuario no existe
+            return { exito: false, msg: "No se encontraron mensajes." };
+        } else {
+            const mensajes = selectResult.rows.map(row => ({
+                mensaje: row.contenido,
+                emisor: row.emisor,
+                esPregunta: row.isQuestion,
+                instante: row.instante
+            }));
+            return { exito: true, mensajes: mensajes };
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function getDefaultQuestions(id) {}
+
+//*****************************************JUGADOR******************************************** */
+async function gameExists(jugador) {} //jugador ya pertenece a una partida
+async function playerInformation(jugador) {} // informacion como xp || partidas_ganadas
+async function getSuspicions(jugador) {}
+
+
+//****************************************JUEGO*********************************************** */
+async function playerHasCard(jugador,card,idGame) {} //idGame==group
+async function restorePreviousGame(idGame) {}
+async function updateTurn() {} //Faltan parametros aún
+async function getTurn(idGame) {}
+async function resolve(jugador, idGame, characterCard, weaponCard, placeCard) {} // incluye actualizacion XP
+async function getType(idGame) {}
+
+
 
 
 module.exports = {
     createAccount,
     login,
-    saveMsg
+    saveMsg,
+    restoreMsg
 };
