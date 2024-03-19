@@ -51,17 +51,22 @@ async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
 async function ldrMsg(socket) {
   if (!socket.recovered) {
     try {
+      const offset = socket.handshake.auth.offset;
       const group = socket.handshake.auth.group;
-      const result = await src.restoreMsg( group);
-      const mensajes = result.mensajes;
-      if (Array.isArray(mensajes)) {
-        mensajes.forEach(mensaje => {
-          // Hacer algo con cada mensaje
-          //console.log(mensaje);
-          // Emitir un mensaje a un grupo específico
-          io.to(group).emit('chat message', mensaje);
-        });
-      } 
+      const result = await src.restoreMsg(offset,group);
+      // console.log(result)
+
+      result.mensajes?.map(({emisor,mensaje}) => {
+        socket.emit('chat response', emisor,mensaje);
+      })
+        // result.forEach(({mensaje, emisor}) => {
+        //   // Hacer algo con cada mensaje
+        //   //console.log(mensaje);
+        //   // Emitir un mensaje a un grupo específico
+        //   //io.to(group).emit('chat message', mensaje);
+        //   socket.emit('chat response', emisor,mensaje);
+        // });
+
     }catch (error) {
       console.error('Error al enviar mensaje:', error);
    }

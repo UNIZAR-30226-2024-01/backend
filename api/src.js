@@ -92,10 +92,10 @@ async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter 
     }
 }
 
-async function restoreMsg(group) {
+async function restoreMsg(currentTimestamp,group) {
 
-    const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  partida = $1';
-    const selectValues = [group];
+    const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante';
+    const selectValues = [currentTimestamp,group];
 
     const client = await pool.connect();
     try {
