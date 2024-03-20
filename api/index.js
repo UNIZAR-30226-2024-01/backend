@@ -19,7 +19,7 @@ const server = createServer(app)
 const io = new Server(server,{
   cors: {
   //   // origin: ["http://localhost:5173", "http://localhost:4200"],
-    origin: ["http://51.20.246.74:5173"],
+    origin: ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"],
   }
 });
 
@@ -141,18 +141,19 @@ pool.connect((err, client, done) => {
 });
 
 
-// // Middleware para habilitar CORS
-// app.use((req, res, next) => {
-//   const allowedOrigins = ['http://localhost:5173', 'http://localhost:4200'];
-//   const origin = req.headers.origin;
+// Middleware para habilitar CORS
+app.use((req, res, next) => {
+  const allowedOrigins = ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"];
 
-//   if (allowedOrigins.includes(origin)) {
-//     res.header('Access-Control-Allow-Origin', origin);
-//   }
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   next();
-// });
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 // Start the server
 server.listen(port, () => {
