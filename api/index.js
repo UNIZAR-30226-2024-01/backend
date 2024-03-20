@@ -17,10 +17,10 @@ const app = express()
 const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
-  // cors: {
+  cors: {
   //   // origin: ["http://localhost:5173", "http://localhost:4200"],
-  //   origin: ["http://localhost:5173", "http://localhost:4200"],
-  // }
+    origin: ["http://51.20.246.74:5173"],
+  }
 });
 
 
