@@ -2,7 +2,7 @@ const pool = require('./connectionManager');
 
 
 //**************************************LOGIN************************************************* */
-async function createAccount(username, password) {
+export async function createAccount(username, password) {
 
     const selectQuery = 'SELECT "userName" FROM grace_hopper."usuario" WHERE "userName" = $1';
     const selectValues = [username];
@@ -37,7 +37,7 @@ async function createAccount(username, password) {
     }
 }
 
-async function login(username, password) {
+export async function login(username, password) {
 
     const selectQuery = 'SELECT passwd FROM grace_hopper."usuario" WHERE "userName" = $1';
     const selectValues = [username];
@@ -67,7 +67,7 @@ async function login(username, password) {
 async function changePassword(id) {}
 
 //*****************************************CHAT*********************************************** */
-async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
+export async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
 
     const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
     //isQ falta tratarlo bn
@@ -92,7 +92,7 @@ async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter 
     }
 }
 
-async function restoreMsg(currentTimestamp,group) {
+export async function restoreMsg(currentTimestamp,group) {
 
     const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante';
     const selectValues = [currentTimestamp,group];
@@ -124,8 +124,86 @@ async function restoreMsg(currentTimestamp,group) {
 async function getDefaultQuestions(id) {}
 
 //*****************************************JUGADOR******************************************** */
-async function gameExists(jugador) {} //jugador ya pertenece a una partida
-async function playerInformation(jugador) {} // informacion como xp || partidas_ganadas
+export async function gameExists(jugador) {
+    
+} //jugador ya pertenece a una partida
+export async function createGame(username,type){
+    
+    var exito = false;
+    do{
+        const enteroSeisDigitos = generarEnteroSeisDigitos();
+        const selectQuery= 'SELECT id_partida FROM grace_hopper."partida" WHERE  id_partida = $1';
+        const selectValues = [enteroSeisDigitos];
+    
+        const client = await pool.connect();
+        try {
+            // Realizar la consulta SELECT para verificar si ese ID ya existe
+            const selectResult = await client.query(selectQuery, selectValues);
+    
+            if(selectResult.rows.length == 0){
+                exito = true;
+                
+                const asesino = getAsesino();
+                const arma = getArma();
+                const lugar = getLugar();
+                const date = getCurrentDate();
+
+
+                // se inserta en partida
+                const insertQuery_partida= 'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, fecha_fin, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_partida';
+                const insertValues_partida= [enteroSeisDigitos, 1, date , null, type, null, asesino, arma, lugar];  
+
+                const insertResult_partida = await client.query(insertQuery_partida, insertValues_partida);
+
+                const id_partida =  insertResult_partida.rows[0].id_partida ;
+
+                const insertQuery_jugador= 'UPDATE grace_hopper."jugador" SET  partida_actual = $1 WHERE "userName" = $2';
+                const insertValues_jugador= [id_partida,username];  
+        
+                await client.query(insertQuery_jugador, insertValues_jugador);
+
+                return { exito: false, id:id_partida };
+            } 
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+
+    }while(!exito);
+    
+} // 
+
+export async function stopGame(){}
+
+export async function finishGame(){}
+
+
+export async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
+
+export async function getPlayerXP(jugador) {
+
+    const selectQuery= 'SELECT "XP FROM grace_hopper."usuario" WHERE  "userName" = $1';
+    const selectValues = [jugador];
+
+    const client = await pool.connect();
+    try {
+        // Realizar la consulta SELECT para verificar si la dirección ya existe
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if(selectResult.rows.length == 0){
+            //usuario no existe
+            return { exito: false, msg: "No se ha encontrado ningun emisor." };
+        } else {
+            return { exito: true, XP: selectResult.rows[0].XPs };
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+} // informacion como xp || partidas_ganadas
+
 async function getSuspicions(jugador) {}
 
 
@@ -140,9 +218,91 @@ async function getType(idGame) {}
 
 
 
-module.exports = {
-    createAccount,
-    login,
-    saveMsg,
-    restoreMsg
-};
+
+//********************************************AUX********************************************* */
+
+function generarEnteroSeisDigitos() {
+    var min = 100000;
+    var max = 999999;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getCurrentDate() {
+    var fechaActual = new Date();
+
+    var año = fechaActual.getFullYear();
+
+    var mes = fechaActual.getMonth() + 1;
+
+    var dia = fechaActual.getDate();
+
+    // Formatear la fecha en el formato YYYY-MM-DD
+    var fechaFormateada = año + '-' + mes + '-' + dia;
+
+    // Mostrar la fecha formateada
+    //console.log(fechaFormateada);
+    return fechaFormateada;
+}
+
+async function getAsesino(){
+
+    const determinar_asesino = 'SELECT nombre FROM grace_hopper."personajes" ORDER BY RANDOM() LIMIT 1';
+    
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(determinar_asesino);
+
+        if(selectResult.rows.length == 0){
+            //usuario no existe
+            return { exito: false, msg: "No se ha obtenido ningun asesino" };
+        } else {
+            return  selectResult.rows[0].nombre;
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function getArma(){
+
+    const determinar_asesino = 'SELECT nombre FROM grace_hopper."arma" ORDER BY RANDOM() LIMIT 1';
+    
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(determinar_asesino);
+
+        if(selectResult.rows.length == 0){
+            //usuario no existe
+            return { exito: false, msg: "No se ha obtenido ningun arma" };
+        } else {
+            return  selectResult.rows[0].nombre;
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function getLugar(){
+
+    const determinar_asesino = 'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1';
+    
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(determinar_asesino);
+
+        if(selectResult.rows.length == 0){
+            //usuario no existe
+            return { exito: false, msg: "No se ha obtenido ningun lugar" };
+        } else {
+            return  selectResult.rows[0].nombre;
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}

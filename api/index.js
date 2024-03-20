@@ -22,6 +22,7 @@ const io = new Server(server,{
   }
 });
 
+
 const pool = new Pool({
   host:  process.env.DB_HOST,
   user:  process.env.DB_USER,
@@ -72,6 +73,8 @@ async function ldrMsg(socket) {
    }
   }
 }
+
+
 
 function obtenerFechaActual() {
   const fecha = new Date();
@@ -211,6 +214,26 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Error al realizar el inicio de sesión:', error);
     res.status(500).json({ success: false, message: 'Error en el servidor al realizar el inicio de sesión' });
+  }
+});
+
+
+app.post('/obtainXp', async (req, res) => {
+  const username = req.body.username;
+  try {
+    const resultadoXp = await src.getPlayerXP(username);
+    
+    if (resultadoXp.exito) {
+      console.log(`Se ha obtenido el XP de ${username} : `, resultadoXp.XP, ' ');
+      res.status(200).json({ success: true, XP: resultadoXp.XP });
+    } else { 
+      console.log('No se ha obtenido el XP');
+      res.status(404).json({ success: false, message: 'No se encontró XP para el usuario proporcionado' });
+    }
+  } catch (error) {
+    console.error('Error al -- obtainXP --:', error);
+    res.status(500).json({ success: false, message: 'Error del servidor interno' });
+
   }
 });
 
