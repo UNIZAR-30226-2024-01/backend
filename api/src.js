@@ -1,6 +1,7 @@
 const pool = require('./connectionManager');
 
-import * as constants from './constants.js';
+const constants = require('./constants.js');
+
 
 
 //**************************************LOGIN************************************************* */
@@ -255,25 +256,19 @@ async function createGame(username,type){
     
 } 
 
-async function stopGame(username, id_partida){
+async function stopGame(id_partida){
 
     // check if user exits and has an active game
-    const updatePartidaQuery= constants.UPDATE_STATE_JUGADOR;
-    const updatePartidaValues = [username, constants.PAUSE];
-
-    const updateQuery= constants.UPDATE_STATE_JUGADOR;
-    const updateValues = [username, constants.PAUSE];
-
+    const updatePartidaQuery= constants.UPDATE_STATE_PARTIDA;
+    const updatePartidaValues = [id_partida, constants.PAUSE];
+    
+    
     const client = await pool.connect();
     try {
-        const updateResult = await client.query(updateQuery, updateValues);
+        const updatePartidaResult = await client.query(updatePartidaQuery, updatePartidaValues);
 
-        //username doesnt exist
-        if(updateResult.rows.length == 0) return {exito: false, msg: constants.WRONG_USER};
-        // user is not playing
-        else if( selectResult.rows[0].estado == constants.STOP) return {exito: true, msg: constants.ERROR_UPDATING};
-        //partida is paused
-        else return {exito: true};
+        if(updatePartidaResult.rows.length==0) return {exito: false, msg: constants.ERROR_UPDATING};
+        else return {exito: true}
 
     } catch (error) {
         throw error;
@@ -282,7 +277,24 @@ async function stopGame(username, id_partida){
     }
 }
 
-async function finishGame(){}
+async function finishGame(){
+    // check if user exits and has an active game
+    const deletePartidaQuery= constants.DELETE;
+    const deletePartidaValues = [id_partida, constants.PAUSE];
+    
+    const client = await pool.connect();
+    try {
+        const updatePartidaResult = await client.query(updatePartidaQuery, updatePartidaValues);
+
+        if(updatePartidaResult.rows.length==0) return {exito: false, msg: constants.ERROR_UPDATING};
+        else return {exito: true}
+
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 
 async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
