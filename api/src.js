@@ -1,35 +1,40 @@
 const pool = require('./connectionManager');
 
+import * as constants from './constants.js';
+
 
 //**************************************LOGIN************************************************* */
+//return exito and username
 async function createAccount(username, password) {
 
-    const selectQuery = 'SELECT "userName" FROM grace_hopper."usuario" WHERE "userName" = $1';
+    const selectQuery = constants.SELECT_USER_USUARIO;
     const selectValues = [username];
     
-    const insertQuery_jugador= 'INSERT INTO grace_hopper."jugador" ("userName", ficha, partida_actual, sospechas, posicion, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"';
+    const insertQuery_jugador= constants.INSERT_JUGADOR;
     const insertValues_jugador= [username, null, null,null,null,0];
 
-    const insertQuery_user= 'INSERT INTO grace_hopper."usuario" ("userName", passwd, "XP", n_ganadas_online, n_ganadas_local, n_jugadas) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"';
+    const insertQuery_user= constants.INSERT_USUARIO;
     const insertValues_user = [username, password, 0,0,0,0];
-
 
     const client = await pool.connect();
     try {
-        // Realizar la consulta SELECT para verificar si la dirección ya existe
+
+        //check if "userName" already exits
         const selectResult = await client.query(selectQuery, selectValues);
 
-        if (selectResult.rows.length > 0) {
-            //si ya existe, devolver el ID existente
-            //return {exito: true};
-            return {exito: false, username: selectResult.rows[0].userName};
-        } else {
-            //no existe, realizar la inserción
+        //the userName already exits //return !exito and userName
+        if (selectResult.rows.length > 0) return {exito: false, username: selectResult.rows[0].userName};
+
+        else { //username doesnt exist yet
+
+            //insert the userName like player and user
             const insertResult_jugador = await client.query(insertQuery_jugador, insertValues_jugador);
             const insertResult_user = await client.query(insertQuery_user, insertValues_user);
-            //return {exito: true};
+            //return exito and userName
             return {exito: true, username: insertResult_user.rows[0].userName};
+
         }
+
     } catch (error) {
         throw error;
     } finally {
@@ -37,26 +42,27 @@ async function createAccount(username, password) {
     }
 }
 
+//return exito and msg
 async function login(username, password) {
 
-    const selectQuery = 'SELECT passwd FROM grace_hopper."usuario" WHERE "userName" = $1';
+    const selectQuery = constants.SELECT_PASSWD_USUARIO;
     const selectValues = [username];
 
     const client = await pool.connect();
     try {
-        // Realizar la consulta SELECT para verificar si la dirección ya existe
+
+        //check if passwd of username is correct
         const selectResult = await client.query(selectQuery, selectValues);
 
-        if(selectResult.rows.length == 0){
-            //usuario no existe
-            return {exito: false, msg: "Usuario incorrecto."};
-        }else if (selectResult.rows[0].passwd != password ) {
-            //constraseña incorrecta
-            return {exito: false, msg: "Password incorrecta."};
-        } else {
-            //login correcto
-            return {exito: true, msg: "Password correcta."};
-        }
+        //username doesnt exist
+        if(selectResult.rows.length == 0) return {exito: false, msg: constants.WRONG_USER};  
+
+        //wrong passwd
+        else if (selectResult.rows[0].passwd != password ) return {exito: false, msg: constants.WRONG_PASSWD}; 
+
+        //login correcto
+        else return {exito: true, msg: constants.CORRECT_LOGIN }; 
+
     } catch (error) {
         throw error;
     } finally {
@@ -64,13 +70,47 @@ async function login(username, password) {
     }
 }
 
-async function changePassword(id) {}
+//return exito and msg
+async function changePassword(username, oldPassword, newPassword ) {
+
+    const selectQuery = constants.SELECT_PASSWD_USUARIO;
+    const selectValues = [username];
+    
+    const updateQuery_passwd= constants.UPDATE_PASSWD_USUARIO;
+    const updateValues_passwd= [username, newPassword];
+
+    const client = await pool.connect();
+    try {
+        //check if username exits
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if (selectResult.rows.length > 0) { //username exits
+            //check if oldPasswd is correct
+            if(selectResult.rows[0].passwd === oldPassword){ //correct oldPasswd
+                
+                //update values
+                const updatetResult = await client.query(updateQuery_passwd, updateValues_passwd);
+                //return exito and sucessful msg
+                return {exito: false, msg: constants.CORRECT_CHANGE_PASSWD};
+
+            }else return {exito: false, msg: constants.WRONG_PASSWD}; //incorrect oldPasswd  //return error and error msg : wrong passwd
+
+        } else return {exito: false , msg: constants.WRONG_USER};  //username doesnt exist //return error and error msg : user doesnt exist
+
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+
+}
 
 //*****************************************CHAT*********************************************** */
+//return exito and msg
 async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
 
-    const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
-    //isQ falta tratarlo bn
+
+    const insertQuery= constants.INSERT_CONVERSACION;
     const insertValues = [currentTimestamp,isQ,group,msg,emisor];
 
     const client = await pool.connect();
@@ -80,10 +120,10 @@ async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter 
 
         if(insertResult.rows.length == 0){
             //usuario no existe
-            return {exito: false, msg: "Error al almacenar el mensaje."};
+            return {exito: false, msg: constants.WRONG_MSG};
         } else {
             //login correcto
-            return {exito: true, msg: "Mensaje alamacenado correctamente."};
+            return {exito: true, msg:constants.CORRECT_MSG };
         }
     } catch (error) {
         throw error;
@@ -92,19 +132,18 @@ async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter 
     }
 }
 
+//return exito and  if error -> msg else -> mensajes
 async function restoreMsg(currentTimestamp,group) {
 
-    const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante';
+    const selectQuery= constants.SELECT_ALL_CONVERSACION;
     const selectValues = [currentTimestamp,group];
 
     const client = await pool.connect();
     try {
-        // Realizar la consulta SELECT para verificar si la dirección ya existe
         const selectResult = await client.query(selectQuery, selectValues);
 
         if(selectResult.rows.length == 0){
-            //usuario no existe
-            return { exito: false, msg: "No se encontraron mensajes." };
+            return { exito: false, msg: constants.WRONG_LDR_MSG };
         } else {
             const mensajes = selectResult.rows.map(row => ({
                 mensaje: row.contenido,
@@ -124,46 +163,88 @@ async function restoreMsg(currentTimestamp,group) {
 async function getDefaultQuestions(id) {}
 
 //*****************************************JUGADOR******************************************** */
-async function gameExists(jugador) {
+//return exito and  if error -> msg else -> id_partida
+async function gameExists(username) { //user hasnt started a play
+
+    //DUDA: no sé si devolver false si existe o si no existe
+    // si no existe el user --> false
+    // si esta jugando una partida --> true
+    // si no esta jugando ninguna partida --> false
+
+    // check if user exits and has an active game
+    const selectQuery= constants.SELECT_PARTIDAandSTATE_JUGADOR;
+    const selectValues = [username];
+
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if(selectResult.rows.length == 0){ //username doesnt exist
+            return {exito: false, msg: constants.WRONG_USER};
+        } else if( selectResult.rows[0].estado != constants.STOP) {// user is playing
+            return {exito: true, id_partida:selectResult.rows[0].partida};
+        }else{ //user can start a new play
+            return {exito: true};
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
     
-} //jugador ya pertenece a una partida
+    
+} 
+
+//return exito and if error -> msg else -> id_partida
 async function createGame(username,type){
     
     var exito = false;
     do{
         const enteroSeisDigitos = generarEnteroSeisDigitos();
-        const selectQuery= 'SELECT id_partida FROM grace_hopper."partida" WHERE  id_partida = $1';
+        const selectQuery= SELECT_ID_PARTIDA;
         const selectValues = [enteroSeisDigitos];
     
         const client = await pool.connect();
         try {
-            // Realizar la consulta SELECT para verificar si ese ID ya existe
+            //check if this id already exists
             const selectResult = await client.query(selectQuery, selectValues);
-    
-            if(selectResult.rows.length == 0){
-                exito = true;
-                
+            
+            if(selectResult.rows.length == 0){ // id doesnt exist
+
+                //get solution cards
                 const asesino = getAsesino();
                 const arma = getArma();
                 const lugar = getLugar();
                 const date = getCurrentDate();
 
 
-                // se inserta en partida
-                const insertQuery_partida= 'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, fecha_fin, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_partida';
-                const insertValues_partida= [enteroSeisDigitos, 1, date , null, type, null, asesino, arma, lugar];  
+                // try to insert into partida
+                const insertQuery_partida  = constants.INSERT_PARTIDA;
+                const insertValues_partida = [enteroSeisDigitos, constants.PLAY, date , null, type, null, asesino, arma, lugar];  
 
                 const insertResult_partida = await client.query(insertQuery_partida, insertValues_partida);
 
-                const id_partida =  insertResult_partida.rows[0].id_partida ;
+                //insert_error
+                if(insertResult_partida.rows.length == 0) return { exito: exito , msg: constants.ERROR_INSERTING }
+                else{
 
-                const insertQuery_jugador= 'UPDATE grace_hopper."jugador" SET  partida_actual = $1 WHERE "userName" = $2';
-                const insertValues_jugador= [id_partida,username];  
-        
-                await client.query(insertQuery_jugador, insertValues_jugador);
+                    const id_partida =  insertResult_partida.rows[0].id_partida ;
+    
+                    const insertQuery_jugador  = constants.UPDATE_PARTIDAandSTATE_JUGADOR;
+                    const insertValues_jugador = [id_partida,username, constants.PLAY];  
+    
+                    const updateResult = await client.query(insertQuery_jugador, insertValues_jugador); 
+    
+                    //update_error
+                    if(updateResult.rows.length == 0) return { exito: exito , msg: constants.ERROR_UPDATING }
+                    else{
+                        exito = true;
+                        return { exito: exito, id_partida: id_partida };
+                    } 
+                }
 
-                return { exito: false, id:id_partida };
-            } 
+            }
+
         } catch (error) {
             throw error;
         } finally {
@@ -172,9 +253,34 @@ async function createGame(username,type){
 
     }while(!exito);
     
-} // 
+} 
 
-async function stopGame(){}
+async function stopGame(username, id_partida){
+
+    // check if user exits and has an active game
+    const updatePartidaQuery= constants.UPDATE_STATE_JUGADOR;
+    const updatePartidaValues = [username, constants.PAUSE];
+
+    const updateQuery= constants.UPDATE_STATE_JUGADOR;
+    const updateValues = [username, constants.PAUSE];
+
+    const client = await pool.connect();
+    try {
+        const updateResult = await client.query(updateQuery, updateValues);
+
+        //username doesnt exist
+        if(updateResult.rows.length == 0) return {exito: false, msg: constants.WRONG_USER};
+        // user is not playing
+        else if( selectResult.rows[0].estado == constants.STOP) return {exito: true, msg: constants.ERROR_UPDATING};
+        //partida is paused
+        else return {exito: true};
+
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 async function finishGame(){}
 
@@ -310,6 +416,7 @@ async function getLugar(){
 module.exports = {
     createAccount,
     login,
+    changePassword,
     saveMsg,
     restoreMsg,
     gameExists,
