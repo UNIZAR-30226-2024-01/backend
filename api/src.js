@@ -22,7 +22,7 @@ export async function createAccount(username, password) {
         if (selectResult.rows.length > 0) {
             //si ya existe, devolver el ID existente
             //return {exito: true};
-            return {exito: true, username: selectResult.rows[0].userName};
+            return {exito: false, username: selectResult.rows[0].userName};
         } else {
             //no existe, realizar la inserción
             const insertResult_jugador = await client.query(insertQuery_jugador, insertValues_jugador);

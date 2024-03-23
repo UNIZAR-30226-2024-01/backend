@@ -177,12 +177,12 @@ app.post('/createAccount', async (req, res) => {
   try {
     const createSuccessfully = await src.createAccount(username,password);
     
-    if (createSuccessfully) {
+    if (createSuccessfully.exito) {
       res.json({ success: true, message: 'Usuario creado correctamente' });
-      console.log(`Usuario creado correctamente:  ${createSuccessfully}`);
+      console.log(`Usuario creado correctamente:  ${createSuccessfully.username}`);
     } else {
-      res.json({ success: false, message: 'Usuario no creado' });
-      console.log(`Usuario no creado correctamente`);
+      res.json({ success: false, message: 'Nombre de usuario ya existente' });
+      console.log(`El usuario  ${createSuccessfully.username} ya existe. `);
     }
   } catch (error) {
     if (error.code == '23505') {
@@ -193,12 +193,16 @@ app.post('/createAccount', async (req, res) => {
   }
 });
 
+app.get('/test', async (req, res) => {
+  // console.log('dentro de login');
+  res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
+
+});
 
 app.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   // console.log('dentro de login');
-  
   
   try {
     const resultadoLogin = await src.login(username,password);
