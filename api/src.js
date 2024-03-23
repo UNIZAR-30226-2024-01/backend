@@ -2,7 +2,7 @@ const pool = require('./connectionManager');
 
 
 //**************************************LOGIN************************************************* */
-export async function createAccount(username, password) {
+async function createAccount(username, password) {
 
     const selectQuery = 'SELECT "userName" FROM grace_hopper."usuario" WHERE "userName" = $1';
     const selectValues = [username];
@@ -37,7 +37,7 @@ export async function createAccount(username, password) {
     }
 }
 
-export async function login(username, password) {
+async function login(username, password) {
 
     const selectQuery = 'SELECT passwd FROM grace_hopper."usuario" WHERE "userName" = $1';
     const selectValues = [username];
@@ -67,7 +67,7 @@ export async function login(username, password) {
 async function changePassword(id) {}
 
 //*****************************************CHAT*********************************************** */
-export async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
+async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta meter isQ
 
     const insertQuery= 'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor';
     //isQ falta tratarlo bn
@@ -92,7 +92,7 @@ export async function saveMsg(currentTimestamp,group, isQ, msg,emisor) { //falta
     }
 }
 
-export async function restoreMsg(currentTimestamp,group) {
+async function restoreMsg(currentTimestamp,group) {
 
     const selectQuery= 'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante';
     const selectValues = [currentTimestamp,group];
@@ -124,10 +124,10 @@ export async function restoreMsg(currentTimestamp,group) {
 async function getDefaultQuestions(id) {}
 
 //*****************************************JUGADOR******************************************** */
-export async function gameExists(jugador) {
+async function gameExists(jugador) {
     
 } //jugador ya pertenece a una partida
-export async function createGame(username,type){
+async function createGame(username,type){
     
     var exito = false;
     do{
@@ -174,14 +174,14 @@ export async function createGame(username,type){
     
 } // 
 
-export async function stopGame(){}
+async function stopGame(){}
 
-export async function finishGame(){}
+async function finishGame(){}
 
 
-export async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
+async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
 
-export async function getPlayerXP(jugador) {
+async function getPlayerXP(jugador) {
 
     const selectQuery= 'SELECT "XP FROM grace_hopper."usuario" WHERE  "userName" = $1';
     const selectValues = [jugador];
@@ -306,3 +306,16 @@ async function getLugar(){
         client.release();
     }
 }
+
+module.exports = {
+    createAccount,
+    login,
+    saveMsg,
+    restoreMsg,
+    gameExists,
+    createGame,
+    stopGame,
+    finishGame,
+    playerInformation,
+    getPlayerXP
+};

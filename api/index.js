@@ -1,9 +1,7 @@
 const express = require('express');
 
-
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
-
 
 const { Server } = require('socket.io');
 const { createServer } = require('http');
@@ -12,13 +10,28 @@ const { logger }  = require ('morgan');
 const morgan = require('morgan');
 const src = require('./src.js');
 
+let ips2listen = []
+console.log("process.env.NODE_ENV=",process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'production') {
+        console.log('Estás en modo de producción');
+        ips2listen = ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"]
+}
+else {
+        console.log('Estás en modo de desarrollo');
+        ips2listen = ['http://localhost:5173', 'http://localhost:4200']
+}
+//console.log("ip3listen",ip2listen)
+
 
 const app = express()
 const port = 3000
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:4200"],
+  //   // origin: ["http://localhost:5173", "http://localhost:4200"],
+    // origin: ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"],
+    // origin: ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"],
+        origin: ips2listen,
   }
 });
 
@@ -103,18 +116,18 @@ const addSocketToGroup = (socket) => {
 
 io.on('connection', (socket) => {
   console.log('a user has connected')
-  
+
   addSocketToGroup(socket)
-  
+
   socket.on('disconnect', () => {
     console.log('a user has disconnected')
   })
-  
+
   socket.on('chat message', async (msg) => {
-    
+
     io.to(socket.handshake.auth.group).emit('chat response', socket.handshake.auth.username, msg);
     console.log(`Msg: ${msg}`)
-    
+
     const emisor = socket.handshake.auth.username;
     const currentTimestamp = obtenerFechaActual();
     console.log(currentTimestamp);
@@ -122,10 +135,10 @@ io.on('connection', (socket) => {
     const isQ = '0';
     await storeMsg(currentTimestamp,group,isQ,msg,emisor);
   })
-  
+
   // Luego llamas a esta función donde sea necesario
   ldrMsg(socket);
-  
+
 })
 
 // Test the database connection
@@ -136,13 +149,16 @@ pool.connect((err, client, done) => {
   }
   console.log('Connected to the database');
   done();
-  
+
 });
 
 
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:5173', 'http://localhost:4200'];
+  // const allowedOrigins = ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"];
+  //const allowedOrigins = ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"];
+  const allowedOrigins = ips2listen;
+
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
@@ -170,10 +186,10 @@ process.on('SIGINT', () => {
 
 
 app.post('/createAccount', async (req, res) => {
-  
+
   const username = req.body.username;
   const password = req.body.password;
-  
+
   try {
     const createSuccessfully = await src.createAccount(username,password);
     
@@ -203,10 +219,9 @@ app.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   // console.log('dentro de login');
-  
   try {
     const resultadoLogin = await src.login(username,password);
-    
+
     if (resultadoLogin.exito) {
       res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
       console.log('Se ha iniciado sesión correctamente');
@@ -214,7 +229,7 @@ app.post('/login', async (req, res) => {
       res.json({ success: false, message: 'No se ha iniciado sesión' });
       console.log('No se ha iniciado sesión');
     }
-    
+
   } catch (error) {
     console.error('Error al realizar el inicio de sesión:', error);
     res.status(500).json({ success: false, message: 'Error en el servidor al realizar el inicio de sesión' });
@@ -226,11 +241,11 @@ app.post('/obtainXp', async (req, res) => {
   const username = req.body.username;
   try {
     const resultadoXp = await src.getPlayerXP(username);
-    
+
     if (resultadoXp.exito) {
       console.log(`Se ha obtenido el XP de ${username} : `, resultadoXp.XP, ' ');
       res.status(200).json({ success: true, XP: resultadoXp.XP });
-    } else { 
+    } else {
       console.log('No se ha obtenido el XP');
       res.status(404).json({ success: false, message: 'No se encontró XP para el usuario proporcionado' });
     }
@@ -240,6 +255,3 @@ app.post('/obtainXp', async (req, res) => {
 
   }
 });
-
-
-
