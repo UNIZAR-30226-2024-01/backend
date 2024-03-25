@@ -277,17 +277,29 @@ async function stopGame(id_partida){
     }
 }
 
-async function finishGame(){
-    // check if user exits and has an active game
-    const deletePartidaQuery= constants.DELETE;
-    const deletePartidaValues = [id_partida, constants.PAUSE];
+async function finishGame(id_partida){
+    const deleteChatsaQuery= constants.DELETE_GAME_CONVERSACION;
+    const deleteChatsValues = [id_partida];
     
     const client = await pool.connect();
     try {
-        const updatePartidaResult = await client.query(updatePartidaQuery, updatePartidaValues);
+        const updatePartidaResult = await client.query(deleteChatsaQuery, deleteChatsValues);
 
-        if(updatePartidaResult.rows.length==0) return {exito: false, msg: constants.ERROR_UPDATING};
-        else return {exito: true}
+        if(updatePartidaResult.rows.length==0) {
+            const updateStateandPartidaQuery= constants.UPDATE_STATEandPARTIDA_P_JUGADOR;
+            const updateStateandPartidaValues = [id_partida, constants.STOP, 0];
+
+            const deletePartidaQuery= constants.DELETE_ALL_PARTIDA;
+            const deletePartidaValues = [id_partida];
+
+
+            await client.query(updateStateandPartidaQuery, updateStateandPartidaValues);
+            await client.query(deletePartidaQuery, deletePartidaValues);
+
+            //HAY QUE BORRAR TB LAS TABLAS DE RELACION CARTAS Y JUGADOR
+
+            return {exito: true, msg: constants.CORRECT_DELETE };
+        }else return {exito: false, msg: constants.ERROR_DELETING }
 
     } catch (error) {
         throw error;
@@ -299,21 +311,19 @@ async function finishGame(){
 
 async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
 
-async function getPlayerXP(jugador) {
+async function getPlayerXP(username) {
 
-    const selectQuery= 'SELECT "XP FROM grace_hopper."usuario" WHERE  "userName" = $1';
-    const selectValues = [jugador];
+    const selectQuery= constants.SELECT_XP_USUARIO;
+    const selectValues = [username];
 
     const client = await pool.connect();
     try {
-        // Realizar la consulta SELECT para verificar si la dirección ya existe
         const selectResult = await client.query(selectQuery, selectValues);
 
         if(selectResult.rows.length == 0){
-            //usuario no existe
-            return { exito: false, msg: "No se ha encontrado ningun emisor." };
+            return { exito: false, msg: constants.WRONG_USER};
         } else {
-            return { exito: true, XP: selectResult.rows[0].XPs };
+            return { exito: true, XP: selectResult.rows[0].XPs};
         }
     } catch (error) {
         throw error;
@@ -364,7 +374,7 @@ function getCurrentDate() {
 
 async function getAsesino(){
 
-    const determinar_asesino = 'SELECT nombre FROM grace_hopper."personajes" ORDER BY RANDOM() LIMIT 1';
+    const determinar_asesino = constants.SELECT_NOMBRE_ASESINO;
     
     const client = await pool.connect();
     try {
@@ -372,7 +382,7 @@ async function getAsesino(){
 
         if(selectResult.rows.length == 0){
             //usuario no existe
-            return { exito: false, msg: "No se ha obtenido ningun asesino" };
+            return { exito: false, msg: constants.ERROR_ASESINO };
         } else {
             return  selectResult.rows[0].nombre;
         }
@@ -385,7 +395,7 @@ async function getAsesino(){
 
 async function getArma(){
 
-    const determinar_asesino = 'SELECT nombre FROM grace_hopper."arma" ORDER BY RANDOM() LIMIT 1';
+    const determinar_asesino = constants.SELECT_NOMBRE_ARMA;
     
     const client = await pool.connect();
     try {
@@ -393,7 +403,7 @@ async function getArma(){
 
         if(selectResult.rows.length == 0){
             //usuario no existe
-            return { exito: false, msg: "No se ha obtenido ningun arma" };
+            return { exito: false, msg: constants.ERROR_ARMA };
         } else {
             return  selectResult.rows[0].nombre;
         }
@@ -406,7 +416,7 @@ async function getArma(){
 
 async function getLugar(){
 
-    const determinar_asesino = 'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1';
+    const determinar_asesino = constants.constants.SELECT_NOMBRE_LUGAR;
     
     const client = await pool.connect();
     try {
@@ -414,7 +424,7 @@ async function getLugar(){
 
         if(selectResult.rows.length == 0){
             //usuario no existe
-            return { exito: false, msg: "No se ha obtenido ningun lugar" };
+            return { exito: false, msg: constants.ERROR_LUGAR };
         } else {
             return  selectResult.rows[0].nombre;
         }

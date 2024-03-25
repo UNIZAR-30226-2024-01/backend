@@ -1,40 +1,33 @@
 const express = require('express');
-
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
-
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 require('dotenv').config();
 const { logger }  = require ('morgan');
 const morgan = require('morgan');
 const src = require('./src.js');
+const constants = require('./constants.js');
+
 
 let ips2listen = []
-console.log("process.env.NODE_ENV=",process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'production') {
-        console.log('Estás en modo de producción');
-        ips2listen = ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"]
+//console.log(constants.NODE_ENV_TXT,process.env.NODE_ENV);
+if (process.env.NODE_ENV === constants.MODE_PRODUCTION) {
+  console.log(constants.PRODUCTION_TXT);
+  ips2listen = [constants.PRODUCTION_IP_1, constants.PRODUCTION_IP_2]
+}else {
+  console.log(constants.DEVELOPMENT_TXT);
+  ips2listen = [constants.DEVELOPMENT_IP_1, constants.DEVELOPMENT_IP_2]
 }
-else {
-        console.log('Estás en modo de desarrollo');
-        ips2listen = ['http://localhost:5173', 'http://localhost:4200']
-}
-//console.log("ip3listen",ip2listen)
-
 
 const app = express()
-const port = 3000
+const port = constants.PORT
 const server = createServer(app)
 const io = new Server(server,{
   cors: {
-  //   // origin: ["http://localhost:5173", "http://localhost:4200"],
-    // origin: ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"],
-    // origin: ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"],
-        origin: ips2listen,
+    origin: ips2listen,
   }
 });
-
 
 const pool = new Pool({
   host:  process.env.DB_HOST,
@@ -50,14 +43,10 @@ app.use(bodyParser.json());
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
   try {
     const msgSaved = await src.saveMsg(currentTimestamp, group,isQ, msg, emisor);
-
-    if (msgSaved.exito) {
-      console.log(msgSaved.msg);
-    } else {
-      console.log(msgSaved.msg);
-    }
+    console.log(msgSaved.msg);
+   
   } catch (error) {
-    console.error('Error al almacenar mensaje:', error);
+    console.error(constants.ERROR_STORE_MSG, error);
   }
 }
 
@@ -68,21 +57,13 @@ async function ldrMsg(socket) {
       const offset = socket.handshake.auth.offset;
       const group = socket.handshake.auth.group;
       const result = await src.restoreMsg(offset,group);
-      // console.log(result)
-
+      
       result.mensajes?.map(({emisor,mensaje}) => {
-        socket.emit('chat response', emisor,mensaje);
+        socket.emit(constants.CHAT_RESPONSE, emisor,mensaje);
       })
-        // result.forEach(({mensaje, emisor}) => {
-        //   // Hacer algo con cada mensaje
-        //   //console.log(mensaje);
-        //   // Emitir un mensaje a un grupo específico
-        //   //io.to(group).emit('chat message', mensaje);
-        //   socket.emit('chat response', emisor,mensaje);
-        // });
 
     }catch (error) {
-      console.error('Error al enviar mensaje:', error);
+      console.error(constants.ERROR_LOAD_MSG, error);
    }
   }
 }
@@ -92,15 +73,15 @@ async function ldrMsg(socket) {
 function obtenerFechaActual() {
   const fecha = new Date();
   const año = fecha.getFullYear();
-  const mes = ('0' + (fecha.getMonth() + 1)).slice(-2);
-  const dia = ('0' + fecha.getDate()).slice(-2);
-  const hora = ('0' + fecha.getHours()).slice(-2);
-  const minutos = ('0' + fecha.getMinutes()).slice(-2);
-  const segundos = ('0' + fecha.getSeconds()).slice(-2);
-  const milisegundos = ('0' + fecha.getMilliseconds()).slice(-6); // Limitar a tres dígitos de precisión
+  const mes = (constants.CERO + (fecha.getMonth() + 1)).slice(-2);
+  const dia = (constants.CERO + fecha.getDate()).slice(-2);
+  const hora = (constants.CERO + fecha.getHours()).slice(-2);
+  const minutos = (constants.CERO + fecha.getMinutes()).slice(-2);
+  const segundos = (constants.CERO + fecha.getSeconds()).slice(-2);
+  const milisegundos = (constants.CERO + fecha.getMilliseconds()).slice(-6); // Limitar a tres dígitos de precisión
   const zonaHorariaOffset = fecha.getTimezoneOffset();
-  const signoZonaHoraria = zonaHorariaOffset > 0 ? '-' : '+';
-  const horasZonaHoraria = ('00');
+  const signoZonaHoraria = zonaHorariaOffset > 0 ? constants.MENOS : constants.MAS;
+  const horasZonaHoraria = (constants.CERO + constants.CERO);
 
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
   //"2024-03-14 12:54:56.419369+00"
@@ -111,32 +92,29 @@ const addSocketToGroup = (socket) => {
   const username = socket.handshake.auth.username
   const group = socket.handshake.auth.group
   socket.join(group)
-  console.log(`a user ${username} has connected to ${group} `)
 }
 
-io.on('connection', (socket) => {
-  console.log('a user has connected')
+io.on(constants.CONNECT, (socket) => {
+  console.log(constants.USER_CONNECTED)
 
   addSocketToGroup(socket)
 
-  socket.on('disconnect', () => {
-    console.log('a user has disconnected')
+  socket.on(constants.DISCONNECT, () => {
+    console.log(constants.USER_DISCONNECTED)
   })
 
-  socket.on('chat message', async (msg) => {
+  socket.on(constants.CHAT_MESSAGE, async (msg) => {
 
-    io.to(socket.handshake.auth.group).emit('chat response', socket.handshake.auth.username, msg);
-    console.log(`Msg: ${msg}`)
+    io.to(socket.handshake.auth.group).emit(constants.CHAT_RESPONSE, socket.handshake.auth.username, msg);
 
     const emisor = socket.handshake.auth.username;
     const currentTimestamp = obtenerFechaActual();
     console.log(currentTimestamp);
     const group = socket.handshake.auth.group;
-    const isQ = '0';
+    const isQ = constants.STOP;
     await storeMsg(currentTimestamp,group,isQ,msg,emisor);
   })
 
-  // Luego llamas a esta función donde sea necesario
   ldrMsg(socket);
 
 })
@@ -144,10 +122,10 @@ io.on('connection', (socket) => {
 // Test the database connection
 pool.connect((err, client, done) => {
   if (err) {
-    console.error('Error connecting to the database:', err);
+    console.error(constants.ERROR_DATA_BASE, err);
     return;
   }
-  console.log('Connected to the database');
+  console.log(constants.CONNECTED_DB);
   done();
 
 });
@@ -155,103 +133,94 @@ pool.connect((err, client, done) => {
 
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
-  // const allowedOrigins = ["http://51.20.246.74:5173", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com:5173"];
-  //const allowedOrigins = ["http://51.20.246.74", "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com"];
   const allowedOrigins = ips2listen;
-
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
+    res.header(constants.ALLOW_ORIGIN, origin);
   }
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header(constants.ALLOW_METHODS, constants.METHODS);
+  res.header(constants.ALLOW_HEADERS, constants.HEADERS);
   next();
 });
 
-// Start the server
 server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(` ${constants.SERVER_TXT} ${port}`);
 });
 
-
-
 // Handle SIGINT signal to close the database connection properly
-process.on('SIGINT', () => {
+process.on(constants.SIGINT, () => {
   pool.end(() => {
-    console.log('Disconnected from PostgreSQL server');
+    console.log(constants.DISCONNECTED_DB);
     process.exit(0);
   });
 });
 
+app.get(constants.TEST, async (req, res) => {
+  res.json({ success: true, message: constants.TEST});
+});
 
-app.post('/createAccount', async (req, res) => {
+app.post(constants.CREATE_ACCOUNT, async (req, res) => {
 
   const username = req.body.username;
   const password = req.body.password;
 
   try {
     const createSuccessfully = await src.createAccount(username,password);
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
+    console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
     
-    if (createSuccessfully.exito) {
-      res.json({ success: true, message: 'Usuario creado correctamente' });
-      console.log(`Usuario creado correctamente:  ${createSuccessfully.username}`);
-    } else {
-      res.json({ success: false, message: 'Nombre de usuario ya existente' });
-      console.log(`El usuario  ${createSuccessfully.username} ya existe. `);
-    }
   } catch (error) {
-    if (error.code == '23505') {
-      res.status(23505).json({ success: false, message: error.message });
-    }
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-app.get('/test', async (req, res) => {
-  // console.log('dentro de login');
-  res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
 
-});
-
-app.post('/login', async (req, res) => {
+app.post(constants.LOGIN, async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  // console.log('dentro de login');
   try {
     const resultadoLogin = await src.login(username,password);
-
-    if (resultadoLogin.exito) {
-      res.json({ success: true, message: 'Se ha iniciado sesión correctamente' });
-      console.log('Se ha iniciado sesión correctamente');
-    } else { //mirar fallos
-      res.json({ success: false, message: 'No se ha iniciado sesión' });
-      console.log('No se ha iniciado sesión');
-    }
+    res.json({ success: resultadoLogin.exito, message: resultadoLogin.msg });
+    console.log(resultadoLogin.msg);
 
   } catch (error) {
-    console.error('Error al realizar el inicio de sesión:', error);
-    res.status(500).json({ success: false, message: 'Error en el servidor al realizar el inicio de sesión' });
+    console.error(constants.ERROR_LOGIN, error);
+    res.status(500).json({ success: false, message: constants.ERROR_LOGIN });
   }
 });
 
 
-app.post('/obtainXp', async (req, res) => {
+app.post(constants.XP, async (req, res) => {
   const username = req.body.username;
   try {
     const resultadoXp = await src.getPlayerXP(username);
 
     if (resultadoXp.exito) {
-      console.log(`Se ha obtenido el XP de ${username} : `, resultadoXp.XP, ' ');
       res.status(200).json({ success: true, XP: resultadoXp.XP });
     } else {
-      console.log('No se ha obtenido el XP');
-      res.status(404).json({ success: false, message: 'No se encontró XP para el usuario proporcionado' });
+      res.status(404).json({ success: false, message: resultadoXp.msg});
     }
   } catch (error) {
-    console.error('Error al -- obtainXP --:', error);
-    res.status(500).json({ success: false, message: 'Error del servidor interno' });
+    console.error( constants.ERROR_XP , error);
+    res.status(500).json({ success: false, message: constants.ERROR_XP });
 
+  }
+});
+
+app.post(constants.CREATE_GAME, async (req, res) => {
+
+  const username = req.body.username;
+  const type = req.body.type;
+
+  try {
+    const createSuccessfully = await src.createGame(username,type);
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
+    console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 });
