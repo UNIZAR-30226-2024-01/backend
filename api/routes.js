@@ -1,23 +1,34 @@
 const express = require('express');
 const constants = require('./constants.js');
-const src = require('./src.js');
+const controller = require('./controller.js');
 
 
 const router = express.Router();
 router.use(express.json());
 
+// Testing
 
-router.get(constants.TEST, async (res) => {
+router.get('/test', async (res) => {
   res.json({ success: true, message: constants.TEST});
 });
 
-router.post(constants.CREATE_ACCOUNT, async (req, res) => {
+
+/*
+
+██╗░░░██╗░██████╗███████╗██████╗░░██████╗
+██║░░░██║██╔════╝██╔════╝██╔══██╗██╔════╝
+██║░░░██║╚█████╗░█████╗░░██████╔╝╚█████╗░
+██║░░░██║░╚═══██╗██╔══╝░░██╔══██╗░╚═══██╗
+╚██████╔╝██████╔╝███████╗██║░░██║██████╔╝
+░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝╚═════╝░
+*/
+router.post('/createAccount', async (req, res) => {
 
   const username = req.body.username;
   const password = req.body.password;
 
   try {
-    const createSuccessfully = await src.createAccount(username,password);
+    const createSuccessfully = await controller.createAccount(username,password);
     res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
     console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
     
@@ -28,11 +39,12 @@ router.post(constants.CREATE_ACCOUNT, async (req, res) => {
 });
 
 
-router.post(constants.LOGIN, async (req, res) => {
+
+router.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   try {
-    const resultadoLogin = await src.login(username,password);
+    const resultadoLogin = await controller.login(username,password);
     res.json({ success: resultadoLogin.exito, message: resultadoLogin.msg });
     console.log(resultadoLogin.msg);
 
@@ -43,10 +55,10 @@ router.post(constants.LOGIN, async (req, res) => {
 });
 
 
-router.post(constants.XP, async (req, res) => {
+router.post('obtainXP', async (req, res) => {
   const username = req.body.username;
   try {
-    const resultadoXp = await src.getPlayerXP(username);
+    const resultadoXp = await controller.getPlayerXP(username);
 
     if (resultadoXp.exito) {
       res.status(200).json({ success: true, XP: resultadoXp.XP });
@@ -60,13 +72,17 @@ router.post(constants.XP, async (req, res) => {
   }
 });
 
-router.post(constants.CREATE_GAME, async (req, res) => {
+// Game creation
+// username = nombre del jugador
+// type = l->local, o->online
+router.post('/createGame', async (req, res) => {
 
   const username = req.body.username;
   const type = req.body.type;
 
   try {
-    const createSuccessfully = await src.createGame(username,type);
+    const createSuccessfully = await controller.createGame(username,type);
+
     res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
     console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
     
@@ -76,4 +92,22 @@ router.post(constants.CREATE_GAME, async (req, res) => {
   }
 });
 
+
+router.put('/changePassword', async (req, res) => {
+
+  const username = req.body.username;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+
+  try {
+    const createSuccessfully = await controller.changePassword(username,oldPassword,newPassword);
+    
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
+    console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 module.exports = router;

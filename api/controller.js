@@ -1,7 +1,6 @@
+// Módulo encargado de la realización de operaciones CRUD (Create, Read, Update, Delete) sobre la base de datos
 const pool = require('./connectionManager');
-
 const constants = require('./constants.js');
-
 
 
 //**************************************LOGIN************************************************* */
@@ -92,7 +91,7 @@ async function changePassword(username, oldPassword, newPassword ) {
                 //update values
                 const updatetResult = await client.query(updateQuery_passwd, updateValues_passwd);
                 //return exito and sucessful msg
-                return {exito: false, msg: constants.CORRECT_CHANGE_PASSWD};
+                return {exito: true, msg: constants.CORRECT_CHANGE_PASSWD};
 
             }else return {exito: false, msg: constants.WRONG_PASSWD}; //incorrect oldPasswd  //return error and error msg : wrong passwd
 
@@ -200,9 +199,9 @@ async function gameExists(username) { //user hasnt started a play
 async function createGame(username,type){
     
     var exito = false;
-    do{
+    do {
         const enteroSeisDigitos = generarEnteroSeisDigitos();
-        const selectQuery= SELECT_ID_PARTIDA;
+        const selectQuery = SELECT_ID_PARTIDA;
         const selectValues = [enteroSeisDigitos];
     
         const client = await pool.connect();

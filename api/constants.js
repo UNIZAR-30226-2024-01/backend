@@ -15,6 +15,7 @@ module.exports = {
     DISCONNECT: 'disconnect',
     CHAT_MESSAGE: 'chat message',
     CHAT_RESPONSE: 'chat response',
+    CHAT_TURN: 'chat turn',
     USER_CONNECTED: 'A user has connected.',
     USER_DISCONNECTED: 'A user has disconnected.',
     MODE_PRODUCTION: 'production',
@@ -23,6 +24,7 @@ module.exports = {
     NODE_ENV_TXT: "process.env.NODE_ENV=",
     CONNECTED_DB: 'Connected to the database',
     DISCONNECTED_DB: 'Disconnected from PostgreSQL server',
+
 
 
     //
@@ -41,14 +43,6 @@ module.exports = {
     HEADERS:'Content-Type',
     SIGINT:'SIGINT',
 
-    //peticiones_backend
-    CREATE_ACCOUNT:'/createAccount',
-    TEST:'/test',
-    LOGIN:'/login',
-    XP:'/obtainXp',
-    CREATE_GAME: '/createGame',
-
-
     //CHARACTERS
     PAUSE: 'p',
     STOP: '0',
@@ -58,7 +52,7 @@ module.exports = {
     MAS: '+',
 
 
-    //Módulo.src
+    //Módulo.controller
     WRONG_PASSWD: "La contraseña introducida es incorrecta.",
     WRONG_USER:"El usuario introducido es incorrecto.",
     WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
@@ -67,6 +61,8 @@ module.exports = {
     CORRECT_CHANGE_PASSWD: "La constraseña ha sido actualizada con exito.",
     CORRECT_MSG: "El mensaje se ha almacenado correctamente.",
     CORRECT_DELETE: "Partida eliminada correctamente.",
+
+    //
     ERROR_UPDATING: "Error al actualizar.",
     ERROR_INSERTING: "Error al realizar la insercción.",
     ERROR_DELETING: "Error al eliminar.",
@@ -76,7 +72,7 @@ module.exports = {
 
 
 
-    //Múdlo.src__Querys
+    //Múdlo.controller__Querys
     //-------insert-------
     INSERT_JUGADOR: 'INSERT INTO grace_hopper."jugador" ("userName", ficha, partida_actual, sospechas, posicion, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"',
     INSERT_USUARIO: 'INSERT INTO grace_hopper."usuario" ("userName", passwd, "XP", n_ganadas_online, n_ganadas_local, n_jugadas) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"',

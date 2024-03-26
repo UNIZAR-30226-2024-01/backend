@@ -1,4 +1,6 @@
 const constants = require('./constants.js');
+const controller = require('./controller.js');
+const game = require('./game.js')
 
 function obtenerFechaActual() {
     const fecha = new Date();
@@ -19,7 +21,7 @@ function obtenerFechaActual() {
 
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
     try {
-      const msgSaved = await src.saveMsg(currentTimestamp, group,isQ, msg, emisor);
+      const msgSaved = await controller.saveMsg(currentTimestamp, group,isQ, msg, emisor);
       console.log(msgSaved.msg);
      
     } catch (error) {
@@ -33,7 +35,7 @@ async function ldrMsg(socket) {
       try {
         const offset = socket.handshake.auth.offset;
         const group = socket.handshake.auth.group;
-        const result = await src.restoreMsg(offset,group);
+        const result = await controller.restoreMsg(offset,group);
         
         result.mensajes?.map(({emisor,mensaje}) => {
           socket.emit(constants.CHAT_RESPONSE, emisor,mensaje);
@@ -57,6 +59,8 @@ function runSocketServer(io) {
         console.log(constants.USER_CONNECTED)
         
         addSocketToGroup(socket)
+        game.runGame(io,0)
+      
         
         socket.on(constants.DISCONNECT, () => {
             console.log(constants.USER_DISCONNECTED)
