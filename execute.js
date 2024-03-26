@@ -7,7 +7,7 @@ fs.writeFileSync('infoHabitaciones.json', JSON.stringify(infoHabitaciones));
 fs.writeFileSync('infoTablero.json', JSON.stringify(infoTablero));
 
 // Argumentos para pasar al script de Python
-const args = ['parametro1', 'parametro2'];
+const args = ['30', '7', '2'];
 
 // Ejecutar el script de Python
 const pythonProcess = spawn('python', ['bot.py', ...args]);
