@@ -103,7 +103,7 @@ router.put('/changePassword', async (req, res) => {
     const createSuccessfully = await controller.changePassword(username,oldPassword,newPassword);
     
     res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
-    console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
+    console.log(`${createSuccessfully.msg}`);
     
   } catch (error) {
     console.error(error);
