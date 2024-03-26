@@ -7,8 +7,8 @@ module.exports = {
     //
     PRODUCTION_IP_1: "http://51.20.246.74",
     PRODUCTION_IP_2: "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com",
-    DEVELOPMENT_IP_1:'http://localhost:5173',
-    DEVELOPMENT_IP_2:'http://localhost:4200',
+    // DEVELOPMENT_IPS: ['http://localhost:5173', 'http://localhost:4200'],
+    DEVELOPMENT_IPS: ['http://localhost:5173','http://10.1.64.155:5173', 'http://localhost:4200'],
     //
 
     CONNECT: 'connection',
