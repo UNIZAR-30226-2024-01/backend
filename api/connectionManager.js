@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool;
+const constants = require('./constants.js');
 require('dotenv').config();
-
 
 const pool = new Pool({
     host:  process.env.DB_HOST,
@@ -10,12 +10,22 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 })
 
+// Test the database connection
+pool.connect((err, client, done) => {
+  if (err) {
+    console.error(constants.ERROR_DATA_BASE, err);
+    return;
+  }
+  console.log(constants.CONNECTED_DB);
+  done();
+});
+
 // Manejo de la señal SIGINT para cerrar correctamente la conexión a la base de datos
 process.on('SIGINT', () => {
     pool.end(() => {
-      console.log('Desconectado del servidor PostgreSQL');
+      console.log(constants.DISCONNECTED_DB);
       process.exit(0);
     });
-  });
+});
 
 module.exports = pool;
