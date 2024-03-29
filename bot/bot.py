@@ -1,6 +1,7 @@
 import sys
 import random
 import json
+import time
 
 info_tablero = []
 info_habitaciones = []
@@ -48,11 +49,11 @@ def turn():
     
 
     # Leer el JSON desde el archivo
-    with open('infoHabitaciones.json', 'r') as file:
+    with open('../bot/infoHabitaciones.json', 'r') as file:
         global info_habitaciones
         info_habitaciones = json.load(file)
 
-    with open('infoTablero.json', 'r') as file:
+    with open('../bot/infoTablero.json', 'r') as file:
         global info_tablero
         info_tablero = json.load(file)
 
@@ -79,6 +80,8 @@ def turn():
 
 if __name__ == "__main__":
 
+    time_ini = time.time()
+    
     # Comprobación de parámetros
     if len(sys.argv) != 5:
         print("Uso: python bot.py <\"turn\"/\"susp\"> <casilla_inicial> <dados> <nivel>")
@@ -92,7 +95,6 @@ if __name__ == "__main__":
         turn()
     else:
         print("Sospecha")
-    
-            
 
-
+    time_fin = time.time()
+    print("Tiempo de ejecución: ", time_fin - time_ini)
