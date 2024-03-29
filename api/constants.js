@@ -18,10 +18,6 @@ module.exports = {
     CHAT_TURN: 'chat turn',
     USER_CONNECTED: 'A user has connected.',
     USER_DISCONNECTED: 'A user has disconnected.',
-    MODE_PRODUCTION: 'production',
-    PRODUCTION_TXT: 'Estás en modo producción',
-    DEVELOPMENT_TXT: 'Estás en modo desarrollo',
-    NODE_ENV_TXT: "process.env.NODE_ENV=",
     CONNECTED_DB: 'Connected to the database',
     DISCONNECTED_DB: 'Disconnected from PostgreSQL server',
 
