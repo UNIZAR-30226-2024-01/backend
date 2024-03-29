@@ -1,38 +1,98 @@
 import sys
-
-# Comprobación de parámetros
-if len(sys.argv) != 4:
-    print("Uso: python bot.py <casilla_inicial> <dados> <nivel>")
-    sys.exit(1)
-
-casilla = sys.argv[1]
-dados = sys.argv[2]
-lvl = sys.argv[3]
-n_cols = 8
-neighbours = [n_cols, 1, -n_cols, -1]
-
+import random
 import json
 
-# Leer el JSON desde el archivo
-with open('infoHabitaciones.json', 'r') as file:
-    info_habitaciones = json.load(file)
+info_tablero = []
+info_habitaciones = []
 
-with open('infoTablero.json', 'r') as file:
-    info_tablero = json.load(file)
+# Comprobación de que ua casilla es válida
+def checkIndex(index):
+    if index < 0 or index >= len(info_tablero):
+        return False
+    if info_tablero[index]['isWalkable'] == False or info_tablero[index]['roomName'] != '':
+        return False
+    return True
 
-# Comprobación de la casilla inicial
-# Sintaxis del tablero: { isRoom: bool,  roomName: 'int', isStartingCell: bool, isWalkable: bool, isDoor: 'num_hab', idx:int }
-    print(info_tablero[casilla])
-if not casilla in info_tablero:
-    print("Casilla inicial no válida")
-    sys.exit(1)
+# Comprobación de qué casillas vecinas son válidas
+def checkNeighbours(index, vecinos):
+    checked = []
+    for i in range(4):
+        if checkIndex(index + vecinos[i]) == True:
+            checked.append(index + vecinos[i])
+    return checked
 
-# Comprobar si los neighbours son válidos
-# Sintaxis del tablero: { isRoom: bool,  roomName: 'int', isStartingCell: bool, isWalkable: bool, isDoor: 'num_hab', idx:int }
-for i in range(4):
-    if info_tablero[casilla+i].isWalkable == False:
-        print("Casilla vecina no válida")
+def dls(casilla, dados, vecinos, visited):
+    visited.append(casilla)
+
+    if dados == 0:
+        return
+
+    for neighbour in checkNeighbours(casilla, vecinos):
+        print(neighbour, dados, visited)
+        if neighbour not in visited:
+            dls(neighbour, dados - 1, vecinos, visited)
+
+def turn():
+
+    casilla = int(sys.argv[2])
+    dados = int(sys.argv[3])
+    lvl = int(sys.argv[4])
+
+    if dados < 2 or dados > 12:
+        print("Número de dados no válido: ", dados)
+        sys.exit(1)
+
+    if lvl < 1 or lvl > 3:
+        print("Nivel de dificultad no válido: ", lvl)
         sys.exit(1)
     
+
+    # Leer el JSON desde el archivo
+    with open('infoHabitaciones.json', 'r') as file:
+        global info_habitaciones
+        info_habitaciones = json.load(file)
+
+    with open('infoTablero.json', 'r') as file:
+        global info_tablero
+        info_tablero = json.load(file)
+
+    if casilla < 0 or casilla >= len(info_tablero):
+        print("Casilla inicial no válida: ", casilla)
+        sys.exit(1)
+
+    # Sintaxis del tablero: { isRoom: bool,  roomName: 'int', isStartingCell: bool, isWalkable: bool, isDoor: 'num_hab', idx:int }
+    # Sintaxis de las habitaciones: { roomName: 'int', roomNumber: int, style: {} }
+        
+    n_cols = 24
+    vecinos = [n_cols, 1, -n_cols, -1]
+
+    # Comprobación de la casilla inicial
+    if not checkIndex(casilla):
+        print("Casilla inicial no válida: ", casilla)
+        sys.exit(1)
+
+    candidatos = []
+    dls(casilla, dados, vecinos, candidatos)
+    candidatos=sorted(candidatos)
+    print(candidatos)
+
+
+if __name__ == "__main__":
+
+    # Comprobación de parámetros
+    if len(sys.argv) != 5:
+        print("Uso: python bot.py <\"turn\"/\"susp\"> <casilla_inicial> <dados> <nivel>")
+        sys.exit(1)
+
+    type = sys.argv[1]
+    if type != "turn" and type != "susp":
+        print("Tipo de turno no válido: ", type)
+        sys.exit(1)
+    elif type == "turn":
+        turn()
+    else:
+        print("Sospecha")
+    
+            
 
 
