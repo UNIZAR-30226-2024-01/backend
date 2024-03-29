@@ -10,7 +10,7 @@ info_habitaciones = []
 def checkIndex(index):
     if index < 0 or index >= len(info_tablero):
         return False
-    if info_tablero[index]['isWalkable'] == False or info_tablero[index]['roomName'] != '':
+    if info_tablero[index]['isWalkable'] == False or (info_tablero[index]['roomName'] != '' and info_tablero[index]['isDoor'] == False):
         return False
     return True
 
@@ -18,20 +18,35 @@ def checkIndex(index):
 def checkNeighbours(index, vecinos):
     checked = []
     for i in range(4):
-        if checkIndex(index + vecinos[i]) == True:
+        if checkIndex(index + vecinos[i]):
             checked.append(index + vecinos[i])
     return checked
 
-def dls(casilla, dados, vecinos, visited):
-    visited.append(casilla)
 
-    if dados == 0:
-        return
+def bfs(casilla, dados, vecinos):
+    visited = []
+    if info_tablero[casilla]['roomName'] != '':
+        # estamos en una habitacion y podemos salir por varias puertas y hay pasadizos
+        frontera = [c['idx'] for c in info_tablero if info_tablero[casilla]['roomName'] == c['roomName'] and c['isDoor']!=False]
+        paths = [c for c in info_tablero if info_tablero[casilla]['roomName'] == c['roomName'] and c['isPath']!=False]
+        for c in paths:
+            print(c)
+            visited.append(int(c['isPath']))
+        
+        print(f"la frontera es {frontera} y los visited son {visited}")
+        
+    else:
+        frontera = [casilla]
+    while dados >= 0:
+        for _ in range(len(frontera)):
+            casilla = frontera.pop(0)
+            visited.append(casilla)
+            for neighbour in checkNeighbours(casilla, vecinos):
+                if neighbour not in visited and neighbour not in frontera:
+                    frontera.append(neighbour)
+        dados -= 1
 
-    for neighbour in checkNeighbours(casilla, vecinos):
-        print(neighbour, dados, visited)
-        if neighbour not in visited:
-            dls(neighbour, dados - 1, vecinos, visited)
+    return visited
 
 def turn():
 
@@ -72,8 +87,7 @@ def turn():
         print("Casilla inicial no válida: ", casilla)
         sys.exit(1)
 
-    candidatos = []
-    dls(casilla, dados, vecinos, candidatos)
+    candidatos = bfs(casilla, dados, vecinos)
     candidatos=sorted(candidatos)
     print(candidatos)
 
@@ -94,6 +108,7 @@ if __name__ == "__main__":
     elif type == "turn":
         turn()
     else:
+        # Por hacer aún
         print("Sospecha")
 
     time_fin = time.time()
