@@ -6,7 +6,7 @@ async function botRun(obj) {
     
     // Argumentos para pasar al script de Python
     // turn o susp, celda id, dados, nivel
-    const args = ['turn', '78', '2', '2'];
+    const args = ['turn', '451', '2', '2'];
     
     // Ejecutar el script de Python
     const pythonProcess = spawn('python', ['../bot/bot.py', ...args]);

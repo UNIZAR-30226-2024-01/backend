@@ -17,9 +17,19 @@ def checkIndex(index):
 # Comprobación de qué casillas vecinas son válidas
 def checkNeighbours(index, vecinos):
     checked = []
-    for i in range(4):
-        if checkIndex(index + vecinos[i]):
-            checked.append(index + vecinos[i])
+    if info_tablero[index]['isDoor'] != False:
+        if(info_tablero[index]['isDoor'] == 'd'):
+            checked.append(index + vecinos[0])
+        elif(info_tablero[index]['isDoor'] == 'r'):
+            checked.append(index + vecinos[1])
+        elif(info_tablero[index]['isDoor'] == 'u'):
+            checked.append(index + vecinos[2])
+        elif(info_tablero[index]['isDoor'] == 'l'):
+            checked.append(index + vecinos[3])
+    else:
+        for i in range(4):
+            if checkIndex(index + vecinos[i]):
+                checked.append(index + vecinos[i])
     return checked
 
 
@@ -91,6 +101,11 @@ def turn():
     candidatos=sorted(candidatos)
     print(candidatos)
 
+    # Comprobación de la hoja de sospechas
+    # Esta shit funciona con probabilidades (tengo que pensarlas)
+    # Hay que ver cuál es la mejor opción de casilla a la que ir
+    # Dependerá de la distancia a la sala y de si llega o no con la tirada actual
+
 
 if __name__ == "__main__":
 
@@ -109,6 +124,7 @@ if __name__ == "__main__":
         turn()
     else:
         # Por hacer aún
+        # No sé aún cómo se va a pasar la hoja de sospechas, si es json, parámetro o cómo
         print("Sospecha")
 
     time_fin = time.time()
