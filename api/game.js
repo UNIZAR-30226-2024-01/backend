@@ -23,7 +23,8 @@ async function runGame(io,group) {
         io: io
     }
 
-    botRun(objeto)
+    // ⬇ queda comentado porque no funciona en produccion 
+    // botRun(objeto)
 
 }
 
