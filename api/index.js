@@ -14,8 +14,8 @@ pool.connect();
 
 //mode
 let ips2listen = [];
-if (process.env.NODE_ENV === constants.MODE_PRODUCTION) {
-  ips2listen = [constants.PRODUCTION_IP_1, constants.PRODUCTION_IP_2];
+if (process.env.NODE_ENV === "production") {
+  ips2listen = constants.PRODUCTION_IPS;
 } else {
   ips2listen = constants.DEVELOPMENT_IPS;
 }
