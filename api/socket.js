@@ -22,16 +22,30 @@ function obtenerFechaActual() {
 
 function formattedDate(date) {
   let oldDate = new Date(date);
+  let currentDate = new Date();
 
-  // Formatear las partes de la hora para que tengan dos dígitos (agregar ceros a la izquierda si es necesario)
-  const hours = (constants.CERO + oldDate.getHours()).slice(-2);
-  const minutes = (constants.CERO + oldDate.getMinutes()).slice(-2);
-  const seconds = (constants.CERO + oldDate.getSeconds()).slice(-2);
+  // Check if oldDate and currentDate are on the same day
+  if (
+    oldDate.getDate() === currentDate.getDate() &&
+    oldDate.getMonth() === currentDate.getMonth() &&
+    oldDate.getFullYear() === currentDate.getFullYear()
+  ) {
+    // Format the parts of the time to have two digits (add zeros to the left if necessary)
+    const hours = ("0" + oldDate.getHours()).slice(-2);
+    const minutes = ("0" + oldDate.getMinutes()).slice(-2);
+    const seconds = ("0" + oldDate.getSeconds()).slice(-2);
 
-  // Crear una cadena con las partes de la hora formateadas
-  const newDate = hours + ":" + minutes + ":" + seconds;
+    // Create a string with the formatted parts of the time
+    const newDate = hours + ":" + minutes; /* + ':' + seconds */
 
-  return newDate;
+    return newDate;
+  } else {
+    // Calculate the difference in days
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const diffDays = Math.round(Math.abs((currentDate - oldDate) / oneDay));
+
+    return diffDays === 1 ? "ayer" : "hace " + diffDays + " días";
+  }
 }
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
   try {
@@ -86,14 +100,14 @@ function runSocketServer(io) {
     socket.on(constants.CHAT_MESSAGE, async (msg) => {
       const emisor = socket.handshake.auth.username;
       const currentTimestamp = obtenerFechaActual();
-      const formattedDate = formattedDate();
+      const date = formattedDate(currentTimestamp);
 
       io.to(socket.handshake.auth.group).emit(
         constants.CHAT_RESPONSE,
         emisor,
         msg,
         currentTimestamp,
-        formattedDate
+        date
       );
 
       const group = socket.handshake.auth.group;
