@@ -11,10 +11,13 @@ function obtenerFechaActual() {
   const minutos = (constants.CERO + fecha.getMinutes()).slice(-2);
   const segundos = (constants.CERO + fecha.getSeconds()).slice(-2);
   const milisegundos = (constants.CERO + fecha.getMilliseconds()).slice(-6); // Limitar a tres dígitos de precisión
-  const zonaHorariaOffset = 1; // zona horaria offset de Madrid
+  const zonaHorariaOffset = fecha.getTimezoneOffset();
   const signoZonaHoraria =
     zonaHorariaOffset > 0 ? constants.MENOS : constants.MAS;
-  const horasZonaHoraria = "01"; // zona horaria de Madrid
+  const horasZonaHoraria = (
+    "0" + Math.abs(fecha.getTimezoneOffset() / 60)
+  ).slice(-2);
+
 
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
   //"2024-03-14 12:54:56.419369+00"
@@ -33,7 +36,6 @@ function formattedDate(date) {
     // Format the parts of the time to have two digits (add zeros to the left if necessary)
     const hours = ("0" + oldDate.getHours()).slice(-2);
     const minutes = ("0" + oldDate.getMinutes()).slice(-2);
-    const seconds = ("0" + oldDate.getSeconds()).slice(-2);
 
     // Create a string with the formatted parts of the time
     const newDate = hours + ":" + minutes; /* + ':' + seconds */
