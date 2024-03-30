@@ -227,24 +227,11 @@ async function createGame(username,type){
                 //insert_error
                 if(insertResult_partida.rows.length == 0) return { exito: exito , msg: constants.ERROR_INSERTING }
                 else{
-
                     const id_partida =  insertResult_partida.rows[0].id_partida ;
-    
-                    const insertQuery_jugador  = constants.UPDATE_PARTIDAandSTATE_JUGADOR;
-                    const insertValues_jugador = [id_partida,username, constants.PLAY];  
-    
-                    const updateResult = await client.query(insertQuery_jugador, insertValues_jugador); 
-    
-                    //update_error
-                    if(updateResult.rows.length == 0) return { exito: exito , msg: constants.ERROR_UPDATING }
-                    else{
-                        exito = true;
-                        return { exito: exito, id_partida: id_partida };
-                    } 
+                    await joinGame(username,id_partida);
                 }
 
             }
-
         } catch (error) {
             throw error;
         } finally {
@@ -255,8 +242,56 @@ async function createGame(username,type){
     
 } 
 
-async function stopGame(id_partida){
+async function joinGame(username,idGame){
+    
+    const updateQuery_jugador  = constants.UPDATE_PARTIDAandSTATE_JUGADOR;
+    const updateValues_jugador = [idGame,username, constants.PLAY];  
+    
+    const updateResult = await client.query(updateQuery_jugador, updateValues_jugador); 
+    
+    //update_error
+    if(updateResult.rows.length == 0) return { exito: exito , msg: constants.ERROR_UPDATING }
+    else{
+        exito = true;
+        return { exito: exito, id_partida: idGame };
+    } 
+}
 
+async function assignCharacter(username,idGame) {
+
+    const selectQuery= constants.SELECT_FICHA_JUGADOR;
+    const selectValues = [idGame];
+
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if(selectResult.rows.length == 0){
+            return { exito: false, msg: constants.WRONG_IDGAME};
+        } else {
+            for (let i = 0; i < selectResult.rows.length; i++) {
+                if(selectResult.rows[i].ficha == null){
+                    const personaje = getPersonaje();
+                    const updateQuery_jugador  = constants.UPDATE_FICHA_JUGADOR;
+                    const updateValues_jugador = [personaje,idGame];  
+                    await client.query(updateQuery_jugador, updateValues_jugador); 
+                    return { exito: true, nombre: personaje};
+                }
+            }
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function selectCharacter(username, character) {
+    
+}
+
+async function stopGame(id_partida){
+    
     // check if user exits and has an active game
     const updatePartidaQuery= constants.UPDATE_STATE_PARTIDA;
     const updatePartidaValues = [id_partida, constants.PAUSE];
@@ -308,6 +343,29 @@ async function finishGame(id_partida){
 }
 
 
+async function getPlayersCharacter(id_partida) {
+
+    //get player where partida=id_partida
+    const selectQuery= constants.SELECT_FICHA_JUGADOR;
+    const selectValues = [id_partida];
+
+    const client = await pool.connect();
+    try {
+        const selectResult = await client.query(selectQuery, selectValues);
+
+        if(selectResult.rows.length == 0){
+            return { exito: false, msg: constants.WRONG_USER};
+        } else {
+            return { exito: true, nombre: selectResult.rows[0].nombre};
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+
 async function playerInformation(jugador) {} // informacion como xp || partidas_ganadasç
 
 async function getPlayerXP(username) {
@@ -337,7 +395,12 @@ async function getSuspicions(jugador) {}
 //****************************************JUEGO*********************************************** */
 async function playerHasCard(jugador,card,idGame) {} //idGame==group
 async function restorePreviousGame(idGame) {}
-async function updateTurn() {} //Faltan parametros aún
+async function updateTurn(idGame) {
+
+
+
+    
+} //Faltan parametros aún
 async function getTurn(idGame) {}
 async function resolve(jugador, idGame, characterCard, weaponCard, placeCard) {} // incluye actualizacion XP
 async function getType(idGame) {}
@@ -442,6 +505,8 @@ module.exports = {
     restoreMsg,
     gameExists,
     createGame,
+    joinGame,
+    assignCharacter,
     stopGame,
     finishGame,
     playerInformation,

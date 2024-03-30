@@ -51,6 +51,7 @@ module.exports = {
     //Módulo.controller
     WRONG_PASSWD: "La contraseña introducida es incorrecta.",
     WRONG_USER:"El usuario introducido es incorrecto.",
+    WRONG_IDGAME:"La partida introducida no existe.",
     WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
     WRONG_LDR_MSG: "No se han restaurado mensajes",
     CORRECT_LOGIN: "Se ha iniciado sesión correctamente.",
@@ -86,6 +87,7 @@ module.exports = {
     SELECT_NOMBRE_ASESINO: 'SELECT nombre FROM grace_hopper."personajes" ORDER BY RANDOM() LIMIT 1',
     SELECT_NOMBRE_ARMA: 'SELECT nombre FROM grace_hopper."arma" ORDER BY RANDOM() LIMIT 1',
     SELECT_NOMBRE_LUGAR: 'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
+    SELECT_FICHA_JUGADOR: 'SELECT ficha FROM grace_hopper."jugador" WHERE partida = $1',
 
 
     //-------update-------;
