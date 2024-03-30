@@ -14,12 +14,13 @@ pool.connect();
 
 //mode
 let ips2listen = [];
-if (process.env.NODE_ENV === constants.MODE_PRODUCTION)
+if (process.env.NODE_ENV === constants.MODE_PRODUCTION) {
   ips2listen = [constants.PRODUCTION_IP_1, constants.PRODUCTION_IP_2];
-else ips2listen = constants.DEVELOPMENT_IPS;
+} else {
+  ips2listen = constants.DEVELOPMENT_IPS;
+}
 //ips2listen = [constants.DEVELOPMENT_IP_1, constants.DEVELOPMENT_IP_2]
 
-ips2listen = constants.DEVELOPMENT_IPS;
 console.log("Listening in : [ " + ips2listen + " ]");
 console.log("Running in " + process.env.NODE_ENV + " mode");
 
@@ -36,8 +37,7 @@ app.use((req, res, next) => {
 
   if (allowedOrigins.includes(origin)) {
     res.header(constants.ALLOW_ORIGIN, origin);
-
-  }else return res.status(403).json({ error: 'Origin not allowed' });
+  } else return res.status(403).json({ error: "Origin not allowed" });
 
   res.header(constants.ALLOW_METHODS, constants.METHODS);
   res.header(constants.ALLOW_HEADERS, constants.HEADERS);
