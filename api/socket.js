@@ -93,10 +93,38 @@ function runSocketServer(io) {
     console.log(constants.USER_CONNECTED);
 
     addSocketToGroup(socket);
-    game.runGame(socket, 0);
 
     socket.on(constants.DISCONNECT, () => {
       console.log(constants.USER_DISCONNECTED);
+    });
+
+    socket.on("start-game", async () => {
+      console.log("start game received");
+      game.runGame(io, socket.handshake.auth.group);
+    });
+
+    socket.on("join-game", () => {
+      // if game is not started
+
+      const available = ["", "", "", "", "", ""]; //deberian recuperarse de la base de datos
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        characters: available,
+      });
+    });
+
+    socket.on("character-selected", (character) => {
+      console.log("character-selected: ", character);
+      const index = constants.CHARACTERS_NAMES.indexOf(character);
+      const available = ["", "", "", "", "", ""]; //deberian recuperarse de la base de datos
+      available[index] = socket.handshake.auth.username;
+
+      console.log("available: ", available);
+
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        characters: available,
+      });
     });
 
     socket.on(constants.CHAT_MESSAGE, async (msg) => {

@@ -34,14 +34,14 @@ async function joinGame(username, idGame) {
     }*/
 
 // function that change the turn of the player
-async function runGame(socket, group) {
+async function runGame(io, group) {
   let username;
   let num = 1;
   // const interval = setInterval(() => {
   //     username = `user${num+1}`
   //     console.log(`turno de ${username}`)
-  //     socket.to(""+group).emit(constants.CHAT_TURN, username);
-  //     // socket.emit(constants.CHAT_TURN, username);
+  //     io.to(""+group).emit(constants.CHAT_TURN, username);
+  //     // io.emit(constants.CHAT_TURN, username);
   //     num++
   //     num %= 6;
 
@@ -49,24 +49,21 @@ async function runGame(socket, group) {
 
   objeto = {
     group: group,
-    socket: socket,
+    io: io,
   };
 
-  console.log(socket.handshake);
-  socket.on("join-game", (data) => {
-    console.log("Se unio al juego");
-    socket.emit("available-characters", {
-      names: [
-        "mr SOPER",
-        "miss REDES",
-        "mr PROG",
-        "miss FISICA",
-        "mr DISCRETO",
-        "miss IA",
-      ],
-      characters: [true, true, true, true, true, false],
-    });
+  // get all sockets in game
+  const sockets = io.sockets.adapter.rooms.get(group);
+  console.log(sockets);
+
+  sockets.forEach((s) => {
+    io.to(s).emit("hola", "user1");
   });
+
+  // io.on("character-selected", (character) => {
+  //   console.log("character selected", character);
+  // });
+
   // ⬇ queda comentado porque no funciona en produccion
   // botRun(objeto)
 }
