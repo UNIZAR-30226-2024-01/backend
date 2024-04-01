@@ -1,27 +1,43 @@
 const constants = require('./constants');
 const { botRun } = require('../bot/bot');
+const { src } = require('./controller.js');
 
 
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
 
-//RECONSIDERAR SI RENTA DEJAR ELEGIR JUGADOR
-//yo creo que no costaría demasiado y lo pusimos inicialmente en los requisitos del sistema
 
 async function joinGame(username,idGame){
 
     //update jugador 
-    await joinGame(username,idGame);
+    await src.joinGame(username,idGame);
 
-    //asignar personaje
-    await assignCharacter(username);
-
-
-
-    //asignar posicion asociada a personaje
 
 }
+
+/*    //asignar posicion asociada a personaje
+    let posicion = 0;   
+    switch(username){ //MODIFICAR VAL
+        case constants.SOPER:
+            posicion = 1;
+            break;
+        case constants.REDES:
+            posicion = 2;
+            break;
+        case constants.PROG:
+            posicion = 3;
+            break;
+        case constants.FISICA:
+            posicion = 4;
+            break;
+        case constants.DISCRETO:
+            posicion = 5;
+            break;
+        case constants.IA:
+            posicion = 6;
+            break;
+    }*/
 
 // function that change the turn of the player
 async function runGame(io,group) {

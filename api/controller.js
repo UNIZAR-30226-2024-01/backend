@@ -257,7 +257,11 @@ async function joinGame(username,idGame){
     } 
 }
 
-async function assignCharacter(username,idGame) {
+//post: return availability of characters in the current game
+//vector which has true at the index of the character that is available
+// [true, true, true, true, true, true] -> all characters are available
+// [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA]
+async function availabilityCharacters(idGame) {
 
     const selectQuery= constants.SELECT_FICHA_JUGADOR;
     const selectValues = [idGame];
@@ -269,15 +273,22 @@ async function assignCharacter(username,idGame) {
         if(selectResult.rows.length == 0){
             return { exito: false, msg: constants.WRONG_IDGAME};
         } else {
-            for (let i = 0; i < selectResult.rows.length; i++) {
-                if(selectResult.rows[i].ficha == null){
-                    const personaje = getPersonaje();
-                    const updateQuery_jugador  = constants.UPDATE_FICHA_JUGADOR;
-                    const updateValues_jugador = [personaje,idGame];  
-                    await client.query(updateQuery_jugador, updateValues_jugador); 
-                    return { exito: true, nombre: personaje};
-                }
+            let availability = [];
+            availability.length = 6;
+            availability.fill(true);
+            let relation = {
+                [constants.SOPER]: 0,
+                [constants.REDES]: 1,
+                [constants.PROG]: 2,
+                [constants.FISICA]: 3,
+                [constants.DISCRETO]: 4,
+                [constants.IA]: 5
             }
+            for (let i = 0; i < selectResult.rows.length; i++) {
+                availability[relation[selectResult.rows[i].ficha]] = false;
+            }
+            return availability; // return the updated availability array
+
         }
     } catch (error) {
         throw error;
@@ -286,8 +297,25 @@ async function assignCharacter(username,idGame) {
     }
 }
 
+//pre: character is available
+//post: character is assigned to the user
 async function selectCharacter(username, character) {
     
+        const updateQuery_jugador  = constants.UPDATE_FICHA_JUGADOR;
+        const updateValues_jugador = [username, character];  
+        
+        const client = await pool.connect();
+        try {
+            const updateResult = await client.query(updateQuery_jugador, updateValues_jugador); 
+    
+            if(updateResult.rows.length == 0) return { exito: false , msg: constants.ERROR_UPDATING }
+            else return { exito: true, msg: constants.CORRECT_UPDATE};
+    
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
 }
 
 async function stopGame(id_partida){
@@ -501,14 +529,20 @@ module.exports = {
     createAccount,
     login,
     changePassword,
+
+
+//*****************************************CHAT*********************************************** */
     saveMsg,
     restoreMsg,
     gameExists,
+//*****************************************JUEGO******************************************** */
     createGame,
     joinGame,
-    assignCharacter,
+    availabilityCharacters,
+    selectCharacter,
     stopGame,
     finishGame,
+//****************************************JUGADOR*********************************************** */
     playerInformation,
     getPlayerXP
 };
