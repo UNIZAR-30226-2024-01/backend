@@ -106,24 +106,31 @@ function runSocketServer(io) {
     socket.on("join-game", () => {
       // if game is not started
 
-      const available = ["", "", "", "", "", ""]; //deberian recuperarse de la base de datos
+      const available = available_room0; //deberian recuperarse de la base de datos
       io.emit("available-characters", {
         names: constants.CHARACTERS_NAMES,
-        characters: available,
+        available: available,
+      });
+    });
+
+    socket.on("request-available-characters", () => {
+      const available = available_room0; //deberian recuperarse de la base de datos
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
       });
     });
 
     socket.on("character-selected", (character) => {
       console.log("character-selected: ", character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
-      const available = ["", "", "", "", "", ""]; //deberian recuperarse de la base de datos
+      const available = available_room0; //deberian recuperarse de la base de datos
       available[index] = socket.handshake.auth.username;
-
-      console.log("available: ", available);
+      available_room0 = available;
 
       io.emit("available-characters", {
         names: constants.CHARACTERS_NAMES,
-        characters: available,
+        available: available,
       });
     });
 
@@ -148,6 +155,8 @@ function runSocketServer(io) {
     ldrMsg(socket);
   });
 }
+
+let available_room0 = ["", "", "", "", "", ""];
 
 module.exports = {
   runSocketServer,
