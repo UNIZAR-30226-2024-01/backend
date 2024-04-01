@@ -230,6 +230,7 @@ async function createGame(username,type){
                     const id_partida =  insertResult_partida.rows[0].id_partida ;
                     await joinGame(username,id_partida);
                 }
+                return { exito: exito, id_partida: id_partida };
 
             }
         } catch (error) {

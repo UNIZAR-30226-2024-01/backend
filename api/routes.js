@@ -83,7 +83,7 @@ router.post('/createGame', async (req, res) => {
   try {
     const createSuccessfully = await controller.createGame(username,type);
 
-    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg, idGame: createSuccessfully.idGame});
     console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
     
   } catch (error) {
@@ -101,6 +101,42 @@ router.put('/changePassword', async (req, res) => {
 
   try {
     const createSuccessfully = await controller.changePassword(username,oldPassword,newPassword);
+    
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
+    console.log(`${createSuccessfully.msg}`);
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+router.get('/availableCharacters', async (req, res) => {
+
+  const idGame = req.body.idGame;
+
+  try {
+    const createSuccessfully = await controller.availabilityCharacters(idGame);
+    
+    res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg, characters: createSuccessfully.characters});
+    //true are available characters
+    console.log(`${createSuccessfully.msg}`);
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+router.put('/characterSelected', async (req, res) => {
+
+  const username = req.body.username;
+  const character = req.body.character;
+
+  try {
+    const createSuccessfully = await controller.selectCharacter(username,character);
     
     res.json({ success: createSuccessfully.exito, message: createSuccessfully.msg});
     console.log(`${createSuccessfully.msg}`);
