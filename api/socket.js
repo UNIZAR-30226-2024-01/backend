@@ -18,7 +18,6 @@ function obtenerFechaActual() {
     "0" + Math.abs(fecha.getTimezoneOffset() / 60)
   ).slice(-2);
 
-
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
   //"2024-03-14 12:54:56.419369+00"
 }
@@ -90,10 +89,11 @@ const addSocketToGroup = (socket) => {
 
 function runSocketServer(io) {
   io.on(constants.CONNECT, (socket) => {
+    // console.log(socket)
     console.log(constants.USER_CONNECTED);
 
     addSocketToGroup(socket);
-    game.runGame(io, 0);
+    game.runGame(socket, 0);
 
     socket.on(constants.DISCONNECT, () => {
       console.log(constants.USER_DISCONNECTED);

@@ -1,19 +1,13 @@
-const constants = require('./constants');
-const { botRun } = require('../bot/bot');
-const { src } = require('./controller.js');
-
-
+const constants = require("./constants");
+const { botRun } = require("../bot/bot");
+const { src } = require("./controller.js");
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
 
-
-async function joinGame(username,idGame){
-
-    //update jugador 
-    await src.joinGame(username,idGame);
-
-
+async function joinGame(username, idGame) {
+  //update jugador
+  await src.joinGame(username, idGame);
 }
 
 /*    //asignar posicion asociada a personaje
@@ -40,29 +34,43 @@ async function joinGame(username,idGame){
     }*/
 
 // function that change the turn of the player
-async function runGame(io,group) {
-    
-    let username
-    let num = 1
-    // const interval = setInterval(() => {
-    //     username = `user${num+1}`
-    //     console.log(`turno de ${username}`)
-    //     io.to(""+group).emit(constants.CHAT_TURN, username);
-    //     // io.emit(constants.CHAT_TURN, username);
-    //     num++
-    //     num %= 6;
+async function runGame(socket, group) {
+  let username;
+  let num = 1;
+  // const interval = setInterval(() => {
+  //     username = `user${num+1}`
+  //     console.log(`turno de ${username}`)
+  //     socket.to(""+group).emit(constants.CHAT_TURN, username);
+  //     // socket.emit(constants.CHAT_TURN, username);
+  //     num++
+  //     num %= 6;
 
-    // }, 1000);
+  // }, 1000);
 
-    objeto = {
-        group: group,
-        io: io
-    }
+  objeto = {
+    group: group,
+    socket: socket,
+  };
 
-    // ⬇ queda comentado porque no funciona en produccion 
-    // botRun(objeto)
+  console.log(socket.handshake);
+  socket.on("join-game", (data) => {
+    console.log("Se unio al juego");
+    socket.emit("available-characters", {
+      names: [
+        "mr SOPER",
+        "miss REDES",
+        "mr PROG",
+        "miss FISICA",
+        "mr DISCRETO",
+        "miss IA",
+      ],
+      characters: [true, true, true, true, true, false],
+    });
+  });
+  // ⬇ queda comentado porque no funciona en produccion
+  // botRun(objeto)
 }
 
 module.exports = {
-    runGame
+  runGame,
 };
