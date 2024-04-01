@@ -96,6 +96,20 @@ function runSocketServer(io) {
 
     socket.on(constants.DISCONNECT, () => {
       console.log(constants.USER_DISCONNECTED);
+
+      /////////////////////////////////////////////////////////////////////////
+      // 👇 SOLO ES PARA PROBAR Y DESARROLLAR
+      // DEBERÁ ELIMINARSE
+      const index = available_room0.indexOf(socket.handshake.auth.username);
+      const available = available_room0; //deberian recuperarse de la base de datos
+      available[index] = "";
+      available_room0 = available;
+      
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
+      });
+      /////////////////////////////////////////////////////////////////////////
     });
 
     socket.on("start-game", async () => {
