@@ -114,8 +114,8 @@ router.put('/changePassword', async (req, res) => {
 
 router.get('/availableCharacters', async (req, res) => {
 
-  const idGame = req.body.idGame;
-
+  // const idGame = req.body.idGame;
+  const idGame = 1;
   try {
     const createSuccessfully = await controller.availabilityCharacters(idGame);
     

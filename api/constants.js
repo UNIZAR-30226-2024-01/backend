@@ -106,7 +106,7 @@ module.exports = {
   SELECT_NOMBRE_LUGAR:
     'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
   SELECT_FICHA_JUGADOR:
-    'SELECT ficha FROM grace_hopper."jugador" WHERE partida = $1',
+    'SELECT ficha FROM grace_hopper."jugador" WHERE partida_actual = $1',
 
     //-------update-------;
   UPDATE_PASSWD_USUARIO:
