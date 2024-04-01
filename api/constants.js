@@ -18,8 +18,8 @@ module.exports = {
 
   CONNECT: "connection",
   DISCONNECT: "disconnect",
-  CHAT_MESSAGE: "chat message",
-  CHAT_RESPONSE: "chat response",
+  CHAT_MESSAGE: "chat-message",
+  CHAT_RESPONSE: "chat-response",
   CHAT_TURN: "chat turn",
   USER_CONNECTED: "A user has connected.",
   USER_DISCONNECTED: "A user has disconnected.",
