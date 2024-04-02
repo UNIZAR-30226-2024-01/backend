@@ -3,14 +3,14 @@ const { Server } = require("socket.io");
 const { createServer } = require("http");
 const routes = require("./routes.js");
 const cors = require("cors");
-const pool = require("./connectionManager");
+// const pool = require("./connectionManager");
 require("dotenv").config();
 
 const constants = require("./constants.js");
 const socketio = require("./socket.js");
 
 //connection to database
-pool.connect();
+// pool.connect();
 
 //mode
 let ips2listen = [];

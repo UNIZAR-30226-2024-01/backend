@@ -1,19 +1,13 @@
-const constants = require('./constants');
-const { botRun } = require('../bot/bot');
-const { src } = require('./controller.js');
-
-
+const constants = require("./constants");
+const { botRun } = require("../bot/bot");
+const { src } = require("./controller.js");
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
 
-
-async function joinGame(username,idGame){
-
-    //update jugador 
-    await src.joinGame(username,idGame);
-
-
+async function joinGame(username, idGame) {
+  //update jugador
+  await src.joinGame(username, idGame);
 }
 
 /*    //asignar posicion asociada a personaje
@@ -40,29 +34,40 @@ async function joinGame(username,idGame){
     }*/
 
 // function that change the turn of the player
-async function runGame(io,group) {
-    
-    let username
-    let num = 1
-    // const interval = setInterval(() => {
-    //     username = `user${num+1}`
-    //     console.log(`turno de ${username}`)
-    //     io.to(""+group).emit(constants.CHAT_TURN, username);
-    //     // io.emit(constants.CHAT_TURN, username);
-    //     num++
-    //     num %= 6;
+async function runGame(io, group) {
+  let username;
+  let num = 1;
+  // const interval = setInterval(() => {
+  //     username = `user${num+1}`
+  //     console.log(`turno de ${username}`)
+  //     io.to(""+group).emit(constants.CHAT_TURN, username);
+  //     // io.emit(constants.CHAT_TURN, username);
+  //     num++
+  //     num %= 6;
 
-    // }, 1000);
+  // }, 1000);
 
-    objeto = {
-        group: group,
-        io: io
-    }
+  objeto = {
+    group: group,
+    io: io,
+  };
 
-    // ⬇ queda comentado porque no funciona en produccion 
-    // botRun(objeto)
+  // get all sockets in game
+  const sockets = io.sockets.adapter.rooms.get(group);
+  console.log(sockets);
+
+  sockets.forEach((s) => {
+    io.to(s).emit("hola", "user1");
+  });
+
+  // io.on("character-selected", (character) => {
+  //   console.log("character selected", character);
+  // });
+
+  // ⬇ queda comentado porque no funciona en produccion
+  // botRun(objeto)
 }
 
 module.exports = {
-    runGame
+  runGame,
 };

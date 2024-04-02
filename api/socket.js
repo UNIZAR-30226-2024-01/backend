@@ -18,7 +18,6 @@ function obtenerFechaActual() {
     "0" + Math.abs(fecha.getTimezoneOffset() / 60)
   ).slice(-2);
 
-
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
   //"2024-03-14 12:54:56.419369+00"
 }
@@ -90,13 +89,63 @@ const addSocketToGroup = (socket) => {
 
 function runSocketServer(io) {
   io.on(constants.CONNECT, (socket) => {
+    // console.log(socket)
     console.log(constants.USER_CONNECTED);
 
     addSocketToGroup(socket);
-    game.runGame(io, 0);
 
     socket.on(constants.DISCONNECT, () => {
       console.log(constants.USER_DISCONNECTED);
+
+      /////////////////////////////////////////////////////////////////////////
+      // 👇 SOLO ES PARA PROBAR Y DESARROLLAR
+      // DEBERÁ ELIMINARSE
+      const index = available_room0.indexOf(socket.handshake.auth.username);
+      const available = available_room0; //deberian recuperarse de la base de datos
+      available[index] = "";
+      available_room0 = available;
+      
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
+      });
+      /////////////////////////////////////////////////////////////////////////
+    });
+
+    socket.on("start-game", async () => {
+      console.log("start game received");
+      game.runGame(io, socket.handshake.auth.group);
+    });
+
+    socket.on("join-game", () => {
+      // if game is not started
+
+      const available = available_room0; //deberian recuperarse de la base de datos
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
+      });
+    });
+
+    socket.on("request-available-characters", () => {
+      const available = available_room0; //deberian recuperarse de la base de datos
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
+      });
+    });
+
+    socket.on("character-selected", (character) => {
+      console.log("character-selected: ", character);
+      const index = constants.CHARACTERS_NAMES.indexOf(character);
+      const available = available_room0; //deberian recuperarse de la base de datos
+      available[index] = socket.handshake.auth.username;
+      available_room0 = available;
+
+      io.emit("available-characters", {
+        names: constants.CHARACTERS_NAMES,
+        available: available,
+      });
     });
 
     socket.on(constants.CHAT_MESSAGE, async (msg) => {
@@ -120,6 +169,8 @@ function runSocketServer(io) {
     ldrMsg(socket);
   });
 }
+
+let available_room0 = ["", "", "", "", "", ""];
 
 module.exports = {
   runSocketServer,

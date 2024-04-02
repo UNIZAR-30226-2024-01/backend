@@ -18,8 +18,8 @@ module.exports = {
 
   CONNECT: "connection",
   DISCONNECT: "disconnect",
-  CHAT_MESSAGE: "chat message",
-  CHAT_RESPONSE: "chat response",
+  CHAT_MESSAGE: "chat-message",
+  CHAT_RESPONSE: "chat-response",
   CHAT_TURN: "chat turn",
   USER_CONNECTED: "A user has connected.",
   USER_DISCONNECTED: "A user has disconnected.",
@@ -50,12 +50,20 @@ module.exports = {
   MAS: "+",
 
   //Personajes
-  SOPER: 'mr SOPER',
-  REDES: 'miss REDES',
-  PROG: 'mr PROG',
-  FISICA: 'miss FISICA',
-  DISCRETO: 'mr DISCRETO',
-  IA: 'miss IA',
+  SOPER: "mr SOPER",
+  REDES: "miss REDES",
+  PROG: "mr PROG",
+  FISICA: "miss FISICA",
+  DISCRETO: "mr DISCRETO",
+  IA: "miss IA",
+  CHARACTERS_NAMES: [
+    "mr SOPER",
+    "miss REDES",
+    "mr PROG",
+    "miss FISICA",
+    "mr DISCRETO",
+    "miss IA",
+  ],
 
   //Módulo.controller
   WRONG_PASSWD: "La contraseña introducida es incorrecta.",
@@ -108,7 +116,7 @@ module.exports = {
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
 
-    //-------update-------;
+  //-------update-------;
   UPDATE_PASSWD_USUARIO:
     'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE "userName" = $1',
   UPDATE_STATE_PARTIDA:
@@ -128,28 +136,24 @@ module.exports = {
   DELETE_GAME_CONVERSACION:
     'DELETE FROM grace_hopper."conversacion" WHERE "partida" = $1',
   DELETE_ALL_PARTIDA:
-    'DELETE FROM grace_hopper."partida" WHERE id_partida = $1',  
-    
-    
-    
-    
-    //Módulo.controller 
-    WRONG_PASSWD: "La contraseña introducida es incorrecta.",
-    WRONG_USER:"El usuario introducido es incorrecto.",
-    WRONG_IDGAME:"La partida introducida no existe.",
-    WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
-    WRONG_LDR_MSG: "No se han restaurado mensajes",
-    CORRECT_LOGIN: "Se ha iniciado sesión correctamente.",
-    CORRECT_CHANGE_PASSWD: "La constraseña ha sido actualizada con exito.",
-    CORRECT_MSG: "El mensaje se ha almacenado correctamente.",
-    CORRECT_DELETE: "Partida eliminada correctamente.",
+    'DELETE FROM grace_hopper."partida" WHERE id_partida = $1',
 
-    //
-    ERROR_UPDATING: "Error al actualizar.",
-    ERROR_INSERTING: "Error al realizar la insercción.",
-    ERROR_DELETING: "Error al eliminar.",
-    ERROR_ASESINO: "No se ha obtenido ningun asesino.",
-    ERROR_ARMA: "No se ha obtenido ningun arma.",
-    ERROR_LUGAR: "No se ha obtenido ningun lugar.",
+  //Módulo.controller
+  WRONG_PASSWD: "La contraseña introducida es incorrecta.",
+  WRONG_USER: "El usuario introducido es incorrecto.",
+  WRONG_IDGAME: "La partida introducida no existe.",
+  WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
+  WRONG_LDR_MSG: "No se han restaurado mensajes",
+  CORRECT_LOGIN: "Se ha iniciado sesión correctamente.",
+  CORRECT_CHANGE_PASSWD: "La constraseña ha sido actualizada con exito.",
+  CORRECT_MSG: "El mensaje se ha almacenado correctamente.",
+  CORRECT_DELETE: "Partida eliminada correctamente.",
 
+  //
+  ERROR_UPDATING: "Error al actualizar.",
+  ERROR_INSERTING: "Error al realizar la insercción.",
+  ERROR_DELETING: "Error al eliminar.",
+  ERROR_ASESINO: "No se ha obtenido ningun asesino.",
+  ERROR_ARMA: "No se ha obtenido ningun arma.",
+  ERROR_LUGAR: "No se ha obtenido ningun lugar.",
 };
