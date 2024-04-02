@@ -116,6 +116,7 @@ module.exports = {
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
 
+
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
     'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE "userName" = $1',
@@ -124,13 +125,13 @@ module.exports = {
   UPDATE_FICHA_JUGADOR:
     'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE "userName" = $1',
   UPDATE_PARTIDAandSTATE_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida = $1 AND estado = $3 WHERE "userName" = $2',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1 AND estado = $3 WHERE "userName" = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida = $1, estado = $3, ficha = $4 WHERE "userName" = $2',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE "userName" = $2',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE "userName" = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET estado = $2 AND partida = $3 WHERE partida_actual = $1',
+    'UPDATE grace_hopper."jugador" SET estado = $2 AND partida_actual = $3 WHERE partida_actual = $1',
 
   //-------delete------
   DELETE_GAME_CONVERSACION:

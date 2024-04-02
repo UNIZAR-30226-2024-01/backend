@@ -279,7 +279,8 @@ async function availabilityCharacters(idGame) {
         } else {
             let availability = [];
             availability.length = 6;
-            availability.fill(null);
+            availability.fill(true);
+            let names = [constants.SOPER, constants.REDES, constants.PROG, constants.FISICA, constants.DISCRETO, constants.IA];
             let relation = {
                 [constants.SOPER]: 0,
                 [constants.REDES]: 1,
@@ -291,7 +292,7 @@ async function availabilityCharacters(idGame) {
             for (let i = 0; i < selectResult.rows.length; i++) {
                 availability[relation[selectResult.rows[i].ficha]] = relation[selectResult.rows[i].userName];
             }
-            return availability; // return the updated availability array
+            return { areAvailable: availability, characterAvaliable: names}; // return the updated availability array
 
         }
     } catch (error) {

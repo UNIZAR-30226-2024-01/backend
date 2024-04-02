@@ -9,8 +9,8 @@ async function joinGame(username, idGame) {
   //update jugador
   await src.joinGame(username, idGame);
 }
-
-/*    //asignar posicion asociada a personaje
+/*
+ posicion asociada a personaje
     let posicion = 0;   
     switch(username){ //MODIFICAR VAL
         case constants.SOPER:
