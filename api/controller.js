@@ -258,10 +258,13 @@ async function joinGame(username,idGame){
     } 
 }
 
-//post: return availability of characters in the current game
-//vector which has true at the index of the character that is available
-// [true, true, true, true, true, true] -> all characters are available
+// post: return availability of characters in the current game
+// vector which has null at the index of the character that is available
+// otherwise it has the index of the user that has the character
+// ---------------------------------------------------------------------
+// [null, null, null, null, null, null] -> all characters are available
 // [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA]
+// ---------------------------------------------------------------------
 async function availabilityCharacters(idGame) {
 
     const selectQuery= constants.SELECT_FICHA_JUGADOR;
@@ -276,7 +279,7 @@ async function availabilityCharacters(idGame) {
         } else {
             let availability = [];
             availability.length = 6;
-            availability.fill(true);
+            availability.fill(null);
             let relation = {
                 [constants.SOPER]: 0,
                 [constants.REDES]: 1,
@@ -286,7 +289,7 @@ async function availabilityCharacters(idGame) {
                 [constants.IA]: 5
             }
             for (let i = 0; i < selectResult.rows.length; i++) {
-                availability[relation[selectResult.rows[i].ficha]] = false;
+                availability[relation[selectResult.rows[i].ficha]] = relation[selectResult.rows[i].userName];
             }
             return availability; // return the updated availability array
 
@@ -319,10 +322,30 @@ async function selectCharacter(username, character) {
         }
 }
 
+async function leftGame(username){ 
+    const updateQuery_jugador  = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
+    const updateValues_jugador = [null,username, constants.STOP, null];  
+    
+    const client = await pool.connect();
+    try {
+        const updateResult = await client.query(updateQuery_jugador, updateValues_jugador); 
+
+        if(updateResult.rows.length == 0) return { exito: false , msg: constants.ERROR_UPDATING }
+        else return { exito: true, msg: constants.CORRECT_UPDATE};
+
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+
+}
+
 async function stopGame(id_partida){
     
     // check if user exits and has an active game
     const updatePartidaQuery= constants.UPDATE_STATE_PARTIDA;
+    //supnogo  que update tb el estado de los playerssss
     const updatePartidaValues = [id_partida, constants.PAUSE];
     
     
