@@ -105,7 +105,7 @@ function runSocketServer(io) {
       available[index] = "";
       available_room0 = available;
       
-      io.emit("available-characters", {
+      io.emit("game-info", {
         names: constants.CHARACTERS_NAMES,
         available: available,
       });
@@ -127,10 +127,13 @@ function runSocketServer(io) {
       });
     });
 
-    socket.on("request-available-characters", () => {
+    socket.on("request-game-info", () => {
       const available = available_room0; //deberian recuperarse de la base de datos
-      io.emit("available-characters", {
-        names: constants.CHARACTERS_NAMES,
+      console.log(constants.CHARACTERS_NAMES);
+      io.emit("game-info", {
+        names: constants.CHARACTERS_NAMES, 
+        guns: constants.GUNS_NAMES,
+        rooms: constants.ROOMS_NAMES,
         available: available,
       });
     });
@@ -142,8 +145,10 @@ function runSocketServer(io) {
       available[index] = socket.handshake.auth.username;
       available_room0 = available;
 
-      io.emit("available-characters", {
+      io.emit("game-info", {
         names: constants.CHARACTERS_NAMES,
+        guns: constants.GUNS_NAMES,
+        rooms: constants.ROOMS_NAMES,
         available: available,
       });
     });

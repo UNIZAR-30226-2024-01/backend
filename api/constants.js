@@ -50,12 +50,6 @@ module.exports = {
   MAS: "+",
 
   //Personajes
-  SOPER: "mr SOPER",
-  REDES: "miss REDES",
-  PROG: "mr PROG",
-  FISICA: "miss FISICA",
-  DISCRETO: "mr DISCRETO",
-  IA: "miss IA",
   CHARACTERS_NAMES: [
     "mr SOPER",
     "miss REDES",
@@ -63,6 +57,29 @@ module.exports = {
     "miss FISICA",
     "mr DISCRETO",
     "miss IA",
+  ],
+
+  //Armas
+  GUNS_NAMES: [
+    "teclado",
+    "asfixiar con cable de red",
+    "raton envenenado",
+    "router afilado",
+    "troyano",
+    "lanzar cd",
+  ],
+
+  //Habitaciones
+  ROOMS_NAMES: [
+    "cafeteria",
+    "baños",
+    "recepcion",
+    "escaleras",
+    "biblioteca",
+    "laboratorio",
+    "despacho",
+    "aulas norte",
+    "aulas sur",
   ],
 
   //Módulo.controller
