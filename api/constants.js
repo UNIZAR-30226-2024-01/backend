@@ -117,7 +117,7 @@ module.exports = {
   SELECT_PASSWD_USUARIO:
     'SELECT passwd FROM grace_hopper."usuario" WHERE "userName" = $1',
   SELECT_XP_USUARIO:
-    'SELECT "XP FROM grace_hopper."usuario" WHERE  "userName" = $1',
+    'SELECT "XP" FROM grace_hopper."usuario" WHERE "userName" = $1',
   SELECT_ALL_CONVERSACION:
     'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante',
   SELECT_PARTIDAandSTATE_JUGADOR:
@@ -132,7 +132,6 @@ module.exports = {
     'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
-
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
