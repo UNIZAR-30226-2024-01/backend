@@ -13,25 +13,14 @@
 
 ---
 
-#### join-game():
-
-- **Descripción:** Un usuario se une a una partida.
-- **Emitido por:** Cliente.
-- **Recibido por:** Servidor.
-- **Datos:** No recibe datos.
-- **Funcionamiento:** El servidor envia la lista de personajes disponibles.
-- **Se responde con:** `available-characters(names, available)`
-
----
-
-#### request-available-characters():
+#### request-game-info():
 
 - **Descripción:** Solicita los personajes disponibles.
 - **Emitido por:** Cliente.
 - **Recibido por:** Servidor.
 - **Datos:** No recibe datos.
 - **Funcionamiento:** El servidor envia la lista de personajes disponibles.
-- **Se responde con:** `available-characters(names, available)`
+- **Se responde con:** `game-info(names, guns, rooms, available)`
 
 ---
 
@@ -43,11 +32,11 @@
 - **Datos:**
   - `character`: nombre del personaje seleccionado por el cliente.
 - **Funcionamiento:** El servidor envia la lista de personajes disponibles.
-- **Se responde con:** `available-characters(names, available)`
+- **Se responde con:** `game-info(names, available)`
 
 ---
 
-#### available-characters(names, available):
+#### game-info(names, available):
 
 - **Descripción:** Lista de personajes disponibles.
 - **Emitido por:** Servidor.

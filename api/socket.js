@@ -117,15 +117,6 @@ function runSocketServer(io) {
       game.runGame(io, socket.handshake.auth.group);
     });
 
-    socket.on("join-game", () => {
-      // if game is not started
-
-      const available = available_room0; //deberian recuperarse de la base de datos
-      io.emit("available-characters", {
-        names: constants.CHARACTERS_NAMES,
-        available: available,
-      });
-    });
 
     socket.on("request-game-info", () => {
       const available = available_room0; //deberian recuperarse de la base de datos

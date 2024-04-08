@@ -62,11 +62,11 @@ module.exports = {
   //Armas
   GUNS_NAMES: [
     "teclado",
-    "asfixiar con cable de red",
-    "raton envenenado",
+    "cable de red",
+    "café envenenado",
     "router afilado",
     "troyano",
-    "lanzar cd",
+    "cd",
   ],
 
   //Habitaciones

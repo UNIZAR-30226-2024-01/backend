@@ -33,7 +33,7 @@ async function joinGame(username, idGame) {
             break;
     }*/
 
-// function that change the turn of the player
+// function that controls the game's state machine
 async function runGame(io, group) {
   let username;
   let num = 1;
