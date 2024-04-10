@@ -154,4 +154,33 @@ router.put("/characterSelected", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
+
+/*
+  Example of how to use the function getPlayersCharacter: 
+  array.forEach((players) => {
+      console.log(`Username: ${players.userName}`);
+      console.log(`Character: ${players.character}`);
+  });
+ */
+//post: if the consult was successful, it returns the players and characters of the game 
+router.put("/getNameAndCharacter", async (req, res) => {
+  const idGame = req.body.id_partida;
+  try {
+    const createSuccessfully = await controller.getPlayersCharacter(
+      idGame
+    );
+    if (createSuccessfully.exito) {
+      res.json({
+        success: createSuccessfully.exito,
+        players: createSuccessfully.players?createSuccessfully.players:[],
+      });
+    } else {  
+      res.status(404).json({ success: false, message: createSuccessfully.msg });
+    }
+    console.log(`${createSuccessfully.msg}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 module.exports = router;

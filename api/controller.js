@@ -424,19 +424,27 @@ async function finishGame(id_partida) {
   }
 }
 
-async function getPlayersCharacter(id_partida) {
-  //get player where partida=id_partida
+
+
+async function getPlayersCharacter(idGame) {
+  //get player where partida=idGame
   const selectQuery = constants.SELECT_FICHA_JUGADOR;
-  const selectValues = [id_partida];
+  const selectValues = [idGame];
 
   const client = await pool.connect();
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      return { exito: false, msg: constants.WRONG_USER };
+      return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
-      return { exito: true, nombre: selectResult.rows[0].nombre };
+      return {
+        exito: true,
+        players: selectResult.rows.map((row) => ({
+          userName: row.userName,
+          character: row.ficha,
+        })),
+      };
     }
   } catch (error) {
     throw error;
@@ -465,7 +473,7 @@ async function getPlayerXP(username) {
   } finally {
     client.release();
   }
-} // informacion como xp || partidas_ganadas
+} // informacion como xp  
 
 async function getSuspicions(jugador) {}
 
@@ -578,6 +586,7 @@ module.exports = {
   selectCharacter,
   stopGame,
   finishGame,
+  getPlayersCharacter,
   //****************************************JUGADOR*********************************************** */
   playerInformation,
   getPlayerXP,
