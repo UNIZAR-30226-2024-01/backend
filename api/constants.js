@@ -132,6 +132,19 @@ module.exports = {
     'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
+  SELECT_CARTAS_JUGADOR:
+   'SELECT' +
+   ' caj."cartasArma", ' +
+   ' clj."cartaLugar", ' +
+   ' cpj."cartaPersonaje" ' +
+   'FROM ' +
+   ' grace_hopper.cartas_armas_jugador caj' +
+   'JOIN' +
+   ' grace_hopper.cartas_lugar_jugador clj ON caj."userName" = clj."userName" ' +
+   'JOIN' +
+   ' grace_hopper.cartas_personajes_jugador cpj ON caj."userName" = cpj."userName" ' +
+   'WHERE ' + 
+   ' caj."userName" = \'nombre_de_usuario\'',
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:

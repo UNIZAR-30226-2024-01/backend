@@ -1,6 +1,6 @@
 const constants = require("./constants");
 const { botRun } = require("../bot/bot");
-const { src } = require("./controller.js");
+const { src, playerInformation } = require("./controller.js");
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
@@ -58,6 +58,14 @@ async function runGame(io, group) {
 
   sockets.forEach((s) => {
     io.to(s).emit("hola", "user1");
+  });
+
+  players = await src.getPlayersCharacter(group);
+
+  // character of each player
+  players.forEach((player) => {
+    console.log(`Username: ${player.userName}`);
+    console.log(`Character: ${player.character}`);
   });
 
   // io.on("character-selected", (character) => {
