@@ -1,6 +1,6 @@
-const constants = require("./constants");
-const { botRun } = require("../bot/bot");
-const { src, playerInformation } = require("./controller.js");
+const constants = require('./constants');
+const { botRun } = require('../bot/bot');
+const { src, playerInformation } = require('./controller.js');
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
@@ -36,7 +36,7 @@ async function joinGame(username, idGame) {
 // function that controls the game's state machine
 async function runGame(io, group) {
   let username;
-  let num = 1;
+  const num = 1;
   // const interval = setInterval(() => {
   //     username = `user${num+1}`
   //     console.log(`turno de ${username}`)
@@ -57,7 +57,7 @@ async function runGame(io, group) {
   console.log(sockets);
 
   sockets.forEach((s) => {
-    io.to(s).emit("hola", "user1");
+    io.to(s).emit('hola', 'user1');
   });
 
   players = await src.getPlayersCharacter(group);

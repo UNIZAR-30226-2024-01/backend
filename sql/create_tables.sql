@@ -65,75 +65,7 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS grace_hopper.bot
     OWNER to ufjuuu4tmgx8hdaosrpx;
 
--- Table: grace_hopper.cartas_armas_jugador
 
--- DROP TABLE IF EXISTS grace_hopper.cartas_armas_jugador;
-
-CREATE TABLE IF NOT EXISTS grace_hopper.cartas_armas_jugador
-(
-    "userName" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    "cartasArma" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT cartas_armas_jugador_pkey PRIMARY KEY ("userName", "cartasArma"),
-    CONSTRAINT carta FOREIGN KEY ("cartasArma")
-        REFERENCES grace_hopper.arma (nombre) MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
-    CONSTRAINT "user" FOREIGN KEY ("userName")
-        REFERENCES grace_hopper.jugador ("userName") MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS grace_hopper.cartas_armas_jugador
-    OWNER to ufjuuu4tmgx8hdaosrpx;
-
-
--- Table: grace_hopper.cartas_lugar_jugador
-
--- DROP TABLE IF EXISTS grace_hopper.cartas_lugar_jugador;
-
-CREATE TABLE IF NOT EXISTS grace_hopper.cartas_lugar_jugador
-(
-    "userName" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    "cartaLugar" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT cartas_lugar_jugador_pkey PRIMARY KEY ("userName", "cartaLugar")
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS grace_hopper.cartas_lugar_jugador
-    OWNER to ufjuuu4tmgx8hdaosrpx;
-
-
--- Table: grace_hopper.cartas_personajes_jugador
-
--- DROP TABLE IF EXISTS grace_hopper.cartas_personajes_jugador;
-
-CREATE TABLE IF NOT EXISTS grace_hopper.cartas_personajes_jugador
-(
-    "userName" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    "cartaPersonaje" character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT cartas_personajes_jugador_pkey PRIMARY KEY ("cartaPersonaje", "userName"),
-    CONSTRAINT carta FOREIGN KEY ("cartaPersonaje")
-        REFERENCES grace_hopper.personajes (nombre) MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
-    CONSTRAINT "user" FOREIGN KEY ("userName")
-        REFERENCES grace_hopper.jugador ("userName") MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS grace_hopper.cartas_personajes_jugador
-    OWNER to ufjuuu4tmgx8hdaosrpx;
 
 
 -- Table: grace_hopper.conversacion
@@ -214,24 +146,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS grace_hopper.lugar
     OWNER to ufjuuu4tmgx8hdaosrpx;
-
-
--- Table: grace_hopper.mensajes_predefinidos
-
--- DROP TABLE IF EXISTS grace_hopper.mensajes_predefinidos;
-
-CREATE TABLE IF NOT EXISTS grace_hopper.mensajes_predefinidos
-(
-    text character varying(64) COLLATE pg_catalog."default" NOT NULL,
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 0 MINVALUE 0 MAXVALUE 2147483647 CACHE 1 ),
-    CONSTRAINT mensajes_predefinidos_pkey PRIMARY KEY (id)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS grace_hopper.mensajes_predefinidos
-    OWNER to ufjuuu4tmgx8hdaosrpx;
-
 
 -- Table: grace_hopper.partida
 
@@ -316,3 +230,62 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS grace_hopper.usuario
     OWNER to ufjuuu4tmgx8hdaosrpx;
+
+-- Table: grace_hopper.cartas
+
+-- DROP TABLE IF EXISTS grace_hopper.cartas;
+
+CREATE TABLE IF NOT EXISTS grace_hopper.cartas
+(
+    nombre character varying(16) COLLATE pg_catalog."default" NOT NULL,
+    tipo character varying(16) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT cartas_pkey PRIMARY KEY (nombre),
+    CONSTRAINT tipo_is_correct CHECK (tipo::text = 'personaje'::text OR tipo::text = 'arma'::text OR tipo::text = 'lugar'::text) NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS grace_hopper.cartas
+    OWNER to ufjuuu4tmgx8hdaosrpx;
+
+
+-- Table: grace_hopper.cartas_jugador
+
+-- DROP TABLE IF EXISTS grace_hopper.cartas_jugador;
+
+CREATE TABLE IF NOT EXISTS grace_hopper.cartas_jugador
+(
+    carta character varying(16) COLLATE pg_catalog."default" NOT NULL,
+    jugador character varying(16) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT cartas_jugador_pkey PRIMARY KEY (carta, jugador),
+    CONSTRAINT carta FOREIGN KEY (carta)
+        REFERENCES grace_hopper.cartas (nombre) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+        NOT VALID,
+    CONSTRAINT jugador FOREIGN KEY (jugador)
+        REFERENCES grace_hopper.jugador ("userName") MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS grace_hopper.cartas_jugador
+    OWNER to ufjuuu4tmgx8hdaosrpx;
+
+
+-- SQL INSERTS
+
+INSERT INTO  grace_hopper."cartas" (nombre, tipo)
+SELECT nombre, 'personaje'
+FROM grace_hopper.personajes;
+
+INSERT INTO  grace_hopper."cartas" (nombre, tipo)
+SELECT nombre, 'arma'
+FROM grace_hopper.arma;
+
+INSERT INTO  grace_hopper."cartas" (nombre, tipo)
+SELECT nombre, 'lugar'
+FROM grace_hopper.lugar;

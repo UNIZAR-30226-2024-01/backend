@@ -1,6 +1,6 @@
-const constants = require("./constants.js");
-const controller = require("./controller.js");
-const game = require("./game.js");
+const constants = require('./constants.js');
+const controller = require('./controller.js');
+const game = require('./game.js');
 
 function obtenerFechaActual() {
   const fecha = new Date();
@@ -15,7 +15,7 @@ function obtenerFechaActual() {
   const signoZonaHoraria =
     zonaHorariaOffset > 0 ? constants.MENOS : constants.MAS;
   const horasZonaHoraria = (
-    "0" + Math.abs(fecha.getTimezoneOffset() / 60)
+    '0' + Math.abs(fecha.getTimezoneOffset() / 60)
   ).slice(-2);
 
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}.${milisegundos}${signoZonaHoraria}${horasZonaHoraria}`;
@@ -23,8 +23,8 @@ function obtenerFechaActual() {
 }
 
 function formattedDate(date) {
-  let oldDate = new Date(date);
-  let currentDate = new Date();
+  const oldDate = new Date(date);
+  const currentDate = new Date();
 
   // Check if oldDate and currentDate are on the same day
   if (
@@ -33,11 +33,11 @@ function formattedDate(date) {
     oldDate.getFullYear() === currentDate.getFullYear()
   ) {
     // Format the parts of the time to have two digits (add zeros to the left if necessary)
-    const hours = ("0" + oldDate.getHours()).slice(-2);
-    const minutes = ("0" + oldDate.getMinutes()).slice(-2);
+    const hours = ('0' + oldDate.getHours()).slice(-2);
+    const minutes = ('0' + oldDate.getMinutes()).slice(-2);
 
     // Create a string with the formatted parts of the time
-    const newDate = hours + ":" + minutes; /* + ':' + seconds */
+    const newDate = hours + ':' + minutes; /* + ':' + seconds */
 
     return newDate;
   } else {
@@ -45,7 +45,7 @@ function formattedDate(date) {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const diffDays = Math.round(Math.abs((currentDate - oldDate) / oneDay));
 
-    return diffDays === 1 ? "ayer" : "hace " + diffDays + " días";
+    return diffDays === 1 ? 'ayer' : 'hace ' + diffDays + ' días';
   }
 }
 async function storeMsg(currentTimestamp, group, isQ, msg, emisor) {
@@ -102,26 +102,25 @@ function runSocketServer(io) {
       // DEBERÁ ELIMINARSE
       const index = available_room0.indexOf(socket.handshake.auth.username);
       const available = available_room0; //deberian recuperarse de la base de datos
-      available[index] = "";
+      available[index] = '';
       available_room0 = available;
       
-      io.emit("game-info", {
+      io.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         available: available,
       });
       /////////////////////////////////////////////////////////////////////////
     });
 
-    socket.on("start-game", async () => {
-      console.log("start game received");
+    socket.on('start-game', async() => {
+      console.log('start game received');
       game.runGame(io, socket.handshake.auth.group);
     });
 
-
-    socket.on("request-game-info", () => {
+    socket.on('request-game-info', () => {
       const available = available_room0; //deberian recuperarse de la base de datos
       console.log(constants.CHARACTERS_NAMES);
-      io.emit("game-info", {
+      io.emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
@@ -129,14 +128,14 @@ function runSocketServer(io) {
       });
     });
 
-    socket.on("character-selected", (character) => {
-      console.log("character-selected: ", character);
+    socket.on('character-selected', (character) => {
+      console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
       const available = available_room0; //deberian recuperarse de la base de datos
       available[index] = socket.handshake.auth.username;
       available_room0 = available;
 
-      io.emit("game-info", {
+      io.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
@@ -144,7 +143,7 @@ function runSocketServer(io) {
       });
     });
 
-    socket.on(constants.CHAT_MESSAGE, async (msg) => {
+    socket.on(constants.CHAT_MESSAGE, async(msg) => {
       const emisor = socket.handshake.auth.username;
       const currentTimestamp = obtenerFechaActual();
       const date = formattedDate(currentTimestamp);
@@ -166,7 +165,7 @@ function runSocketServer(io) {
   });
 }
 
-let available_room0 = ["", "", "", "", "", ""];
+let available_room0 = ['', '', '', '', '', ''];
 
 module.exports = {
   runSocketServer,

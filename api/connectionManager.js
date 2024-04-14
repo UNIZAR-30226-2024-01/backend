@@ -3,12 +3,12 @@ const constants = require('./constants.js');
 require('dotenv').config();
 
 const pool = new Pool({
-    host:  process.env.DB_HOST,
-    user:  process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-})
+  host:  process.env.DB_HOST,
+  user:  process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+});
 
 // Test the database connection
 pool.connect((err, client, done) => {
@@ -22,10 +22,10 @@ pool.connect((err, client, done) => {
 
 // Manejo de la señal SIGINT para cerrar correctamente la conexión a la base de datos
 process.on('SIGINT', () => {
-    pool.end(() => {
-      console.log(constants.DISCONNECTED_DB);
-      process.exit(0);
-    });
+  pool.end(() => {
+    console.log(constants.DISCONNECTED_DB);
+    process.exit(0);
+  });
 });
 
 module.exports = pool;

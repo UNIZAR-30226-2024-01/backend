@@ -1,4 +1,5 @@
-// Módulo encargado de la realización de operaciones CRUD (Create, Read, Update, Delete) sobre la base de datos
+// Módulo encargado de la realización de operaciones CRUD
+//(Create, Read, Update, Delete) sobre la base de datos
 const pool = require("./connectionManager");
 const constants = require("./constants.js");
 
@@ -167,50 +168,26 @@ async function getDefaultQuestions(id) {}
 // vector which has null at the index of the character that is available
 // otherwise it has the index of the user that has the character
 // ---------------------------------------------------------------------
-// [null, null, null, null, null, null] -> all characters are available
-// [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA]
+// [true, true, true, true, true, true] -> all characters are available
+// [true, false, true, true, true, true] -> the second character is not available
+// [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA] -> order of characters
 // ---------------------------------------------------------------------
 async function availabilityCharacters(idGame) {
-  const selectQuery = constants.SELECT_FICHA_JUGADOR;
-  const selectValues = [idGame];
-  
-  const client = await pool.connect();
-  try {
-    const selectResult = await client.query(selectQuery, selectValues);
-    
-    if (selectResult.rows.length == 0) {
-      return { exito: false, msg: constants.WRONG_IDGAME };
-    } else {
-      let availability = [];
-      availability.length = 6;
-      availability.fill(true);
-      let names = [
-        constants.SOPER,
-        constants.REDES,
-        constants.PROG,
-        constants.FISICA,
-        constants.DISCRETO,
-        constants.IA,
-      ];
-      let relation = {
-        [constants.SOPER]: 0,
-        [constants.REDES]: 1,
-        [constants.PROG]: 2,
-        [constants.FISICA]: 3,
-        [constants.DISCRETO]: 4,
-        [constants.IA]: 5,
-      };
-      for (let i = 0; i < selectResult.rows.length; i++) {
-        availability[relation[selectResult.rows[i].ficha]] =
-        relation[selectResult.rows[i].userName];
-      }
-      return { areAvailable: availability, characterAvaliable: names }; // return the updated availability array
+  const availability_usernames = await currentCharacters(idGame);
+  const availability = [];
+  availability.length = constants.NUM_PLAYERS;
+  availability.fill(true);
+
+  for (let i = 0; i < constants.NUM_PLAYERS; i++) {
+    if (availability_usernames.userNameOfCharacters[i] != null) {
+      availability[i] = false;
     }
-  } catch (error) {
-    throw error;
-  } finally {
-    client.release();
   }
+
+  return {
+    areAvailable: availability,
+    characterAvaliable: constants.CHARACTERS_NAMES,
+  }; // return the updated availability array
 }
 
 //pre: character is available
@@ -218,21 +195,21 @@ async function availabilityCharacters(idGame) {
 async function selectCharacter(username, character) {
   const updateQuery_jugador = constants.UPDATE_FICHA_JUGADOR;
   const updateValues_jugador = [username, character];
-  
+
   const client = await pool.connect();
   try {
     const updateResult = await client.query(
       updateQuery_jugador,
       updateValues_jugador
     );
-    
+
     if (updateResult.rows.length == 0)
-    return { exito: false, msg: constants.ERROR_UPDATING };
-  else return { exito: true, msg: constants.CORRECT_UPDATE };
-} catch (error) {
-  throw error;
-} finally {
-  client.release();
+      return { exito: false, msg: constants.ERROR_UPDATING };
+    else return { exito: true, msg: constants.CORRECT_UPDATE };
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
   }
 }
 
@@ -240,11 +217,11 @@ async function getPlayersCharacter(idGame) {
   //get player where partida=idGame
   const selectQuery = constants.SELECT_FICHA_JUGADOR;
   const selectValues = [idGame];
-  
+
   const client = await pool.connect();
   try {
     const selectResult = await client.query(selectQuery, selectValues);
-    
+
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
@@ -268,11 +245,11 @@ async function playerInformation(jugador) {} // informacion como xp || partidas_
 async function getPlayerXP(username) {
   const selectQuery = constants.SELECT_XP_USUARIO;
   const selectValues = [username];
-  
+
   const client = await pool.connect();
   try {
     const selectResult = await client.query(selectQuery, selectValues);
-    
+
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_USER };
     } else {
@@ -283,17 +260,16 @@ async function getPlayerXP(username) {
   } finally {
     client.release();
   }
-} // informacion como xp  
-
+} // informacion como xp
 
 async function getCards(jugador) {
   const selectQuery = constants.SELECT_CARTAS_JUGADOR;
   const selectValues = [jugador];
-  
+
   const client = await pool.connect();
   try {
     const selectResult = await client.query(selectQuery, selectValues);
-    
+
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_USER };
     } else {
@@ -311,9 +287,33 @@ async function getCards(jugador) {
   }
 }
 
-//REPARTE LAS CARTAS ENTRE LOS JUGADORES DE LA PARTIDA
-async function dealCards(jugador) {
-  
+//#region  CurrentWorking
+//reparte las cartas entre los jugadores,
+//podría pasarle todos los idJugadores que estan en la partida
+async function dealCards(idGame) {
+  //consulta que devuelve en una vector de vectores las cartas de cada jugador
+  const selectQuery = constants.SELECT_CARTAS_DISTINT_SOLUTION;
+  const selectValues = [idGame];
+
+  const client = await pool.connect();
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      internalDealCards(
+        idGame,
+        selectResult.rows.map((row) => ({}))
+      );
+
+      return { exito: true };
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 async function getSuspicions(jugador) {}
@@ -369,9 +369,9 @@ async function createGame(username, type) {
         // id doesnt exist
 
         //get solution cards
-        const asesino = getAsesino();
-        const arma = getArma();
-        const lugar = getLugar();
+        const asesino = await getAsesino();
+        const arma = await getArma();
+        const lugar = await getLugar();
         const date = getCurrentDate();
 
         // try to insert into partida
@@ -431,14 +431,14 @@ async function joinGame(username, idGame) {
 async function leftGame(username) {
   const updateQuery_jugador = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_jugador = [null, username, constants.STOP, null];
-  
+
   const client = await pool.connect();
   try {
     const updateResult = await client.query(
       updateQuery_jugador,
       updateValues_jugador
     );
-    
+
     if (updateResult.rows.length == 0)
       return { exito: false, msg: constants.ERROR_UPDATING };
     else return { exito: true, msg: constants.CORRECT_UPDATE };
@@ -515,7 +515,13 @@ async function turno_moves_to(idGame) {} //Faltan parametros aún
 async function turno_asks_for(idGame) {} //Faltan parametros aún
 async function turno_show_cards(idGame) {} //Faltan parametros aún
 async function turno_has_card(idGame) {} //no creo que sea del backend
-async function acuse_to(jugador, idGame, characterCard, weaponCard, placeCard) {} 
+async function acuse_to(
+  jugador,
+  idGame,
+  characterCard,
+  weaponCard,
+  placeCard
+) {}
 async function win(idGame) {}
 async function fail(idGame) {}
 
@@ -598,6 +604,124 @@ async function getLugar() {
     } else {
       return selectResult.rows[0].nombre;
     }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+//#region  CurrentWorking
+function internalDealCards(idGame, cards_available) {
+  // Shuffle cards
+  let cards = cards_available.slice(); // Copy the array to avoid modifying the original
+  cards.sort(() => Math.random() - 0.5); // Sort randomly
+
+  // Deal cards to each player
+  const cards_player = Array.from({ length: constants.NUM_PLAYERS }, () => []);
+
+  const iterations = constants.NUM_PLAYERS * constants.NUM_CARDS;
+  for (let i = 0; i < iterations; i++) {
+    const playerIndex = i % constants.NUM_PLAYERS;
+    cards_player[playerIndex].push(cards[i]);
+  }
+
+  // Insert cards into the database
+  for (const playerCards of cards_player) {
+    insertCards(idGame, playerCards);
+  }
+}
+
+// vector which has null at the index of the character that is available
+// otherwise it has the index of the user that has the character
+// ---------------------------------------------------------------------
+// [null, null, null, null, null, null] -> all characters are available
+// [null, user1, null, null, null, null] -> user1 has the character "missRedes"
+// [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA]
+async function currentCharacters(idGame) {
+  const selectQuery = constants.SELECT_FICHA_JUGADOR;
+  const selectValues = [idGame];
+
+  const client = await pool.connect();
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      const userNames = [];
+      userNames.length = constants.NUM_PLAYERS;
+      userNames.fill(null);
+
+      const character_idx = {
+        [constants.SOPER]: 0,
+        [constants.REDES]: 1,
+        [constants.PROG]: 2,
+        [constants.FISICA]: 3,
+        [constants.DISCRETO]: 4,
+        [constants.IA]: 5,
+      };
+
+      for (let i = 0; i < selectResult.rows.length; i++) {
+        userNames[character_idx[selectResult.rows[i].ficha]] =
+          selectResult.rows[i].userName;
+      }
+
+      return { userNameOfCharacters: userNames }; // return the updated availability array
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function insertCards(idGame, cards) {
+  const characters_with_usernames = await currentCharacters(idGame);
+  //usernames of all players in the game order by character name
+
+  const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y jugador
+  const client = await pool.connect();
+
+  try {
+    let errorEncountered  = false;
+    for (let i = 0; i < constants.NUM_PLAYERS && !errorEncountered; i++) { //iterator for each player
+      const username = characters_with_usernames.userNameOfCharacters[i]; // username of the player
+
+      for (let j = 0; j < constants.NUM_CARDS; j++) { // iterator for each card
+
+        const insertValues = [cards[i][j], username]; // card and username
+        await client.query(insertQuery, insertValues);
+
+        if (insertResult.rows.length == 0) { // error inserting
+          errorEncountered = true;
+          break;
+        }
+      }
+    }
+    if(errorEncountered){
+      for(let i = 0; i < constants.NUM_PLAYERS; i++){
+      const username = characters_with_usernames.userNameOfCharacters[i]; // username of the player
+        deleteCardsFromPlayer(username); //deleteCards
+      }
+      return { exito: false, msg: constants.ERROR_INSERTING };
+    }else{
+      return { exito: true, msg: constants.CORRECT_INSERT};
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function deleteCardsFromPlayer(jugador) {
+  const deleteQuery = constants.DELETE_ALL_CARDS_FROM_JUGADOR;
+  const deleteValues = [jugador];
+
+  const client = await pool.connect();
+  try {
+    await client.query(deleteQuery, deleteValues); 
   } catch (error) {
     throw error;
   } finally {

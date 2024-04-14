@@ -1,13 +1,13 @@
-const express = require("express");
-const constants = require("./constants.js");
-const controller = require("./controller.js");
+const express = require('express');
+const constants = require('./constants.js');
+const controller = require('./controller.js');
 
 const router = express.Router();
 router.use(express.json());
 
 // Testing
 
-router.get("/test", async (res) => {
+router.get('/test', async(res) => {
   res.json({ success: true, message: constants.TEST });
 });
 
@@ -20,7 +20,7 @@ router.get("/test", async (res) => {
 ╚██████╔╝██████╔╝███████╗██║░░██║██████╔╝
 ░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝╚═════╝░
 */
-router.post("/createAccount", async (req, res) => {
+router.post('/createAccount', async(req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -40,7 +40,7 @@ router.post("/createAccount", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async(req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   try {
@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/obtainXP", async (req, res) => {
+router.get('/obtainXP', async(req, res) => {
   const username = req.query.username;
 
   try {
@@ -73,7 +73,7 @@ router.get("/obtainXP", async (req, res) => {
 // Game creation
 // username = nombre del jugador
 // type = l->local, o->online
-router.post("/createGame", async (req, res) => {
+router.post('/createGame', async(req, res) => {
   const username = req.body.username;
   const type = req.body.type;
 
@@ -92,7 +92,7 @@ router.post("/createGame", async (req, res) => {
   }
 });
 
-router.put("/changePassword", async (req, res) => {
+router.put('/changePassword', async(req, res) => {
   const username = req.body.username;
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
@@ -115,7 +115,7 @@ router.put("/changePassword", async (req, res) => {
   }
 });
 
-router.get("/availableCharacters", async (req, res) => {
+router.get('/availableCharacters', async(req, res) => {
   // const idGame = req.body.idGame;
   const idGame = 1;
   try {
@@ -134,7 +134,7 @@ router.get("/availableCharacters", async (req, res) => {
   }
 });
 
-router.put("/characterSelected", async (req, res) => {
+router.put('/characterSelected', async(req, res) => {
   const username = req.body.username;
   const character = req.body.character;
 
@@ -163,7 +163,7 @@ router.put("/characterSelected", async (req, res) => {
   });
  */
 //post: if the consult was successful, it returns the players and characters of the game 
-router.put("/getNameAndCharacter", async (req, res) => {
+router.put('/getNameAndCharacter', async(req, res) => {
   const idGame = req.body.id_partida;
   try {
     const createSuccessfully = await controller.getPlayersCharacter(
@@ -172,7 +172,7 @@ router.put("/getNameAndCharacter", async (req, res) => {
     if (createSuccessfully.exito) {
       res.json({
         success: createSuccessfully.exito,
-        players: createSuccessfully.players?createSuccessfully.players:[],
+        players: createSuccessfully.players ? createSuccessfully.players : [],
       });
     } else {  
       res.status(404).json({ success: false, message: createSuccessfully.msg });
