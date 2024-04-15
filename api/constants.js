@@ -82,8 +82,8 @@ module.exports = {
     'aulas sur',
   ],
 
-  NUM_PLAYERS: 6,
-  NUM_CARDS: 3,
+  NUM_PLAYERS: CHARACTERS_NAMES.length,
+  NUM_CARDS: (CHARACTERS_NAMES.length + GUNS_NAMES.length + ROOMS_NAMES.length) - 3 / CHARACTERS_NAMES.length ,
   
   //Módulo.controller
   WRONG_PASSWD: 'La contraseña introducida es incorrecta.',
@@ -138,30 +138,51 @@ module.exports = {
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
   SELECT_CARTAS_JUGADOR: 
-   'SELECT' +
-   '  carta ' +
-   'FROM ' +
-   ' grace_hopper."cartas_jugador" caj ' +
-    'WHERE ' +
-   ' caj."jugador" = $1',
+    'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1',
   SELECT_CARTAS_DISTINT_SOLUTION:
-  'SELECT ' +
-  '  p.nombre AS nombre_personaje, ' +
-  '  a.nombre AS nombre_arma, ' +
-  '  l.nombre AS nombre_lugar, ' +
-  '  game.asesino, ' +
-  '  game.arma, ' +
-  '  game.lugar ' +
-  'FROM ' +
-  '   grace_hopper."partida" game ' +
-  'JOIN ' +
-  '  grace_hopper."personajes" p ON p.nombre != game.asesino ' +
-  'JOIN ' +
-  '  grace_hopper."arma" a ON a.nombre != game.arma ' +
-  'JOIN ' +
-  '  grace_hopper."lugar" l ON l.nombre != game.lugar' +
-  'WHERE ' +
-  ' game.id_partida = $1',
+    'SELECT ' +
+    '  p.nombre AS nombre_personaje, ' +
+    '  a.nombre AS nombre_arma, ' +
+    '  l.nombre AS nombre_lugar, ' +
+    '  game.asesino, ' +
+    '  game.arma, ' +
+    '  game.lugar ' +
+    'FROM ' +
+    '   grace_hopper."partida" game ' +
+    'JOIN ' +
+    '  grace_hopper."personajes" p ON p.nombre != game.asesino ' +
+    'JOIN ' +
+    '  grace_hopper."arma" a ON a.nombre != game.arma ' +
+    'JOIN ' +
+    '  grace_hopper."lugar" l ON l.nombre != game.lugar' +
+    'WHERE ' +
+    ' game.id_partida = $1',
+  SELECT_INFO_JUGADOR:
+    'SELECT ' +
+    '  player.ficha AS ficha, ' +
+    '  player.partida_actual AS partida, ' +
+    '  player.sospechas AS sospechas, ' +
+    '  player.posicion AS posicion, ' +
+    '  player.estado AS estado, ' +
+    '  user.n_jugadas AS n_jugadas, ' +
+    '  user.n_ganadas_local AS n_ganadas_local, ' +
+    '  user.n_ganadas_online AS n_ganadas_online, ' +
+    '  user."XP" AS XP ' +
+    'FROM ' +
+    '   grace_hopper."jugador" player ' +
+    'JOIN ' +
+    '  grace_hopper."usuario" user ON player."userName" = user."userName" ' +
+    'WHERE ' +
+    ' player."userName" = $1',
+  SELECT_SOLUTION:
+   'SELECT asesino, arma, lugar FROM grace_hopper."partida" WHERE id_partida = $1',
+  SELECT_INFO_GAME:
+    'SELECT estado, fecha_ini, tipo, turno FROM grace_hopper."partida" WHERE id_partida = $1',
+  SELECT_CARTA_JUGADOR:
+    'SELECT carta, jugador FROM grace_hopper."cartas_jugador" WHERE jugador = $1 AND carta = $2',
+  SELECT_TURN_PARTIDA:
+    'SELECT turno FROM grace_hopper."partida" WHERE id_partida = $1',
+
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
@@ -178,6 +199,8 @@ module.exports = {
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE "userName" = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 AND partida_actual = $3 WHERE partida_actual = $1',
+  UPDATE_TURNO_PARTIDA:
+    'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
 
   //-------delete------
   DELETE_GAME_CONVERSACION:

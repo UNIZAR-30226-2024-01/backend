@@ -100,6 +100,7 @@ function runSocketServer(io) {
       /////////////////////////////////////////////////////////////////////////
       // 👇 SOLO ES PARA PROBAR Y DESARROLLAR
       // DEBERÁ ELIMINARSE
+      //disconnect
       const index = available_room0.indexOf(socket.handshake.auth.username);
       const available = available_room0; //deberian recuperarse de la base de datos
       available[index] = '';
@@ -111,16 +112,16 @@ function runSocketServer(io) {
       });
       /////////////////////////////////////////////////////////////////////////
     });
-
+    
     socket.on('start-game', async() => {
       console.log('start game received');
-      game.runGame(io, socket.handshake.auth.group);
+      game.runGame(io, socket.handshake.auth.group, dealCards);
     });
 
     socket.on('request-game-info', () => {
       const available = available_room0; //deberian recuperarse de la base de datos
       console.log(constants.CHARACTERS_NAMES);
-      io.emit('game-info', {
+      io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
@@ -128,14 +129,13 @@ function runSocketServer(io) {
       });
     });
 
-    socket.on('character-selected', (character) => {
+    socket.on('character-selected', async (character) => {
       console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
-      const available = available_room0; //deberian recuperarse de la base de datos
+      const available = await controller.availabilityCharacters(); 
       available[index] = socket.handshake.auth.username;
-      available_room0 = available;
 
-      io.emit('game-info', {
+      io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
@@ -165,7 +165,6 @@ function runSocketServer(io) {
   });
 }
 
-let available_room0 = ['', '', '', '', '', ''];
 
 module.exports = {
   runSocketServer,

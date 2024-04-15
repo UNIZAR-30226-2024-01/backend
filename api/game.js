@@ -1,13 +1,13 @@
 const constants = require('./constants');
 const { botRun } = require('../bot/bot');
-const { src, playerInformation } = require('./controller.js');
+const controller = require('./controller.js');
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
 //posicion inicial asociada al personaje
 
 async function joinGame(username, idGame) {
   //update jugador
-  await src.joinGame(username, idGame);
+  await controller.joinGame(username, idGame);
 }
 /*
  posicion asociada a personaje
@@ -60,13 +60,22 @@ async function runGame(io, group) {
     io.to(s).emit('hola', 'user1');
   });
 
-  players = await src.getPlayersCharacter(group);
 
+  players = await controller.getPlayersCharacter(group);
+  let dealCards = await controller.dealCards(group);
+  let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
+  cardsOfPlayers.fill(null);
+
+  for(let i = 0; i < players.length; i++){
+    cardsOfPlayers[i] = dealCards[i];
+  }
+  
   // character of each player
   players.forEach((player) => {
     console.log(`Username: ${player.userName}`);
     console.log(`Character: ${player.character}`);
   });
+
 
   // io.on("character-selected", (character) => {
   //   console.log("character selected", character);
