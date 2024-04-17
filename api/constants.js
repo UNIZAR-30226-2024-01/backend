@@ -62,11 +62,11 @@ module.exports = {
   //Armas
   GUNS_NAMES: [
     'teclado',
-    'cable de red',
-    'café envenenado',
-    'router afilado',
+    'cable de red', //db: asfixiaCableRed
+    'café envenenado', //db: cafeEnvenenado
+    'router afilado', //db: routerAfilado
     'troyano',
-    'cd',
+    'cd', //db: lanzar cd
   ],
 
   //Habitaciones
@@ -81,6 +81,13 @@ module.exports = {
     'aulas norte',
     'aulas sur',
   ],
+
+  TYPES_CARD: [
+    'personaje',
+    'arma',
+    'lugar'
+  ],
+
 
   NUM_PLAYERS: CHARACTERS_NAMES.length,
   NUM_CARDS: (CHARACTERS_NAMES.length + GUNS_NAMES.length + ROOMS_NAMES.length) - 3 / CHARACTERS_NAMES.length ,
@@ -129,6 +136,8 @@ module.exports = {
     'SELECT partida, estado FROM grace_hopper."jugador" WHERE "userName" = $1',
   SELECT_ID_PARTIDA:
     'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1',
+  SELECT_NOMBRE_TYPE:
+    'SELECT nombre FROM grace_hopper."cartas" WHERE tipo=$2 ORDER BY RANDOM() LIMIT 1',
   SELECT_NOMBRE_ASESINO:
     'SELECT nombre FROM grace_hopper."personajes" ORDER BY RANDOM() LIMIT 1',
   SELECT_NOMBRE_ARMA:
@@ -175,13 +184,24 @@ module.exports = {
     'WHERE ' +
     ' player."userName" = $1',
   SELECT_SOLUTION:
-   'SELECT asesino, arma, lugar FROM grace_hopper."partida" WHERE id_partida = $1',
+   'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1'+
+   'AND asesino = $2 AND arma = $3 AND lugar = $4',
   SELECT_INFO_GAME:
     'SELECT estado, fecha_ini, tipo, turno FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_CARTA_JUGADOR:
     'SELECT carta, jugador FROM grace_hopper."cartas_jugador" WHERE jugador = $1 AND carta = $2',
   SELECT_TURN_PARTIDA:
     'SELECT turno FROM grace_hopper."partida" WHERE id_partida = $1',
+  SELECT_DETERMINADAS_CARTAS_JUGADOR:
+    'SELECT ' +
+    '  cartas.carta AS cartas, ' +
+    '  player."userName" AS user ' +
+    'FROM ' +
+    '   grace_hopper."jugador" player ' +
+    'JOIN ' +
+    '   grace_hopper."cartas_jugador" cartas ON cartas.carta= $3 OR cartas.carta= $4 OR cartas.carta= $5 ' +
+    'WHERE ' +
+    ' player.partida_actual = $2 AND player."ficha" = $1',
 
 
   //-------update-------;
@@ -201,6 +221,10 @@ module.exports = {
     'UPDATE grace_hopper."jugador" SET estado = $2 AND partida_actual = $3 WHERE partida_actual = $1',
   UPDATE_TURNO_PARTIDA:
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
+  UPDATE_SOSPECHAS_POSITION:
+    'UPDATE grace_hopper."jugador" SET sospechas = $2 AND SET posicion = $3 WHERE "userName" = $1',
+  UPDATE_SOSPECHAS:
+    'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE "userName" = $1',
 
   //-------delete------
   DELETE_GAME_CONVERSACION:
@@ -216,10 +240,12 @@ module.exports = {
   WRONG_IDGAME: 'La partida introducida no existe.',
   WRONG_MSG: 'El mensaje no se ha almacenado correctamente.',
   WRONG_LDR_MSG: 'No se han restaurado mensajes',
+  WRONG_ACUSE: 'La acusación no es correcta.',
   CORRECT_LOGIN: 'Se ha iniciado sesión correctamente.',
   CORRECT_CHANGE_PASSWD: 'La constraseña ha sido actualizada con exito.',
   CORRECT_MSG: 'El mensaje se ha almacenado correctamente.',
   CORRECT_DELETE: 'Partida eliminada correctamente.',
+  CORRECT_ACUSE: 'Acusación correcta.',
 
   //
   ERROR_UPDATING: 'Error al actualizar.',
