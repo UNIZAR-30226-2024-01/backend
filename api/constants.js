@@ -1,3 +1,39 @@
+const CHARACTERS_NAMES = [
+  'mr SOPER',
+  'miss REDES',
+  'mr PROG',
+  'miss FISICA',
+  'mr DISCRETO',
+  'miss IA',
+];
+
+const GUNS_NAMES = [
+  'teclado',
+  'cable de red', //db: asfixiaCableRed
+  'café envenenado', //db: cafeEnvenenado
+  'router afilado', //db: routerAfilado
+  'troyano',
+  'cd', //db: lanzar cd
+];
+
+const ROOMS_NAMES = [
+  'cafeteria',
+  'baños',
+  'recepcion',
+  'escaleras',
+  'biblioteca',
+  'laboratorio',
+  'despacho',
+  'aulas norte',
+  'aulas sur',
+];
+
+const TYPES_CARD = [
+  'personaje',
+  'arma',
+  'lugar'
+];
+
 module.exports = {
   //Módulo.index
   //
@@ -50,44 +86,16 @@ module.exports = {
   MAS: '+',
 
   //Personajes
-  CHARACTERS_NAMES: [
-    'mr SOPER',
-    'miss REDES',
-    'mr PROG',
-    'miss FISICA',
-    'mr DISCRETO',
-    'miss IA',
-  ],
+  CHARACTERS_NAMES,
 
   //Armas
-  GUNS_NAMES: [
-    'teclado',
-    'cable de red', //db: asfixiaCableRed
-    'café envenenado', //db: cafeEnvenenado
-    'router afilado', //db: routerAfilado
-    'troyano',
-    'cd', //db: lanzar cd
-  ],
+  GUNS_NAMES,
 
   //Habitaciones
-  ROOMS_NAMES: [
-    'cafeteria',
-    'baños',
-    'recepcion',
-    'escaleras',
-    'biblioteca',
-    'laboratorio',
-    'despacho',
-    'aulas norte',
-    'aulas sur',
-  ],
+  ROOMS_NAMES,
 
-  TYPES_CARD: [
-    'personaje',
-    'arma',
-    'lugar'
-  ],
-
+  //Tipos de cartas
+  TYPES_CARD,
 
   NUM_PLAYERS: CHARACTERS_NAMES.length,
   NUM_CARDS: (CHARACTERS_NAMES.length + GUNS_NAMES.length + ROOMS_NAMES.length) - 3 / CHARACTERS_NAMES.length ,
