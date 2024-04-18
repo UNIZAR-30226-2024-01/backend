@@ -1,3 +1,10 @@
+###############################################
+# Author: Grace Hopper
+#
+#
+#
+###############################################
+
 import sys
 import random
 import json
@@ -58,20 +65,11 @@ def bfs(casilla, dados, vecinos):
 
     return visited
 
-def turn():
-
-    casilla = int(sys.argv[2])
-    dados = int(sys.argv[3])
-    lvl = int(sys.argv[4])
+def turn(casillas_pjs, casilla, dados):
 
     if dados < 2 or dados > 12:
         print("Número de dados no válido: ", dados)
         sys.exit(1)
-
-    if lvl < 1 or lvl > 3:
-        print("Nivel de dificultad no válido: ", lvl)
-        sys.exit(1)
-    
 
     # Leer el JSON desde el archivo
     with open('../bot/infoHabitaciones.json', 'r') as file:
@@ -98,45 +96,11 @@ def turn():
         sys.exit(1)
 
     candidatos = bfs(casilla, dados, vecinos)
-    candidatos=sorted(candidatos)
+    candidatos = sorted(candidatos)
     print(candidatos)
 
-    # Comprobación de la hoja de sospechas
-    # Esta shit funciona con probabilidades (tengo que pensarlas)
-    # Hay que ver cuál es la mejor opción de casilla a la que ir
-    # Dependerá de la distancia a la sala y de si llega o no con la tirada actual
-
 def sospecha():
-    initSusp = 1
-    yo = sys.argv[initSusp]
-    lvl = sys.arg[initSusp + 1]
-    turn = sys.arg[initSusp + 2]
-    asker = sys.arg[initSusp + 3]
-    asked = sys.arg[initSusp + 4]
-    who = sys.arg[initSusp + 5]
-    where = sys.arg[initSusp + 6]
-    what = sys.arg[initSusp + 7]
-    hasSmg = sys.arg[initSusp + 8]
-    suspCard = sys.arg[initSusp + 9]
-    card = sys.arg[initSusp + 10]
-
-    # Pasar el string suspCard a una matriz
-    numPlayers = 6
-    numThings = 18
-    sospechas = [[random.choice([0,1,-1]) for _ in range(numPlayers)] for _ in range(numThings)]
-
-    if lvl == 1:
-        if turn == yo:
-            if hasSmg:
-                # printear sospechas
-                print(sospechas)
-            else:
-                pass
-                # suspCarf[][]
-    else:
-        pass
-
-
+    pass
     
 
 if __name__ == "__main__":
@@ -145,20 +109,21 @@ if __name__ == "__main__":
     
     # Comprobación de parámetros
     if len(sys.argv) != 5:
-        print("Uso: python bot.py <\"turn\"/\"susp\"> <casilla_inicial> <dados> <nivel>")
+        print("Uso: python bot.py <[casillas_pjs]> <casilla_inicial> <dados> <tarjeta>")
         sys.exit(1)
 
-    type = sys.argv[1]
-    if type != "turn" and type != "susp":
-        print("Tipo de turno no válido: ", type)
-        sys.exit(1)
-    elif type == "turn":
-        turn()
-    else:
-        # Por hacer aún
-        # No sé aún cómo se va a pasar la hoja de sospechas, si es json, parámetro o cómo
-        print("Sospecha")
-        sospecha()
+    # Inicialización de variables
+    casillas_pjs = sys.argv[1]    
+    yo = int(sys.argv[2])
+    casilla = casillas_pjs[yo]
+
+    # Eliminar la componente "yo" de la lista de casillas de los jugadores
+    casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
+
+    dados = int(sys.argv[3])
+    turn(casillas_pjs, casilla, dados)
+
+    sospecha()
 
     time_fin = time.time()
     print("Tiempo de ejecución: ", time_fin - time_ini)
