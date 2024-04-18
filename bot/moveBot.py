@@ -13,6 +13,12 @@ import time
 info_tablero = []
 info_habitaciones = []
 
+# Constantes para n_players y n_things
+n_players = 6
+n_places = 6
+n_weapons = 6
+n_people = 6
+
 # Comprobación de que ua casilla es válida
 def checkIndex(index):
 	if index < 0 or index >= len(info_tablero):
@@ -128,8 +134,10 @@ def turn(casillas_pjs, casilla, dados):
 	print(candidatos)
 	return candidatos
 
-def decidirMovimiento():
-	pass
+def decidirMovimiento(candidatos, tarjeta):
+	# Copia modificable de la lista de candidatos
+	choices = candidatos.copy()
+	# Elegir la habitación sobre la que menos información se tiene
 
 def sospecha():
 	pass
@@ -151,14 +159,19 @@ if __name__ == "__main__":
 	yo = int(sys.argv[2])
 	casilla = casillas_pjs[yo]
 	dados = int(sys.argv[3])
+	tarjeta = sys.argv[4]
+
+	# Rellenar la tarjeta como una matriz de n_jugadores x n_cartas
+	tarjeta = tarjeta.split(",")
+	tarjeta = [[50 for i in range(n_players)] for j in range(n_people+n_places+n_weapons)]
+	print(tarjeta)
 
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
 
 	candidatos = turn(casillas_pjs, casilla, dados)
 
-	# decidirMovimiento()
-	decidirMovimiento = random.choice(candidatos)
+	decidirMovimiento(candidatos, tarjeta)
 
 	sospecha()
 

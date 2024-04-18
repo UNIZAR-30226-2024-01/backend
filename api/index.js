@@ -30,7 +30,7 @@ console.log('Running in ' + process.env.NODE_ENV + ' mode');
 ZONA DE PRUEBAS DE BOT
 */////////////////////
 
-moveBot(); 
+// moveBot(); 
 
 //////////////////////
 
