@@ -9,7 +9,7 @@ async function createAccount(username, password) {
   const selectQuery = constants.SELECT_USER_USUARIO;
   const selectValues = [username];
 
-  const insertQuery_player = constants.INSERT_player;
+  const insertQuery_player = constants.INSERT_JUGADOR;
   const insertValues_player = [username, null, null, null, null, 0];
 
   const insertQuery_user = constants.INSERT_USUARIO;
@@ -27,7 +27,7 @@ async function createAccount(username, password) {
       //username doesnt exist yet
 
       //insert the userName like player and user
-      const insertResult_player = await client.query(
+      await client.query(
         insertQuery_player,
         insertValues_player
       );
@@ -190,7 +190,7 @@ async function availabilityCharacters(idGame) {
 //pre: character is available
 //post: character is assigned to the user
 async function selectCharacter(username, character) {
-  const updateQuery_player = constants.UPDATE_FICHA_player;
+  const updateQuery_player = constants.UPDATE_FICHA_JUGADOR;
   const updateValues_player = [username, character];
 
   const client = await pool.connect();
@@ -212,7 +212,7 @@ async function selectCharacter(username, character) {
 
 async function getPlayersCharacter(idGame) {
   //get player where partida=idGame
-  const selectQuery = constants.SELECT_FICHA_player;
+  const selectQuery = constants.SELECT_FICHA_JUGADOR;
   const selectValues = [idGame];
 
   const client = await pool.connect();
@@ -256,7 +256,7 @@ async function getPlayersCharacter(idGame) {
  */
 async function playerInformation(player) {
   // Query to fetch player information
-  const selectQuery = constants.SELECT_INFO_player;
+  const selectQuery = constants.SELECT_INFO_JUGADOR;
   const selectValues = [player];
 
   // Connect to the database client
@@ -316,7 +316,7 @@ async function getPlayerXP(username) {
 } // informacion como xp
 
 async function getCards(player) {
-  const selectQuery = constants.SELECT_CARTAS_player;
+  const selectQuery = constants.SELECT_CARTAS_JUGADOR;
   const selectValues = [player];
 
   const client = await pool.connect();
@@ -376,7 +376,7 @@ async function gameExists(username) {
   // si no esta jugando ninguna partida --> false
 
   // check if user exits and has an active game
-  const selectQuery = constants.SELECT_PARTIDAandSTATE_player;
+  const selectQuery = constants.SELECT_PARTIDAandSTATE_JUGADOR;
   const selectValues = [username];
 
   const client = await pool.connect();
@@ -459,7 +459,7 @@ async function createGame(username, type) {
 }
 
 async function joinGame(username, idGame) {
-  const updateQuery_player = constants.UPDATE_PARTIDAandSTATE_player;
+  const updateQuery_player = constants.UPDATE_PARTIDAandSTATE_JUGADOR;
   const updateValues_player = [idGame, username, constants.PLAY];
 
   const updateResult = await client.query(
@@ -477,7 +477,7 @@ async function joinGame(username, idGame) {
 }
 
 async function leftGame(username) {
-  const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_player;
+  const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_player = [null, username, constants.STOP, null];
 
   const client = await pool.connect();
@@ -522,7 +522,7 @@ async function finishGame(idGame) {
 
     if (updatePartidaResult.rows.length == 0) {
       const updateStateandPartidaQuery =
-        constants.UPDATE_STATEandPARTIDA_P_player;
+        constants.UPDATE_STATEandPARTIDA_P_JUGADOR;
       const updateStateandPartidaValues = [idGame, constants.STOP, 0];
 
       const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
@@ -594,7 +594,7 @@ async function gameInformation(idGame) {
 
 //check if the player has the card
 async function playerHasCard(player, card) {
-  const selectQuery = constants.SELECT_CARTA_player;
+  const selectQuery = constants.SELECT_CARTA_JUGADOR;
   const selectValues = [player, card];
 
   const client = await pool.connect();
@@ -912,7 +912,7 @@ async function insertCards(idGame, cards) {
   const characters_with_usernames = await currentCharacters(idGame);
   //usernames of all players in the game order by character name
 
-  const insertQuery = constants.INSERT_CARTAS_player; //insert relation cartas y player
+  const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const client = await pool.connect();
 
   try {
@@ -952,7 +952,7 @@ async function insertCards(idGame, cards) {
 }
 
 async function deleteCardsFromPlayer(player) {
-  const deleteQuery = constants.DELETE_ALL_CARDS_FROM_player;
+  const deleteQuery = constants.DELETE_ALL_CARDS_FROM_JUGADOR;
   const deleteValues = [player];
 
   const client = await pool.connect();

@@ -165,7 +165,7 @@ function runSocketServer(io) {
   });
 }
 
-
+let available_room0 = ['', '', '', '', '', ''];
 module.exports = {
   runSocketServer,
 };
