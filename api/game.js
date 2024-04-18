@@ -1,5 +1,5 @@
 const constants = require('./constants');
-const { botRun } = require('../bot/bot');
+const { moveBot, updateCard } = require('../bot/bot');
 const controller = require('./controller.js');
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
@@ -82,7 +82,7 @@ async function runGame(io, group) {
   // });
 
   // ⬇ queda comentado porque no funciona en produccion
-  // botRun(objeto)
+  // moveBot(objeto)
 }
 
 module.exports = {

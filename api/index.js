@@ -9,6 +9,8 @@ require('dotenv').config();
 const constants = require('./constants.js');
 const socketio = require('./socket.js');
 
+const { moveBot, updateCard } = require('../bot/bot.js');
+
 //connection to database
 // pool.connect();
 
@@ -23,6 +25,14 @@ if (process.env.NODE_ENV === 'production') {
 
 console.log('Listening in : [ ' + ips2listen + ' ]');
 console.log('Running in ' + process.env.NODE_ENV + ' mode');
+
+/*////////////////////
+ZONA DE PRUEBAS DE BOT
+*/////////////////////
+
+moveBot(); 
+
+//////////////////////
 
 const app = express();
 app.use(cors());
