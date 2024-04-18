@@ -112,10 +112,10 @@ function runSocketServer(io) {
       });
       /////////////////////////////////////////////////////////////////////////
     });
-    
+
     socket.on('start-game', async() => {
       console.log('start game received');
-      game.runGame(io, socket.handshake.auth.group, dealCards);
+      game.runGame(io, socket.handshake.auth.group);
     });
 
     socket.on('request-game-info', () => {

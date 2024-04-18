@@ -52,9 +52,21 @@ async function runGame(io, group) {
     io: io,
   };
 
-  // get all sockets in game
-  const sockets = io.sockets.adapter.rooms.get(group);
-  console.log(sockets);
+  lista = [];
+
+
+  // get all sockets in game and traduce them into a list
+  const socketsSet = io.sockets.adapter.rooms.get(group);
+  // console.log(socketsSet.values().next().value);
+
+  let relaciones_socket_username = []
+  socketsSet.forEach((s) => {
+    relaciones_socket_username.push({socket: s, username: io.sockets.sockets.get(s).handshake.auth.username});
+    // console.log(io.sockets.sockets.get(s));
+  });
+
+  // console.log(io.sockets.sockets.get(sockets[0]).handshake.auth.username);
+  console.log(relaciones_socket_username);
 
   sockets.forEach((s) => {
     io.to(s).emit('hola', 'user1');
