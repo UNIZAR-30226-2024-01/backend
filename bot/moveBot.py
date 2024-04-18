@@ -14,10 +14,34 @@ info_tablero = []
 info_habitaciones = []
 
 # Constantes para n_players y n_things
-n_players = 6
-n_places = 6
-n_weapons = 6
-n_people = 6
+N_PLAYERS = 6
+N_PLACES = 9
+N_WEAPONS = 6
+N_PEOPLE = 6
+PLACES = ['aulas norte',
+  'recepcion',
+  'laboratorio',
+  'escaleras',
+  'biblioteca',
+  'baños',
+  'despacho',
+  'cafeteria',
+  'aulas sur']
+PEOPLE = ['mr SOPER',
+  'miss REDES',
+  'mr PROG',
+  'miss FISICA',
+  'mr DISCRETO',
+  'miss IA']
+WEAPONS = ['teclado',
+  'cable de red',
+  'café envenenado',
+  'router afilado',
+  'troyano',
+  'cd']
+
+# Constantes para el tablero
+N_COLS = 24
 
 # Comprobación de que ua casilla es válida
 def checkIndex(index):
@@ -91,16 +115,11 @@ def bfs(casilla, dados, vecinos):
 
 	return visited
 
-def turn(casillas_pjs, casilla, dados):
+def turn(casillas_pjs, casilla, dados, vecinos):
 
 	if dados < 2 or dados > 12:
 		print("Número de dados no válido: ", dados)
 		sys.exit(1)
-
-	# Leer el JSON desde el archivo
-	with open('../bot/infoHabitaciones.json', 'r') as file:
-		global info_habitaciones
-		info_habitaciones = json.load(file)
 
 	with open('../bot/infoTablero.json', 'r') as file:
 		global info_tablero
@@ -113,9 +132,6 @@ def turn(casillas_pjs, casilla, dados):
 	# Sintaxis del tablero: { isRoom: bool,  roomName: 'int', isStartingCell: bool, isWalkable: bool, isDoor: 'num_hab', idx:int }
 	# Sintaxis de las habitaciones: { roomName: 'int', roomNumber: int, style: {} }
 		
-	n_cols = 24
-	vecinos = [n_cols, 1, -n_cols, -1]
-
 	# Comprobación de la casilla inicial
 	if not checkIndex(casilla):
 		print("Casilla inicial no válida: ", casilla)
@@ -134,14 +150,73 @@ def turn(casillas_pjs, casilla, dados):
 	print(candidatos)
 	return candidatos
 
-def decidirMovimiento(candidatos, tarjeta):
-	# Copia modificable de la lista de candidatos
-	choices = candidatos.copy()
-	# Elegir la habitación sobre la que menos información se tiene
+def bfs_habitacion(candidatos, room, vecinos):
 
-def sospecha():
-	pass
+	room = str(room)
+	# Inicializar la lista de explorados
+	visitados = []
+	frontera = [c['idx'] for c in info_tablero if c['roomName'] == room and c['isDoor'] != False]
 	
+	while frontera:
+		casilla_actual = frontera.pop(0)
+		
+		# Verificar si la casilla actual es una candidata
+		if casilla_actual in candidatos:
+			return casilla_actual  # Se encontró una casilla candidata
+		
+		# Marcar la casilla actual como visitada
+		visitados.append(casilla_actual)
+		
+		# Explorar los vecinos de la casilla actual
+		for vecino in checkNeighbours(casilla_actual, vecinos):
+			if vecino not in visitados:
+				frontera.append(vecino)
+	
+	return None  # No se encontraron casillas candidatas
+
+def getLeastInfo(tarjeta):
+	# Calcular la cantidad de información de cada carta
+	info = [0 for i in range(len(tarjeta))]
+	for i in range(len(tarjeta)):
+		for j in range(N_PLAYERS):
+			info[i] += abs(tarjeta[i][j]-50)
+	
+	# Devolver el índice de la carta con menos información
+	return info.index(min(info))
+
+def decidirMovimiento(candidatos, tarjeta, vecinos):
+	min_prob = getLeastInfo(tarjeta)
+
+	# Leer el JSON desde el archivo
+	with open('../bot/infoHabitaciones.json', 'r') as file:
+		global info_habitaciones
+		info_habitaciones = json.load(file)
+	
+	# Quitar ada byron
+	info_habitaciones = info_habitaciones[:4] + info_habitaciones[5:]
+
+	# Transformar el indice en las puertas de la habitación
+	room = info_habitaciones[min_prob]['roomNumber']
+
+	print("place: ", info_habitaciones[min_prob]['roomName'])
+	return bfs_habitacion(candidatos, room, vecinos)
+
+
+def sospecha(casilla, tarjeta):
+	if info_tablero[casilla]['roomName'] == '':
+		print("No se puede hacer una sospecha en una casilla que no es una habitación")
+	else:
+		# Seleccionar una carta de cada tipo (la de menor información)
+		place = getLeastInfo(tarjeta[:N_PLACES])
+
+		# Desde N_PLACES hasta N_PLACES+N_PEOPLE están los personajes
+		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE])
+
+		# Desde N_PLACES+N_PEOPLE hasta N_PLACES+N_PEOPLE+N_WEAPONS están las armas
+		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS])
+
+		# Imprimir la sospecha
+		print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}")
 
 if __name__ == "__main__":
 
@@ -163,17 +238,32 @@ if __name__ == "__main__":
 
 	# Rellenar la tarjeta como una matriz de n_jugadores x n_cartas
 	tarjeta = tarjeta.split(",")
-	tarjeta = [[50 for i in range(n_players)] for j in range(n_people+n_places+n_weapons)]
-	print(tarjeta)
+	tarjeta = [[random.randint(0,100) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
 
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
 
-	candidatos = turn(casillas_pjs, casilla, dados)
+	vecinos = [N_COLS, 1, -N_COLS, -1]
 
-	decidirMovimiento(candidatos, tarjeta)
+	candidatos = turn(casillas_pjs, casilla, dados, vecinos)
 
-	sospecha()
+	# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
+	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos)
+	print("Movimiento: ", election)
+
+	# Printear la tarjeta en orden
+	print("Tarjeta:")
+	print("Lugares:")
+	for i in range(N_PLACES):
+		print(f"{i}: {tarjeta[i]}")
+	print("Personas:")
+	for i in range(N_PLACES, N_PLACES+N_PEOPLE):
+		print(f"{i}: {tarjeta[i]}")
+	print("Armas:")
+	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
+		print(f"{i}: {tarjeta[i]}")
+
+	sospecha(election, tarjeta)
 
 	time_fin = time.time()
 	print("Tiempo de ejecucion: ", time_fin - time_ini)

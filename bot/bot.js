@@ -4,10 +4,10 @@ async function moveBot() {
   console.log('Bot is running');
   // console.log(obj);
 
-  const args2 = [[40, 199, 230, 103, 559, 430], 5, 7, "tarjeta"];
+  const args2 = [[40, 199, 230, 103, 559, 371], 5, 7, "tarjeta"];
     
   // Ejecutar el script de Python
-  const pythonProcess = spawn('python', ['../bot/moveBot.py', ...args2]);
+  const pythonProcess = spawn('python3', ['../bot/moveBot.py', ...args2]);
     
   pythonProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
