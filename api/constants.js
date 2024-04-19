@@ -43,12 +43,14 @@ module.exports = {
 
   PRODUCTION_IPS: [
     'http://51.20.246.74',
-    'http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com',
+    'http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com', 
   ],
   DEVELOPMENT_IPS: [
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
+    'https://pmjlrx6t-5173.uks1.devtunnels.ms'
+    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
   ],
   //
 
