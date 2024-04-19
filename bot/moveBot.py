@@ -184,7 +184,7 @@ def getLeastInfo(tarjeta):
 	# Devolver el índice de la carta con menos información
 	return info.index(min(info))
 
-def decidirMovimiento(candidatos, tarjeta, vecinos):
+def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs):
 	min_prob = getLeastInfo(tarjeta)
 
 	# Leer el JSON desde el archivo
@@ -199,6 +199,11 @@ def decidirMovimiento(candidatos, tarjeta, vecinos):
 	room = info_habitaciones[min_prob]['roomNumber']
 
 	print("place: ", info_habitaciones[min_prob]['roomName'])
+
+	# Volver a validar las casillas de los jugadores
+	for i in range(len(casillas_pjs)):
+		info_tablero[casillas_pjs[i]]['isWalkable'] = True
+
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
@@ -238,7 +243,9 @@ if __name__ == "__main__":
 
 	# Rellenar la tarjeta como una matriz de n_jugadores x n_cartas
 	tarjeta = tarjeta.split(",")
-	tarjeta = [[random.randint(0,100) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
+	tarjeta = [[int(tarjeta[i+j]) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
+	# tarjeta = [[tarjeta[i+j] for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
+	# tarjeta = [[random.randint(0,100) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
 
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
@@ -248,7 +255,7 @@ if __name__ == "__main__":
 	candidatos = turn(casillas_pjs, casilla, dados, vecinos)
 
 	# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
-	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos)
+	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs)
 	print("Movimiento: ", election)
 
 	# Printear la tarjeta en orden

@@ -1,10 +1,27 @@
 const { spawn } = require('child_process');
+const constants = require('../api/constants.js');
+const N_PLAYERS = 6;
 
-async function moveBot() {
+async function createBot() {
+  console.log('Creating bot...');
+
+  // Crear un string de (N_PLACES+N_ROOMS+N_THINGS)*N_PLAYERS
+  const tarjeta = [];
+  for (let i = 0; i < constants.CHARACTERS_NAMES.length + constants.GUNS_NAMES.length + constants.ROOMS_NAMES.length; i++) {
+    for (let j = 0; j < N_PLAYERS; j++) {
+      tarjeta.push(50);
+    }
+  }
+
+  const strTarjeta = tarjeta.join(',');
+  return strTarjeta;
+}
+
+async function moveBot(tarjeta) {
   console.log('Bot is running');
   // console.log(obj);
 
-  const args2 = [[40, 199, 230, 103, 559, 371], 5, 7, "tarjeta"];
+  const args2 = [[40, 370, 394, 372, 396, 371], 5, 7, tarjeta];
     
   // Ejecutar el script de Python
   const pythonProcess = spawn('python3', ['../bot/moveBot.py', ...args2]);
@@ -30,6 +47,7 @@ async function updateCard(){
 }
 
 module.exports = {
+  createBot,
   moveBot,
   updateCard
 };

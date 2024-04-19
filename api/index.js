@@ -9,7 +9,7 @@ require('dotenv').config();
 const constants = require('./constants.js');
 const socketio = require('./socket.js');
 
-const { moveBot, updateCard } = require('../bot/bot.js');
+const { moveBot, updateCard, createBot } = require('../bot/bot.js');
 
 //connection to database
 // pool.connect();
@@ -30,7 +30,9 @@ console.log('Running in ' + process.env.NODE_ENV + ' mode');
 ZONA DE PRUEBAS DE BOT
 */////////////////////
 
-// moveBot(); 
+// let tarjeta = createBot();
+// console.log(tarjeta);
+// moveBot(tarjeta); 
 
 //////////////////////
 
