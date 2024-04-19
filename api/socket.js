@@ -113,11 +113,7 @@ function runSocketServer(io) {
       /////////////////////////////////////////////////////////////////////////
     });
 
-    socket.on('start-game', async() => {
-      console.log('start game received');
-      game.runGame(io, socket.handshake.auth.group);
-    });
-
+    // INFO DE JUEGO
     socket.on('request-game-info', () => {
       const available = available_room0; //deberian recuperarse de la base de datos
       console.log(constants.CHARACTERS_NAMES);
@@ -143,6 +139,7 @@ function runSocketServer(io) {
       });
     });
 
+    // CHAT
     socket.on(constants.CHAT_MESSAGE, async(msg) => {
       const emisor = socket.handshake.auth.username;
       const currentTimestamp = obtenerFechaActual();
@@ -160,6 +157,21 @@ function runSocketServer(io) {
       const isQ = constants.STOP;
       await storeMsg(currentTimestamp, group, isQ, msg, emisor);
     });
+
+
+    // LÓGICA DE PARTIDA
+    socket.on('start-game', async() => {
+      console.log('start game received');
+      game.runGame(io, socket.handshake.auth.group);
+    });
+
+    socket.on('hola', (msg) => {
+      console.log('hola received!!');
+      console.log('Soy ' + msg);
+    });
+
+    // gestionar cambio de turno
+    
 
     ldrMsg(socket);
   });
