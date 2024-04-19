@@ -90,7 +90,7 @@ const addSocketToGroup = (socket) => {
 function runSocketServer(io) {
   io.on(constants.CONNECT, (socket) => {
     // console.log(socket)
-    console.log(constants.USER_CONNECTED);
+    console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
 
     addSocketToGroup(socket);
 
@@ -116,7 +116,7 @@ function runSocketServer(io) {
     // INFO DE JUEGO
     socket.on('request-game-info', () => {
       const available = available_room0; //deberian recuperarse de la base de datos
-      console.log(constants.CHARACTERS_NAMES);
+      // console.log(constants.CHARACTERS_NAMES);
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
@@ -128,7 +128,8 @@ function runSocketServer(io) {
     socket.on('character-selected', async (character) => {
       console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
-      const available = await controller.availabilityCharacters(); 
+      const available = await controller.availabilityCharacters();
+      console.log("available"+available);
       available[index] = socket.handshake.auth.username;
 
       io.to(socket.handshake.auth.group).emit('game-info', {
