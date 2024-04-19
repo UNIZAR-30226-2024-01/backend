@@ -6,7 +6,6 @@
 ###############################################
 
 import sys
-import random
 import json
 import time
 
@@ -239,13 +238,13 @@ if __name__ == "__main__":
 	yo = int(sys.argv[2])
 	casilla = casillas_pjs[yo]
 	dados = int(sys.argv[3])
-	tarjeta = sys.argv[4]
+	str_tarjeta = sys.argv[4]
 
 	# Rellenar la tarjeta como una matriz de n_jugadores x n_cartas
-	tarjeta = tarjeta.split(",")
-	tarjeta = [[int(tarjeta[i+j]) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
-	# tarjeta = [[tarjeta[i+j] for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
-	# tarjeta = [[random.randint(0,100) for i in range(N_PLAYERS)] for j in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
+	str_tarjeta = str_tarjeta.split(",")
+
+	# Convertir la lista de tarjetas a una matriz de enteros
+	tarjeta = [[int(str_tarjeta[i*N_PLAYERS+j]) for j in range(N_PLAYERS)] for i in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
 
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
