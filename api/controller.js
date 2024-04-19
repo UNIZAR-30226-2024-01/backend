@@ -178,7 +178,7 @@ async function availabilityCharacters(idGame) {
   availability.fill('');
 
   for (let i = 0; i < constants.NUM_PLAYERS; i++) {
-    availability[i] = availability_usernames.userNameOfCharacters[i] == null ? '' : availability_usernames.userNameOfCharacters[i];
+    availability[i] = availability_usernames[i] == null ? '' : availability_usernames[i];
   }
 
   return {
@@ -871,7 +871,7 @@ async function internalDealCards(idGame, cards_available) {
 // [null, user1, null, null, null, null] -> user1 has the character "missRedes"
 // [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA]
 async function currentCharacters(idGame) {
-  const selectQuery = constants.SELECT_FICHA_player;
+  const selectQuery = constants.SELECT_FICHA_JUGADOR;
   const selectValues = [idGame];
 
   const client = await pool.connect();
@@ -899,7 +899,7 @@ async function currentCharacters(idGame) {
           selectResult.rows[i].userName;
       }
 
-      return { userNameOfCharacters: userNames }; // return the updated availability array
+      return { userNames }; // return the updated availability array
     }
   } catch (error) {
     throw error;
