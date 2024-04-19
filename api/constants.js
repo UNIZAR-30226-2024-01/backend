@@ -177,7 +177,7 @@ module.exports = {
   'FROM ' +
   '  grace_hopper."cartas" cartas ' +
   'JOIN ' +
-  '  grace_hopper."partida" game ON cartas.nombre != game.asesino and cartas.nombre != game.arma and cartas.nombre != game.lugar and game.id_partida = 0',
+  '  grace_hopper."partida" game ON cartas.nombre != game.asesino and cartas.nombre != game.arma and cartas.nombre != game.lugar and game.id_partida = $1',
   SELECT_INFO_JUGADOR:
     'SELECT ' +
     '  player.ficha AS ficha, ' +

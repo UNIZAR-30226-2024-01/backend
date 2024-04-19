@@ -86,24 +86,24 @@ async function runGame(io, group) {
   
 
   // // Reparto de cartas a cada personaje
-  // players = await controller.getPlayersCharacter(group);
-  // let dealCards = await controller.dealCards(group);
-  // let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
-  // cardsOfPlayers.fill(null);
+  players = await controller.getPlayersCharacter(group);
+  let dealCards = await controller.dealCards(group);
+  let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
+  cardsOfPlayers.fill(null);
 
-  // // personaje de cada jugador
+  // personaje de cada jugador
   // players.forEach((player) => {
   //   console.log(`Username: ${player.userName}`);
   //   console.log(`Character: ${player.character}`); 
   // });
 
-  // for (let i = 0; i < players.length; i++){
-  //   cardsOfPlayers[i] = dealCards[i];
-  //   /*
-  //   La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
-  //   que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
-  //   */
-  // }
+  for (let i = 0; i < players.length; i++){
+    cardsOfPlayers[i] = dealCards[i];
+    /*
+    La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
+    que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
+    */
+  }
 
   // // Mandar a cada jugador sus cartas
   // players.forEach((player, character) => {
