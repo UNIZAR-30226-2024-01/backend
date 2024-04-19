@@ -129,7 +129,7 @@ module.exports = {
   INSERT_PARTIDA:
     'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, fecha_fin, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_partida',
   INSERT_CARTAS_JUGADOR:
-    'INSERT INTO grace_hopper."cartas_jugador" ("nombre", "jugador") VALUES ($1, $2) RETURNING "jugador"',
+    'INSERT INTO grace_hopper."cartas_jugador" ("jugador", "carta") VALUES ($1, $2) RETURNING "jugador"',
 
   //-------select-------
   SELECT_USER_USUARIO:
@@ -154,6 +154,8 @@ module.exports = {
     'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
   SELECT_FICHA_JUGADOR:
     'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
+  SELECT_USERNAME_JUGADOR:
+    'SELECT "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
   SELECT_CARTAS_JUGADOR: 
     'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1',
   SELECT_CARTAS_DISTINT_SOLUTION:
@@ -220,17 +222,17 @@ module.exports = {
   UPDATE_FICHA_JUGADOR:
     'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE "userName" = $1',
   UPDATE_PARTIDAandSTATE_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida_actual = $1 AND estado = $3 WHERE "userName" = $2',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE "userName" = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
     'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE "userName" = $2',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE "userName" = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET estado = $2 AND partida_actual = $3 WHERE partida_actual = $1',
+    'UPDATE grace_hopper."jugador" SET estado = $2, partida_actual = $3 WHERE partida_actual = $1',
   UPDATE_TURNO_PARTIDA:
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
   UPDATE_SOSPECHAS_POSITION:
-    'UPDATE grace_hopper."jugador" SET sospechas = $2 AND SET posicion = $3 WHERE "userName" = $1',
+    'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE "userName" = $1',
   UPDATE_SOSPECHAS:
     'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE "userName" = $1',
 
@@ -254,6 +256,8 @@ module.exports = {
   CORRECT_MSG: 'El mensaje se ha almacenado correctamente.',
   CORRECT_DELETE: 'Partida eliminada correctamente.',
   CORRECT_ACUSE: 'Acusación correcta.',
+  CORRECT_UPDATE: 'Actualización correcta.',
+  CORRECT_INSERT: 'Insercción correcta.',
 
   //
   ERROR_UPDATING: 'Error al actualizar.',
