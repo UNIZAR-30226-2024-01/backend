@@ -172,23 +172,12 @@ module.exports = {
   SELECT_CARTAS_JUGADOR: 
     'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1',
   SELECT_CARTAS_DISTINT_SOLUTION:
-    'SELECT ' +
-    '  p.nombre AS nombre_personaje, ' +
-    '  a.nombre AS nombre_arma, ' +
-    '  l.nombre AS nombre_lugar, ' +
-    '  game.asesino, ' +
-    '  game.arma, ' +
-    '  game.lugar ' +
-    'FROM ' +
-    '   grace_hopper."partida" game ' +
-    'JOIN ' +
-    '  grace_hopper."personajes" p ON p.nombre != game.asesino ' +
-    'JOIN ' +
-    '  grace_hopper."arma" a ON a.nombre != game.arma ' +
-    'JOIN ' +
-    '  grace_hopper."lugar" l ON l.nombre != game.lugar' +
-    'WHERE ' +
-    ' game.id_partida = $1',
+  'SELECT ' +
+  '  cartas.nombre AS cards ' +
+  'FROM ' +
+  '  grace_hopper."cartas" cartas ' +
+  'JOIN ' +
+  '  grace_hopper."partida" game ON cartas.nombre != game.asesino and cartas.nombre != game.arma and cartas.nombre != game.lugar and game.id_partida = 0',
   SELECT_INFO_JUGADOR:
     'SELECT ' +
     '  player.ficha AS ficha, ' +
