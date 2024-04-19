@@ -1,10 +1,16 @@
+const SOPER = 'mr SOPER';
+const REDES = 'miss REDES';
+const PROG = 'mr PROG';
+const FISICA = 'miss FISICA';
+const DISCRETO = 'mr DISCRETO';
+const IA = 'miss IA';
 const CHARACTERS_NAMES = [
-  'mr SOPER',
-  'miss REDES',
-  'mr PROG',
-  'miss FISICA',
-  'mr DISCRETO',
-  'miss IA',
+  SOPER,
+  REDES,
+  PROG,
+  FISICA,
+  DISCRETO,
+  IA,
 ];
 
 const GUNS_NAMES = [
@@ -43,13 +49,12 @@ module.exports = {
 
   PRODUCTION_IPS: [
     'http://51.20.246.74',
-    'http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com', 
+    'http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com',
   ],
   DEVELOPMENT_IPS: [
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
-    'https://pmjlrx6t-5173.uks1.devtunnels.ms'
     'https://pmjlrx6t-5173.uks1.devtunnels.ms',
   ],
   //
@@ -89,6 +94,12 @@ module.exports = {
 
   //Personajes
   CHARACTERS_NAMES,
+  SOPER,
+  REDES,
+  PROG,
+  FISICA,
+  DISCRETO,
+  IA,
 
   //Armas
   GUNS_NAMES,
@@ -220,11 +231,11 @@ module.exports = {
   UPDATE_STATE_PARTIDA:
     'UPDATE grace_hopper."partida" SET estado = $2 WHERE id_partida = $1',
   UPDATE_FICHA_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE "userName" = $1 RETURNING *',
   UPDATE_PARTIDAandSTATE_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida_actual = $1 AND estado = $3 WHERE "userName" = $2',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE "userName" = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE "userName" = $2',
+   'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE "userName" = $2 RETURNING *',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE "userName" = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:

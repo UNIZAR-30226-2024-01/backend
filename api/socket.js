@@ -93,50 +93,63 @@ function runSocketServer(io) {
     console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
 
     addSocketToGroup(socket);
-
-    socket.on(constants.DISCONNECT, () => {
+    // añadir usuario a la partida en la DB (partida_actual)
+    // console.log( typeof socket.handshake.auth.group);
+    controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
+    
+    
+    socket.on(constants.DISCONNECT, async() => {
       console.log(constants.USER_DISCONNECTED);
 
       /////////////////////////////////////////////////////////////////////////
       // 👇 SOLO ES PARA PROBAR Y DESARROLLAR
       // DEBERÁ ELIMINARSE
       //disconnect
-      const index = available_room0.indexOf(socket.handshake.auth.username);
-      const available = available_room0; //deberian recuperarse de la base de datos
-      available[index] = '';
-      available_room0 = available;
-      
+      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
+      const index = areAvailable.indexOf(socket.handshake.auth.username);
+      areAvailable[index] = '';
+
+      controller.leaveGame(socket.handshake.auth.username);
+
       io.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
-        available: available,
+        available: areAvailable,
       });
       /////////////////////////////////////////////////////////////////////////
     });
 
     // INFO DE JUEGO
-    socket.on('request-game-info', () => {
-      const available = available_room0; //deberian recuperarse de la base de datos
+    socket.on('request-game-info', async() => {
+      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
       // console.log(constants.CHARACTERS_NAMES);
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
-        available: available,
+        available: areAvailable,
       });
     });
 
     socket.on('character-selected', async (character) => {
       console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
-      const available = await controller.availabilityCharacters();
-      console.log("available"+available);
-      available[index] = socket.handshake.auth.username;
+      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
+      areAvailable[index] = socket.handshake.auth.username;
+      console.log("available "+ areAvailable);
+
+      // avisar al backend que yo (username) he elegido el personaje character
+      // haciendo update sobre el campo availability de la base de datos
+      console.log("username " + socket.handshake.auth.username);
+      console.log("character " + character);
+      await controller.selectCharacter(socket.handshake.auth.username, character);
+      // const d = await controller.availabilityCharacters(socket.handshake.auth.group);
+      // console.log("available "+ d.areAvailable);
 
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
-        available: available,
+        available: areAvailable,
       });
     });
 
@@ -178,7 +191,6 @@ function runSocketServer(io) {
   });
 }
 
-let available_room0 = ['', '', '', '', '', ''];
 module.exports = {
   runSocketServer,
 };

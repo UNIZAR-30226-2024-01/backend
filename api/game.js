@@ -38,7 +38,13 @@ async function gameWSMessagesListener(relaciones_socket_username) {
     const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
     
     s.socket.on('hola-respuesta', received);  
+
   });
+
+  // gestionar movimiento de ficha en tablero
+
+  // gestionar cambio de turno
+
 }
 
 // function that controls the game's state machine

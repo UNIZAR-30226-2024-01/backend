@@ -173,6 +173,7 @@ async function restoreMsg(currentTimestamp, group) {
 // ---------------------------------------------------------------------
 async function availabilityCharacters(idGame) {
   const availability_usernames = await currentCharacters(idGame);
+  // console.log(availability_usernames);
   const availability = [];
   availability.length = constants.NUM_PLAYERS;
   availability.fill('');
@@ -199,6 +200,8 @@ async function selectCharacter(username, character) {
       updateQuery_player,
       updateValues_player
     );
+
+    console.log("updateResult.rows.length "+updateResult.rows.length);
 
     if (updateResult.rows.length == 0)
       return { exito: false, msg: constants.ERROR_UPDATING };
@@ -460,7 +463,13 @@ async function createGame(username, type) {
 
 async function joinGame(username, idGame) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATE_JUGADOR;
-  const updateValues_player = [idGame, username, constants.PLAY];
+  const updateValues_player = [parseInt(idGame), username, constants.PLAY];
+
+  // console.log(typeof idGame);
+  // transformar idGame a int
+  // const idGameInt = parseInt(idGame);
+
+  const client = await pool.connect();
 
   const updateResult = await client.query(
     updateQuery_player,
@@ -469,14 +478,13 @@ async function joinGame(username, idGame) {
 
   //update_error
   if (updateResult.rows.length == 0)
-    return { exito: exito, msg: constants.ERROR_UPDATING };
-  else {
-    exito = true;
-    return { exito: exito, id_partida: idGame };
+    return { exito: false, msg: constants.ERROR_UPDATING };
+  else { 
+    return { exito: true, id_partida: idGame };
   }
 }
 
-async function leftGame(username) {
+async function leaveGame(username) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_player = [null, username, constants.STOP, null];
 
@@ -883,7 +891,7 @@ async function currentCharacters(idGame) {
     } else {
       const userNames = [];
       userNames.length = constants.NUM_PLAYERS;
-      userNames.fill(null);
+      userNames.fill('');
 
       const character_idx = {
         [constants.SOPER]: 0,
@@ -895,11 +903,14 @@ async function currentCharacters(idGame) {
       };
 
       for (let i = 0; i < selectResult.rows.length; i++) {
+        console.log(selectResult.rows[i].userName + "= "+ character_idx[selectResult.rows[i].ficha]);
         userNames[character_idx[selectResult.rows[i].ficha]] =
           selectResult.rows[i].userName;
       }
 
-      return { userNames }; // return the updated availability array
+      // console.log("userNames which returned "+userNames);
+
+      return  userNames; // return the updated availability array
     }
   } catch (error) {
     throw error;
@@ -1001,7 +1012,7 @@ module.exports = {
   //*****************************************JUEGO******************************************** */
   createGame,
   joinGame,
-  leftGame,
+  leaveGame,
   gameInformation,
   dealCards,
   availabilityCharacters,
