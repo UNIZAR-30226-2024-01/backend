@@ -357,7 +357,11 @@ async function dealCards(idGame) {
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
-      const resultCards = await internalDealCards(idGame, selectResult.rows);
+      let cardsNotSolution = [];
+      for (let i = 0; i < selectResult.rows.length; i++) {
+        cardsNotSolution[i] = selectResult.rows[i];
+      }
+      const resultCards = await internalDealCards(idGame, cardsNotSolution);
       return { exito: true  , cards: resultCards.cards};
     }
   } catch (error) {
@@ -827,7 +831,7 @@ async function getArma() {
 }
 
 async function getLugar() {
-  const determinar_asesino = constants.constants.SELECT_NOMBRE_LUGAR;
+  const determinar_asesino = constants.SELECT_NOMBRE_LUGAR;
 
   const client = await pool.connect();
   try {
@@ -858,18 +862,12 @@ async function internalDealCards(idGame, cards_available) {
   for (let i = 0; i < iterations; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
     cards_player[playerIndex].push(cards[i]);
+    insertCards(idGame, constants.CHARACTERS_NAMES[i], cards[i]);
   }
 
-  let result;
-  // Insert cards into the database
-  for (const playerCards of cards_player && result.exito) {
-    result = await insertCards(idGame, playerCards);
-  }
-  if(result.exito){
-    return { exito: true, msg: constants.CORRECT_INSERT , cards: cards_player};
-  }else{
-    return { exito: false, msg: constants.ERROR_INSERTING };
-  }
+  return { exito: true, msg: constants.CORRECT_INSERT , cards: cards_player};
+
+    //return { exito: false, msg: constants.ERROR_INSERTING };
 }
 
 // vector which has null at the index of the character that is available
@@ -919,7 +917,35 @@ async function currentCharacters(idGame) {
   }
 }
 
-async function insertCards(idGame, cards) {
+
+async function insertCards(idGame, character,  card) {
+  //devuelve username a partir de character e idGame
+  const selectQuery = constants.SELECT_USERNAME_JUGADOR;
+  const selectValues = [idGame, character];
+
+  const client = await pool.connect();
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.ERROR_INSERTING };
+    } else {
+      let username = selectResult.rows[0].userName;
+
+      const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
+      const insertValues = [username, card];
+      const selectResult = await client.query(insertQuery, insertValues);
+
+      return { exito: true, msg: constants.CORRECT_INSERT };
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+/*async function insertCards(idGame, character,  cards) {
   const characters_with_usernames = await currentCharacters(idGame);
   //usernames of all players in the game order by character name
 
@@ -930,7 +956,6 @@ async function insertCards(idGame, cards) {
     let errorEncountered = false;
     for (let i = 0; i < constants.NUM_PLAYERS && !errorEncountered; i++) {
       //iterator for each player
-      const username = characters_with_usernames.userNameOfCharacters[i]; // username of the player
 
       for (let j = 0; j < constants.NUM_CARDS; j++) {
         // iterator for each card
@@ -960,7 +985,7 @@ async function insertCards(idGame, cards) {
   } finally {
     client.release();
   }
-}
+}*/
 
 async function deleteCardsFromPlayer(player) {
   const deleteQuery = constants.DELETE_ALL_CARDS_FROM_JUGADOR;

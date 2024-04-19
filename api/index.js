@@ -30,9 +30,10 @@ console.log('Running in ' + process.env.NODE_ENV + ' mode');
 ZONA DE PRUEBAS DE BOT
 */////////////////////
 
-// let tarjeta = createBot();
-// console.log(tarjeta);
+// const tarjeta = createBot();
+// console.log(tarjeta); 
 // moveBot(tarjeta); 
+// updateCard(tarjeta);
 
 //////////////////////
 
