@@ -89,7 +89,6 @@ async function runGame(io, group) {
   // players = await controller.getPlayersCharacter(group);
   // let dealCards = await controller.dealCards(group);
   // let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
-  // cardsOfPlayers.fill(null);
 
   // // personaje de cada jugador
   // players.forEach((player) => {
