@@ -33,6 +33,14 @@ async function joinGame(username, idGame) {
             break;
     }*/
 
+async function gameWSMessagesListener(relaciones_socket_username) {
+  relaciones_socket_username.forEach((s) => {
+    const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
+    
+    s.socket.on('hola-respuesta', received);  
+  });
+}
+
 // function that controls the game's state machine
 async function runGame(io, group) {
   // let username;
@@ -54,58 +62,61 @@ async function runGame(io, group) {
   // Asociar a cada socket, el nombre de usuario del jugador correspondiente
   let relaciones_socket_username = []
   socketsSet.forEach((s) => {
-    relaciones_socket_username.push({socket: s, username: io.sockets.sockets.get(s).handshake.auth.username});
+    relaciones_socket_username.push({socket_id: s, socket:io.sockets.sockets.get(s), username: io.sockets.sockets.get(s).handshake.auth.username});
     // console.log(io.sockets.sockets.get(s));
   });
 
   // console.log(io.sockets.sockets.get(sockets[0]).handshake.auth.username);
-  console.log(relaciones_socket_username);
+  // console.log(relaciones_socket_username);
+  gameWSMessagesListener(relaciones_socket_username);
 
 
   relaciones_socket_username.forEach((s) => {
     // console.log(s.socket);
     // console.log(s.username);
-    io.to(s.socket).emit('hola', s.username);
+    io.to(s.socket_id).emit('hola', s.username);
   });
 
-  // Reparto de cartas a cada personaje
-  players = await controller.getPlayersCharacter(group);
-  let dealCards = await controller.dealCards(group);
-  let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
-  cardsOfPlayers.fill(null);
+  
 
-  // personaje de cada jugador
-  players.forEach((player) => {
-    console.log(`Username: ${player.userName}`);
-    console.log(`Character: ${player.character}`);
-  });
+  // // Reparto de cartas a cada personaje
+  // players = await controller.getPlayersCharacter(group);
+  // let dealCards = await controller.dealCards(group);
+  // let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
+  // cardsOfPlayers.fill(null);
 
-  for (let i = 0; i < players.length; i++){
-    cardsOfPlayers[i] = dealCards[i];
-    /*
-    La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
-    que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
-    */
-  }
+  // // personaje de cada jugador
+  // players.forEach((player) => {
+  //   console.log(`Username: ${player.userName}`);
+  //   console.log(`Character: ${player.character}`); 
+  // });
 
-  // Mandar a cada jugador sus cartas
-  players.forEach((player, character) => {
-    const index = 0;
-    switch(character){
-      case constants.SOPER: index = 0; break;
-      case constants.REDES: index = 1; break;
-      case constants.PROG: index = 2; break;
-      case constants.FISICA: index = 3; break;
-      case constants.DISCRETO: index = 4; break;
-      case constants.IA: index = 5; break;
-    }
+  // for (let i = 0; i < players.length; i++){
+  //   cardsOfPlayers[i] = dealCards[i];
+  //   /*
+  //   La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
+  //   que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
+  //   */
+  // }
 
-    // conseguir el socket del jugador 
-    const socket = relaciones_socket_username.find((relacion) => relacion.username === player.userName).socket;
+  // // Mandar a cada jugador sus cartas
+  // players.forEach((player, character) => {
+  //   const index = 0;
+  //   switch(character){
+  //     case constants.SOPER: index = 0; break;
+  //     case constants.REDES: index = 1; break;
+  //     case constants.PROG: index = 2; break;
+  //     case constants.FISICA: index = 3; break;
+  //     case constants.DISCRETO: index = 4; break;
+  //     case constants.IA: index = 5; break;
+  //   }
 
-    // mandar a cada jugador sus cartas correspondientes
-    io.to(socket).emit('cards', cardsOfPlayers[index]);
-  });
+  //   // conseguir el socket del jugador 
+  //   const socket = relaciones_socket_username.find((relacion) => relacion.username === player.userName).socket;
+
+  //   // mandar a cada jugador sus cartas correspondientes
+  //   io.to(socket).emit('cards', cardsOfPlayers[index]);
+  // });
 
   // Avisar al primer jugador del grupo que es su turno
 
