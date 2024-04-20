@@ -85,24 +85,44 @@ async function runGame(io, group) {
 
   
 
-  players = await controller.getPlayersCharacter(group);
-  let dealCards = await controller.dealCards(group);
-  let cardsOfPlayers = [constants.NUM_PLAYERS][constants.NUM_CARDS];
-  cardsOfPlayers.fill(null);
+  const {players} = await controller.getPlayersCharacter(group);
+  console.log(`Username: ${players[0].userName}`);
+  let dealCards = await controller.dealCards(players,group);
+  let cardsOfPlayers = [];
+  // para acceder al dealCards.cards[0] se accede a las cartas del primer jugador
+  //console.log(dealCards.cards[0]);
 
   // personaje de cada jugador
   // players.forEach((player) => {
   //   console.log(`Username: ${player.userName}`);
   //   console.log(`Character: ${player.character}`); 
   // });
+  //console.log(players.length);
+  // for (let i = 0; i <constants.NUM_PLAYERS; i++){
+  //   cardsOfPlayers[i] = dealCards.cards[i];
+  //   console.log(cardsOfPlayers[i]);
+  //   /*
+  //   La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
+  //   que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
+  //   */
+  //   //   const socket = relaciones_socket_username.find((relacion) => relacion.username === player.userName);
+  //   const socket = relaciones_socket_username.find((relacion) => relacion.username === players.players[i].userName);
+  //   console.log(socket);
+  //   // io.to(socket).emit('cards', cardsOfPlayers[i]);
+  //   // console.log(`Username: ${players.players[i].userName}` + `Cards: ${cardsOfPlayers[i]}`);
+  // }
+  relaciones_socket_username.forEach((s) => {
+    // console.log(s.socket);
+    // console.log(s.username);
+    
+    const idx = players.findIndex((player) => player.userName === s.username);
+    console.log(idx);
+    console.log(dealCards.cards[idx]);
 
-  for (let i = 0; i < players.length; i++){
-    cardsOfPlayers[i] = dealCards[i];
-    /*
-    La componente i-éstima de cardsOfPlayers se corresponde con el personaje i-ésimo de players,
-    que sigue el orden definido: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
-    */
-  }
+    io.to(s.socket_id).emit("cards", dealCards.cards[idx]);
+  });
+
+
 
   // // Mandar a cada jugador sus cartas
   // players.forEach((player, character) => {
@@ -111,7 +131,7 @@ async function runGame(io, group) {
   //     case constants.SOPER: index = 0; break;
   //     case constants.REDES: index = 1; break;
   //     case constants.PROG: index = 2; break;
-  //     case constants.FISICA: index = 3; break;
+  //     case constants.FISICA: index = 3; break; 
   //     case constants.DISCRETO: index = 4; break;
   //     case constants.IA: index = 5; break;
   //   }

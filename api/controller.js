@@ -172,20 +172,28 @@ async function restoreMsg(currentTimestamp, group) {
 // [mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA] -> order of characters
 // ---------------------------------------------------------------------
 async function availabilityCharacters(idGame) {
-  const availability_usernames = await currentCharacters(idGame);
-  // console.log(availability_usernames);
-  const availability = [];
-  availability.length = constants.NUM_PLAYERS;
-  availability.fill('');
-
-  for (let i = 0; i < constants.NUM_PLAYERS; i++) {
-    availability[i] = availability_usernames[i] == null ? '' : availability_usernames[i];
+  
+  const client = await pool.connect();
+  try {
+    const availability_usernames = await currentCharacters(idGame);
+    // console.log(availability_usernames);
+    const availability = [];
+    availability.length = constants.NUM_PLAYERS;
+    availability.fill('');
+    
+    for (let i = 0; i < constants.NUM_PLAYERS; i++) {
+      availability[i] = availability_usernames[i] == null ? '' : availability_usernames[i];
+    }
+  
+    return {
+      areAvailable: availability,
+      characterAvaliable: constants.CHARACTERS_NAMES,
+    }; // return the updated availability array
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
   }
-
-  return {
-    areAvailable: availability,
-    characterAvaliable: constants.CHARACTERS_NAMES,
-  }; // return the updated availability array
 }
 
 //pre: character is available
@@ -345,7 +353,10 @@ async function getCards(player) {
 
 //reparte las cartas entre los playeres,
 //podría pasarle todos los idplayeres que estan en la partida
-async function dealCards(idGame) {
+// POST: devuelve las cartas en un vector en funcion de como han entrado en players
+// si players = [user1, user2, user3] deveulve = [[c1,c2,c3],[c4,c5,c6],[c7,c8,c9]]
+// siendo c1,c2,c3 las cartas de user1
+async function dealCards(players,idGame) {
   //consulta que devuelve en una vector de vectores las cartas de cada player
   const selectQuery = constants.SELECT_CARTAS_DISTINT_SOLUTION;
   const selectValues = [idGame];
@@ -358,10 +369,15 @@ async function dealCards(idGame) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
       let cardsNotSolution = [];
+      let playersUsername = [];
       for (let i = 0; i < selectResult.rows.length; i++) {
-        cardsNotSolution[i] = selectResult.rows[i];
+        cardsNotSolution[i] = selectResult.rows[i].cards;
+        if(i < players.length){
+          playersUsername[i] = players[i].userName;
+        }
       }
-      const resultCards = await internalDealCards(idGame, cardsNotSolution);
+      const resultCards = await internalDealCards(playersUsername, cardsNotSolution);
+     // console.log("resultCards "+resultCards.cards[0]);
       return { exito: true  , cards: resultCards.cards};
     }
   } catch (error) {
@@ -850,7 +866,7 @@ async function getLugar() {
   }
 }
 
-async function internalDealCards(idGame, cards_available) {
+async function internalDealCards(players, cards_available) {
   // Shuffle cards
   const cards = cards_available.slice(); // Copy the array to avoid modifying the original
   cards.sort(() => Math.random() - 0.5); // Sort randomly
@@ -858,11 +874,18 @@ async function internalDealCards(idGame, cards_available) {
   // Deal cards to each player
   const cards_player = Array.from({ length: constants.NUM_PLAYERS }, () => []);
 
-  const iterations = constants.NUM_PLAYERS * constants.NUM_CARDS;
-  for (let i = 0; i < iterations; i++) {
+  // Delete all cards from all players
+  for (let i = 0; i < players.length; i++) {
+    const playerIndex = i % constants.NUM_PLAYERS;
+    await deleteCardsFromPlayer(players[playerIndex]);
+  }
+
+  for (let i = 0; i < cards.length; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
     cards_player[playerIndex].push(cards[i]);
-    insertCards(idGame, constants.CHARACTERS_NAMES[i], cards[i]);
+    //console.log("playerIndex "+players[playerIndex]+" cards[i] "+cards[i]);
+    //console.log("playerIndex "+cards_player[playerIndex]);
+    await insertCards(players[playerIndex], cards[i]);
   }
 
   return { exito: true, msg: constants.CORRECT_INSERT , cards: cards_player};
@@ -905,9 +928,7 @@ async function currentCharacters(idGame) {
         userNames[character_idx[selectResult.rows[i].ficha]] =
           selectResult.rows[i].userName;
       }
-
       // console.log("userNames which returned "+userNames);
-
       return  userNames; // return the updated availability array
     }
   } catch (error) {
@@ -918,24 +939,17 @@ async function currentCharacters(idGame) {
 }
 
 
-async function insertCards(idGame, character,  card) {
-  //devuelve username a partir de character e idGame
-  const selectQuery = constants.SELECT_USERNAME_JUGADOR;
-  const selectValues = [idGame, character];
-
+async function insertCards(username,  card) {
+  const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
+  const insertValues = [username, card];
   const client = await pool.connect();
   try {
-    const selectResult = await client.query(selectQuery, selectValues);
-
-    if (selectResult.rows.length == 0) {
+    const insertResult = await client.query(insertQuery, insertValues);
+    
+    if (insertResult.rows.length == 0) {
       return { exito: false, msg: constants.ERROR_INSERTING };
     } else {
-      let username = selectResult.rows[0].userName;
-
-      const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
-      const insertValues = [username, card];
-      const selectResult = await client.query(insertQuery, insertValues);
-
+      //console.log("insertValues "+insertValues);
       return { exito: true, msg: constants.CORRECT_INSERT };
     }
   } catch (error) {

@@ -55,9 +55,7 @@ module.exports = {
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
-    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
   ],
-  //
 
   CONNECT: 'connection',
   DISCONNECT: 'disconnect',
