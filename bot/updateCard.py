@@ -58,9 +58,9 @@ def getCard():
 def level1():
 	me = int(sys.argv[1])
 	asker = int(sys.argv[3])
+	tarjeta = getCard()
 
 	if me == asker:
-		tarjeta = getCard()
 		holder = int(sys.argv[4])
 		idx = (asker + 1) % N_PLAYERS
 		where = PLACES.index(sys.argv[5])
@@ -92,14 +92,8 @@ def level1():
 			for i in range(N_PLAYERS):
 				if i != holder:
 					tarjeta[line][i] = MIN_PROB
-			return tarjeta
-		else:
-			# Nadie tenía ninguna de las cartas (No debería pasar)
-			return tarjeta
 
-	else:
-		print("No es mi turno")
-		return None 
+	return tarjeta
 
 
 def level2():
@@ -140,7 +134,49 @@ def level2():
 	
 
 def level3():
-	pass
+	me = int(sys.argv[1])
+	asker = int(sys.argv[3])
+	holder = int(sys.argv[4])
+	where = PLACES.index(sys.argv[5])
+	who = PEOPLE.index(sys.argv[6])
+	what = WEAPONS.index(sys.argv[7])
+
+	tarjeta = getCard()
+	if me == asker:
+		hasSmg = int(sys.argv[8])
+
+		if hasSmg == 0:
+			tarjeta[where][holder] = MAX_PROB
+			line = where
+		elif hasSmg == 1:
+			tarjeta[who+N_PLACES][holder] = MAX_PROB
+			line = who+N_PLACES
+		elif hasSmg == 2:
+			tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
+			line = what+N_PLACES+N_PEOPLE
+
+		for i in range(N_PLAYERS):
+			if i != holder:
+				tarjeta[line][i] = MIN_PROB
+	else:
+		# Yo no pregunto
+		tarjeta[where][holder] = min(tarjeta[where][holder] + 10, MAX_PROB)
+		tarjeta[who+N_PLACES][holder] = min(tarjeta[who+N_PLACES][holder] + 10, MAX_PROB)
+		tarjeta[what+N_PLACES+N_PEOPLE][holder] = min(tarjeta[what+N_PLACES+N_PEOPLE][holder] + 10, MAX_PROB)
+
+		tarjeta[where][asker] = max(tarjeta[where][asker] - 10, MIN_PROB)
+		tarjeta[who+N_PLACES][asker] = max(tarjeta[who+N_PLACES][asker] - 10, MIN_PROB)
+		tarjeta[what+N_PLACES+N_PEOPLE][asker] = max(tarjeta[what+N_PLACES+N_PEOPLE][asker] - 10, MIN_PROB)
+
+	idx = (asker + 1) % N_PLAYERS
+	while idx != holder:
+		# Este player no tiene la tarjeta que se pregunta
+		tarjeta[where][idx] = MIN_PROB
+		tarjeta[who+N_PLACES][idx] = MIN_PROB
+		tarjeta[what+N_PLACES+N_PEOPLE][idx] = MIN_PROB
+		idx = (idx + 1) % N_PLAYERS
+
+	return tarjeta
 
 def printCard(tarjeta):
 	print("Tarjeta:")
