@@ -44,7 +44,7 @@ ZONA DE PRUEBAS DE BOT
 //   .then((res) => { 
 //     return moveBot(res);
 //   })
-//   .then(() => {
+//   .then(() => { 
 //     // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
 //     console.log('Todas las funciones han terminado.');
 //   })

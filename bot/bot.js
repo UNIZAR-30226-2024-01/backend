@@ -68,7 +68,7 @@ async function moveBot(tarjeta) {
   console.log('Bot is running...');
   console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
-  const args2 = [[40, 370, 394, 372, 396, 371], 5, 7, tarjeta];
+  const args2 = [[40, 370, 394, 223, 183, 127], 5, 9, tarjeta];
     
   // Ejecutar el script de Python
   const data = await move(args2);
@@ -113,9 +113,9 @@ async function updateCard(tarjeta){
   const args_ac6 = [3, 3, 0, 3, 'despacho', 'miss FISICA', 'cd', 0, tarjeta];
   const args_ac7 = [3, 3, 5, 2, 'cafeteria', 'miss IA', 'router afilado', 0, tarjeta];
   const args_ac8 = [3, 3, 4, 3, 'aulas norte', 'miss REDES', 'cable de red', 0, tarjeta];
-  const args_final_bib = [3, 3, 1, 5, 'biblioteca', 'miss FISICA', 'troyano', 1, tarjeta];
-  // const args_final_sur = [3, 3, 0, 4, 'aulas sur', 'miss FISICA', 'router afilado', 2, tarjeta];
-  const args = [args_ac0, args_ac1, args_ac2, args_ac3, args_ac4, args_ac5, args_ac6, args_ac7, args_ac8, args_final_bib];
+  // const args_final_bib = [3, 3, 1, 5, 'biblioteca', 'miss FISICA', 'troyano', 1, tarjeta];
+  const args_final_sur = [3, 3, 0, 4, 'aulas sur', 'miss FISICA', 'router afilado', 2, tarjeta];
+  const args = [args_ac0, args_ac1, args_ac2, args_ac3, args_ac4, args_ac5, args_ac6, args_ac7, args_ac8, args_final_sur];
 
   // const pythonProcess = spawn('python3', ['../bot/updateCard.py', ...args_lvl3]);
 

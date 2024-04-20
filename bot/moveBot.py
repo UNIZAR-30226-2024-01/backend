@@ -124,6 +124,14 @@ def turn(casillas_pjs, casilla, dados, vecinos):
 	with open('../bot/infoTablero.json', 'r') as file:
 		global info_tablero
 		info_tablero = json.load(file)
+	
+	# Leer el JSON desde el archivo
+	with open('../bot/infoHabitaciones.json', 'r') as file:
+		global info_habitaciones
+		info_habitaciones = json.load(file)
+		# Quitar ada byron
+		info_habitaciones = info_habitaciones[:4] + info_habitaciones[5:]
+
 
 	if casilla < 0 or casilla >= len(info_tablero):
 		print("Casilla inicial no válida: ", casilla)
@@ -191,14 +199,6 @@ def getLeastInfo(tarjeta, me):
 
 def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 	min_prob = getLeastInfo(tarjeta, me)
-
-	# Leer el JSON desde el archivo
-	with open('../bot/infoHabitaciones.json', 'r') as file:
-		global info_habitaciones
-		info_habitaciones = json.load(file)
-	
-	# Quitar ada byron
-	info_habitaciones = info_habitaciones[:4] + info_habitaciones[5:]
 
 	# Transformar el indice en las puertas de la habitación
 	room = info_habitaciones[min_prob]['roomNumber']
@@ -299,6 +299,7 @@ if __name__ == "__main__":
 	candidatos = turn(casillas_pjs, casilla, dados, vecinos)
 
 	acusar, idx_place, idx_who, idx_weapon = acusacion(tarjeta)
+	
 	if not acusar:
 		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
 		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
@@ -319,7 +320,14 @@ if __name__ == "__main__":
 		sospecha(election, tarjeta, yo)
 	else:
 		print("Acusación")
-		print(f"{PLACES[idx_place]}, {PEOPLE[idx_who-N_PLACES]}, {WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
+		print("Movimiento: ", decision)
+		if info_tablero[decision]['roomName'] == '':
+			print("No se puede hacer una acusación en una casilla que no es una habitación")
+		else:
+			print(f"{PLACES[idx_place]}, {PEOPLE[idx_who-N_PLACES]}, {WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+			
+
 
 
 	time_fin = time.time()
