@@ -3,6 +3,9 @@
 const pool = require("./connectionManager");
 const constants = require("./constants.js");
 
+const verbose_pool_connect = false;
+const verbose_client_release = false;
+
 //**************************************LOGIN************************************************* */
 //return exito and username
 async function createAccount(username, password) {
@@ -16,6 +19,8 @@ async function createAccount(username, password) {
   const insertValues_user = [username, password, 0, 0, 0, 0];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
   try {
     //check if "userName" already exits
     const selectResult = await client.query(selectQuery, selectValues);
@@ -42,6 +47,8 @@ async function createAccount(username, password) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
   }
 }
 
@@ -51,6 +58,8 @@ async function login(username, password) {
   const selectValues = [username];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 2");
   try {
     //check if passwd of username is correct
     const selectResult = await client.query(selectQuery, selectValues);
@@ -67,6 +76,8 @@ async function login(username, password) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release2")
   }
 }
 
@@ -79,6 +90,8 @@ async function changePassword(username, oldPassword, newPassword) {
   const updateValues_passwd = [username, newPassword];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect3");
   try {
     //check if username exits
     const selectResult = await client.query(selectQuery, selectValues);
@@ -102,6 +115,8 @@ async function changePassword(username, oldPassword, newPassword) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release3")
   }
 }
 
@@ -114,6 +129,8 @@ async function saveMsg(currentTimestamp, group, isQ, msg, emisor) {
   const insertValues = [currentTimestamp, isQ, group, msg, emisor];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect4");
   try {
     // Realizar la consulta SELECT para verificar si la dirección ya existe
     const insertResult = await client.query(insertQuery, insertValues);
@@ -129,6 +146,8 @@ async function saveMsg(currentTimestamp, group, isQ, msg, emisor) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release4")
   }
 }
 
@@ -138,6 +157,8 @@ async function restoreMsg(currentTimestamp, group) {
   const selectValues = [currentTimestamp, group];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect5");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -156,6 +177,8 @@ async function restoreMsg(currentTimestamp, group) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release5")
   }
 }
 
@@ -174,6 +197,8 @@ async function restoreMsg(currentTimestamp, group) {
 async function availabilityCharacters(idGame) {
   
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect6");
   try {
     const availability_usernames = await currentCharacters(idGame);
     // console.log(availability_usernames);
@@ -193,6 +218,8 @@ async function availabilityCharacters(idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release6")
   }
 }
 
@@ -203,6 +230,8 @@ async function selectCharacter(username, character) {
   const updateValues_player = [username, character];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect7");
   try {
     const updateResult = await client.query(
       updateQuery_player,
@@ -218,6 +247,8 @@ async function selectCharacter(username, character) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release7")
   }
 }
 
@@ -227,6 +258,8 @@ async function getPlayersCharacter(idGame) {
   const selectValues = [idGame];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect8");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -245,6 +278,8 @@ async function getPlayersCharacter(idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release8")
   }
 }
 
@@ -272,7 +307,9 @@ async function playerInformation(player) {
 
   // Connect to the database client
   const client = await pool.connect();
-
+  if (verbose_pool_connect)
+    console.log("pool connect9");
+  
   try {
     // Execute the query to fetch player information
     const selectResult = await client.query(selectQuery, selectValues);
@@ -302,6 +339,8 @@ async function playerInformation(player) {
   } finally {
     // Release the database client after usage
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release9")
   }
 }
 
@@ -311,6 +350,8 @@ async function getPlayerXP(username) {
   const selectValues = [username];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect10");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -323,6 +364,8 @@ async function getPlayerXP(username) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release10")
   }
 } // informacion como xp
 
@@ -331,6 +374,8 @@ async function getCards(player) {
   const selectValues = [player];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect11");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -348,6 +393,8 @@ async function getCards(player) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release11")
   }
 }
 
@@ -362,6 +409,8 @@ async function dealCards(players,idGame) {
   const selectValues = [idGame];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect12");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -377,6 +426,7 @@ async function dealCards(players,idGame) {
         }
       }
       const resultCards = await internalDealCards(playersUsername, cardsNotSolution);
+      
      // console.log("resultCards "+resultCards.cards[0]);
       return { exito: true  , cards: resultCards.cards};
     }
@@ -384,6 +434,8 @@ async function dealCards(players,idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release12")
   }
 }
 
@@ -403,6 +455,8 @@ async function gameExists(username) {
   const selectValues = [username];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect13");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -420,6 +474,8 @@ async function gameExists(username) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release13")
   }
 }
 
@@ -432,6 +488,8 @@ async function createGame(username, type) {
     const selectValues = [enteroSeisDigitos];
 
     const client = await pool.connect();
+    if (verbose_pool_connect)
+      console.log("pool connect14");
     try {
       //check if this id already exists
       const selectResult = await client.query(selectQuery, selectValues);
@@ -477,6 +535,8 @@ async function createGame(username, type) {
       throw error;
     } finally {
       client.release();
+      if (verbose_client_release)
+        console.log("cliente.release14")
     }
   } while (!exito);
 }
@@ -490,17 +550,26 @@ async function joinGame(username, idGame) {
   // const idGameInt = parseInt(idGame);
 
   const client = await pool.connect();
-
-  const updateResult = await client.query(
-    updateQuery_player,
-    updateValues_player
-  );
-
-  //update_error
-  if (updateResult.rows.length == 0)
-    return { exito: false, msg: constants.ERROR_UPDATING };
-  else { 
-    return { exito: true, id_partida: idGame };
+  if (verbose_pool_connect)
+    console.log("pool connect15");
+  try {
+    const updateResult = await client.query(
+      updateQuery_player,
+      updateValues_player
+    );
+  
+    //update_error
+    if (updateResult.rows.length == 0)
+      return { exito: false, msg: constants.ERROR_UPDATING };
+    else { 
+      return { exito: true, id_partida: idGame };
+    }
+  } catch (error) {
+      throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release15")
   }
 }
 
@@ -509,19 +578,26 @@ async function leaveGame(username) {
   const updateValues_player = [null, username, constants.STOP, null];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect16");
   try {
     const updateResult = await client.query(
       updateQuery_player,
       updateValues_player
     );
 
-    if (updateResult.rows.length == 0)
+    if (updateResult.rows.length == 0) {
       return { exito: false, msg: constants.ERROR_UPDATING };
-    else return { exito: true, msg: constants.CORRECT_UPDATE };
+    }
+    else {
+      return { exito: true, msg: constants.CORRECT_UPDATE };
+    }
   } catch (error) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release16")
   }
 }
 
@@ -542,6 +618,8 @@ async function finishGame(idGame) {
   const deleteChatsValues = [idGame];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect17");
   try {
     const updatePartidaResult = await client.query(
       deleteChatsaQuery,
@@ -570,6 +648,8 @@ async function finishGame(idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release17")
   }
 }
 
@@ -592,7 +672,9 @@ async function gameInformation(idGame) {
 
   // Connect to the database client
   const client = await pool.connect();
-
+  if (verbose_pool_connect)
+    console.log("pool connect18");
+  
   try {
     // Execute the query to fetch player information
     const selectResult = await client.query(selectQuery, selectValues);
@@ -617,6 +699,8 @@ async function gameInformation(idGame) {
   } finally {
     // Release the database client after usage
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release18")
   }
 }
 
@@ -626,6 +710,8 @@ async function playerHasCard(player, card) {
   const selectValues = [player, card];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect19");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -638,6 +724,8 @@ async function playerHasCard(player, card) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release19")
   }
 } 
 
@@ -648,6 +736,8 @@ async function changeTurn(idGame) {
   const selectValues = [idGame];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect20");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -670,6 +760,8 @@ async function changeTurn(idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release20")
   }
     
 }
@@ -687,6 +779,8 @@ async function udpate_players_info(idPlayer, sospechas, position){
   }
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect21");
   try {
     const updateResult = await client.query(updateQuery, updateValues);
 
@@ -699,6 +793,8 @@ async function udpate_players_info(idPlayer, sospechas, position){
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release21")
   }
 }
 
@@ -715,6 +811,8 @@ async function turno_asks_for(idGame, characterQuestioner,  characterCard, weapo
   };
   
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect22");
   try {
     let players_checked = 0;
     let i = character_idx[characterQuestioner];
@@ -742,6 +840,8 @@ async function turno_asks_for(idGame, characterQuestioner,  characterCard, weapo
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release22")
   }
 } 
 
@@ -756,6 +856,8 @@ async function acuse_to(
   const selectValues = [idGame, characterCard, weaponCard, placeCard];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect23");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -770,6 +872,8 @@ async function acuse_to(
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release23")
   }
 
 }
@@ -810,6 +914,8 @@ async function getAsesino() {
   const determinar_asesino = constants.SELECT_NOMBRE_ASESINO;
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect24");
   try {
     const selectResult = await client.query(determinar_asesino);
 
@@ -823,6 +929,8 @@ async function getAsesino() {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release24")
   }
 }
 
@@ -830,6 +938,8 @@ async function getArma() {
   const determinar_asesino = constants.SELECT_NOMBRE_ARMA;
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect25");
   try {
     const selectResult = await client.query(determinar_asesino);
 
@@ -843,6 +953,8 @@ async function getArma() {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release25")
   }
 }
 
@@ -850,6 +962,8 @@ async function getLugar() {
   const determinar_asesino = constants.SELECT_NOMBRE_LUGAR;
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect26");
   try {
     const selectResult = await client.query(determinar_asesino);
 
@@ -863,6 +977,8 @@ async function getLugar() {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release26")
   }
 }
 
@@ -904,6 +1020,8 @@ async function currentCharacters(idGame) {
   const selectValues = [idGame];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect27");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
 
@@ -924,7 +1042,7 @@ async function currentCharacters(idGame) {
       };
 
       for (let i = 0; i < selectResult.rows.length; i++) {
-        console.log(selectResult.rows[i].userName + "= "+ character_idx[selectResult.rows[i].ficha]);
+        // console.log(selectResult.rows[i].userName + "= "+ character_idx[selectResult.rows[i].ficha]);
         userNames[character_idx[selectResult.rows[i].ficha]] =
           selectResult.rows[i].userName;
       }
@@ -935,6 +1053,8 @@ async function currentCharacters(idGame) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release27")
   }
 }
 
@@ -943,6 +1063,8 @@ async function insertCards(username,  card) {
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const insertValues = [username, card];
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect28");
   try {
     const insertResult = await client.query(insertQuery, insertValues);
     
@@ -956,6 +1078,8 @@ async function insertCards(username,  card) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release28")
   }
 }
 
@@ -965,7 +1089,9 @@ async function insertCards(username,  card) {
 
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const client = await pool.connect();
-
+  if (verbose_pool_connect)
+    console.log("pool connect");
+  
   try {
     let errorEncountered = false;
     for (let i = 0; i < constants.NUM_PLAYERS && !errorEncountered; i++) {
@@ -998,6 +1124,8 @@ async function insertCards(username,  card) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release")
   }
 }*/
 
@@ -1006,12 +1134,16 @@ async function deleteCardsFromPlayer(player) {
   const deleteValues = [player];
 
   const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect30");
   try {
     await client.query(deleteQuery, deleteValues);
   } catch (error) {
     throw error;
   } finally {
     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release30")
   }
 }
 
@@ -1022,7 +1154,9 @@ async function changeGameState(idGame, state){
    const updatePartidaValues = [idGame, state];
  
    const client = await pool.connect();
-   try {
+   if (verbose_pool_connect)
+    console.log("pool connect31");
+  try {
      const updatePartidaResult = await client.query(
        updatePartidaQuery,
        updatePartidaValues
@@ -1035,6 +1169,8 @@ async function changeGameState(idGame, state){
      throw error;
    } finally {
      client.release();
+    if (verbose_client_release)
+      console.log("cliente.release31") 
    }
 }
 
