@@ -30,9 +30,13 @@ console.log('Running in ' + process.env.NODE_ENV + ' mode');
 ZONA DE PRUEBAS DE BOT
 */////////////////////
 
-// const tarjeta = createBot();
+// index del bot para crearlo
+let numBot = 3;
+
+// Los 3 últimos parámetros son las index de la sala, el personaje y el arma que tiene el bot
+// const tarjeta = createBot(numBot, 6, 4+constants.ROOMS_NAMES.length, 1+constants.ROOMS_NAMES.length+constants.CHARACTERS_NAMES.length);
 // console.log(tarjeta); 
-// moveBot(tarjeta); 
+// moveBot(tarjeta);
 // updateCard(tarjeta);
 
 //////////////////////
