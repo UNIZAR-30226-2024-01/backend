@@ -31,10 +31,14 @@ ZONA DE PRUEBAS DE BOT
 */////////////////////
 
 // index del bot para crearlo
-let numBot = 3;
+// let numBot = 3;
+// let card1 = constants.ROOMS_NAMES[0];
+// let card2 = constants.ROOMS_NAMES[5];
+// let card3 = constants.ROOMS_NAMES[6];
+// let cards = [card1, card2, card3]; 
 
 // Los 3 últimos parámetros son las index de la sala, el personaje y el arma que tiene el bot
-// const tarjeta = createBot(numBot, 6, 4+constants.ROOMS_NAMES.length, 1+constants.ROOMS_NAMES.length+constants.CHARACTERS_NAMES.length);
+// const tarjeta = createBot(numBot, cards);
 // console.log(tarjeta); 
 // moveBot(tarjeta);
 // updateCard(tarjeta);

@@ -7,6 +7,7 @@
 
 import sys
 import json
+import random
 import time
 
 info_tablero = []
@@ -182,7 +183,8 @@ def getLeastInfo(tarjeta, me):
 	
 	min_info = info.index(min(info))
 	_me = me
-	for i in range(N_PLAYERS):
+	for i in range(len(info)):
+		print("i: ", i)
 		if info[_me] <= info[min_info]:
 			return _me
 		_me = (_me + 1) % N_PLAYERS
