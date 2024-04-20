@@ -30,18 +30,27 @@ console.log('Running in ' + process.env.NODE_ENV + ' mode');
 ZONA DE PRUEBAS DE BOT
 */////////////////////
 
-// index del bot para crearlo
+// // index del bot para crearlo
 // let numBot = 3;
 // let card1 = constants.ROOMS_NAMES[0];
-// let card2 = constants.ROOMS_NAMES[5];
+// let card2 = constants.CHARACTERS_NAMES[0];
 // let card3 = constants.ROOMS_NAMES[6];
 // let cards = [card1, card2, card3]; 
 
-// Los 3 últimos parámetros son las index de la sala, el personaje y el arma que tiene el bot
+// // Los 3 últimos parámetros son las index de la sala, el personaje y el arma que tiene el bot
 // const tarjeta = createBot(numBot, cards);
-// console.log(tarjeta); 
-// moveBot(tarjeta);
-// updateCard(tarjeta);
+// console.log(tarjeta);
+// updateCard(tarjeta)
+//   .then((res) => { 
+//     return moveBot(res);
+//   })
+//   .then(() => {
+//     // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
+//     console.log('Todas las funciones han terminado.');
+//   })
+//   .catch(error => {
+//     console.error('Hubo un error:', error);
+//   });
 
 //////////////////////
 

@@ -228,6 +228,45 @@ def sospecha(casilla, tarjeta, me):
 		# Imprimir la sospecha
 		print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}")
 
+def acusacion(tarjeta):
+	info_place = False
+	info_who = False
+	info_weapon = False
+
+	idx_place = -1
+	idx_who = -1
+	idx_weapon = -1
+
+	# Comprobar si se puede hacer una acusación
+	for i in range(len(tarjeta)):
+		if i < N_PLACES:
+			# Lugares
+			if sum(tarjeta[i]) <= 10:
+				info_place = True
+				idx_place = i
+		else:
+			if not info_place:
+				# No hay suficiente información para hacer una acusación
+				break
+			if i < N_PLACES+N_PEOPLE:
+				# Personas
+				if sum(tarjeta[i]) <= 10:
+					info_who = True
+					idx_who = i
+			else:
+				if not (info_who and info_place):
+					# No hay suficiente información para hacer una acusación
+					break
+				# Armas
+				if sum(tarjeta[i]) <= 10:
+					info_weapon = True
+					idx_weapon = i
+
+	return (info_place and info_who and info_weapon), idx_place, idx_who, idx_weapon
+
+			
+			
+
 if __name__ == "__main__":
 
 	time_ini = time.time()
@@ -259,23 +298,29 @@ if __name__ == "__main__":
 
 	candidatos = turn(casillas_pjs, casilla, dados, vecinos)
 
-	# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
-	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
-	print("Movimiento: ", election)
+	acusar, idx_place, idx_who, idx_weapon = acusacion(tarjeta)
+	if not acusar:
+		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
+		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
+		print("Movimiento: ", election)
 
-	# Printear la tarjeta en orden
-	print("Tarjeta:")
-	print("Lugares:")
-	for i in range(N_PLACES):
-		print(f"{i}: {tarjeta[i]}")
-	print("Personas:")
-	for i in range(N_PLACES, N_PLACES+N_PEOPLE):
-		print(f"{i}: {tarjeta[i]}")
-	print("Armas:")
-	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
-		print(f"{i}: {tarjeta[i]}")
+		# Printear la tarjeta en orden
+		print("Tarjeta:")
+		print("Lugares:")
+		for i in range(N_PLACES):
+			print(f"{i}: {tarjeta[i]}")
+		print("Personas:")
+		for i in range(N_PLACES, N_PLACES+N_PEOPLE):
+			print(f"{i}: {tarjeta[i]}")
+		print("Armas:")
+		for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
+			print(f"{i}: {tarjeta[i]}")
 
-	sospecha(election, tarjeta, yo)
+		sospecha(election, tarjeta, yo)
+	else:
+		print("Acusación")
+		print(f"{PLACES[idx_place]}, {PEOPLE[idx_who-N_PLACES]}, {WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+
 
 	time_fin = time.time()
 	print("Tiempo de ejecucion: ", time_fin - time_ini)
