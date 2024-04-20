@@ -173,18 +173,22 @@ def bfs_habitacion(candidatos, room, vecinos):
 	
 	return None  # No se encontraron casillas candidatas
 
-def getLeastInfo(tarjeta):
+def getLeastInfo(tarjeta, me):
 	# Calcular la cantidad de información de cada carta
 	info = [0 for i in range(len(tarjeta))]
 	for i in range(len(tarjeta)):
 		for j in range(N_PLAYERS):
 			info[i] += abs(tarjeta[i][j]-50)
 	
-	# Devolver el índice de la carta con menos información
-	return info.index(min(info))
+	min_info = info.index(min(info))
+	_me = me
+	for i in range(N_PLAYERS):
+		if info[_me] <= info[min_info]:
+			return _me
+		_me = (_me + 1) % N_PLAYERS
 
-def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs):
-	min_prob = getLeastInfo(tarjeta)
+def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
+	min_prob = getLeastInfo(tarjeta, me)
 
 	# Leer el JSON desde el archivo
 	with open('../bot/infoHabitaciones.json', 'r') as file:
@@ -206,18 +210,18 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs):
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
-def sospecha(casilla, tarjeta):
+def sospecha(casilla, tarjeta, me):
 	if info_tablero[casilla]['roomName'] == '':
 		print("No se puede hacer una sospecha en una casilla que no es una habitación")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
-		place = getLeastInfo(tarjeta[:N_PLACES])
+		place = getLeastInfo(tarjeta[:N_PLACES], me)
 
 		# Desde N_PLACES hasta N_PLACES+N_PEOPLE están los personajes
-		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE])
+		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE], me)
 
 		# Desde N_PLACES+N_PEOPLE hasta N_PLACES+N_PEOPLE+N_WEAPONS están las armas
-		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS])
+		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS], me)
 
 		# Imprimir la sospecha
 		print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}")
@@ -254,7 +258,7 @@ if __name__ == "__main__":
 	candidatos = turn(casillas_pjs, casilla, dados, vecinos)
 
 	# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
-	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs)
+	election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
 	print("Movimiento: ", election)
 
 	# Printear la tarjeta en orden
@@ -269,7 +273,7 @@ if __name__ == "__main__":
 	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
 		print(f"{i}: {tarjeta[i]}")
 
-	sospecha(election, tarjeta)
+	sospecha(election, tarjeta, yo)
 
 	time_fin = time.time()
 	print("Tiempo de ejecucion: ", time_fin - time_ini)
