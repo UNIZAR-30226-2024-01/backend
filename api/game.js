@@ -33,7 +33,6 @@ async function joinGame(username, idGame) {
             break;
     }*/
 
-async function gameWSMessagesListener(relaciones_socket_username) {
 async function gameWSMessagesListener(io,group,relaciones_socket_username) {
   relaciones_socket_username.forEach((s) => {
     // const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
