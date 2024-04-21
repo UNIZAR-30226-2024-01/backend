@@ -95,6 +95,11 @@ def level1():
 
 	return tarjeta
 
+def allInfoFrom(card):
+	if card <= (MIN_PROB+10) or card >= (MAX_PROB-10):
+		# Asumo que tengo la info completa de la carta
+		return True
+	return False
 
 def level2():
 	me = int(sys.argv[1])
@@ -103,6 +108,8 @@ def level2():
 	where = PLACES.index(sys.argv[5])
 	who = PEOPLE.index(sys.argv[6])
 	what = WEAPONS.index(sys.argv[7])
+	line = -1
+	all = False
 
 	tarjeta = getCard()
 	if me == asker:
@@ -121,6 +128,28 @@ def level2():
 		for i in range(N_PLAYERS):
 			if i != holder:
 				tarjeta[line][i] = MIN_PROB
+	else:
+		all_place = allInfoFrom(tarjeta[where][holder])
+		all_who = allInfoFrom(tarjeta[who+N_PLACES][holder])
+		all_what = allInfoFrom(tarjeta[what+N_PLACES+N_PEOPLE][holder])
+		# Si sé 2 cartas aumento MAX_PROB
+		if (all_place and all_who) or (all_place and all_what) or (all_who and all_what):
+			if not all_place:
+				tarjeta[where][holder] = MAX_PROB
+				line = where
+			elif not all_who:
+				tarjeta[who+N_PLACES][holder] = MAX_PROB
+				line = who+N_PLACES
+			elif not all_what:
+				tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
+				line = what+N_PLACES+N_PEOPLE
+			else:
+				# Tengo toda la info de la tarjeta
+				all = True
+			if not all:
+				for i in range(N_PLAYERS):
+					if i != holder:
+						tarjeta[line][i] = MIN_PROB
 
 	idx = (asker + 1) % N_PLAYERS
 	while idx != holder:
@@ -131,12 +160,7 @@ def level2():
 		idx = (idx + 1) % N_PLAYERS
 	
 	return tarjeta
-	
-def allInfoFrom(card):
-	if card <= (MIN_PROB+10) or card >= (MAX_PROB-10):
-		# Asumo que tengo la info completa de la carta
-		return True
-	return False
+
 
 def level3():
 	me = int(sys.argv[1])
@@ -145,6 +169,8 @@ def level3():
 	where = PLACES.index(sys.argv[5])
 	who = PEOPLE.index(sys.argv[6])
 	what = WEAPONS.index(sys.argv[7])
+	line = -1
+	all = False
 
 	tarjeta = getCard()
 	if me == asker:
@@ -159,6 +185,9 @@ def level3():
 		elif hasSmg == 2:
 			tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
 			line = what+N_PLACES+N_PEOPLE
+		else:
+			print("Invalid hasSmg value")
+			sys.exit(1)
 
 		for i in range(N_PLAYERS):
 			if i != holder:
@@ -181,19 +210,20 @@ def level3():
 			if increase == MAX_PROB:
 				if not all_place:
 					tarjeta[where][holder] = MAX_PROB
-					for i in range(N_PLAYERS):
-						if i != holder:
-							tarjeta[where][i] = MIN_PROB
-				if not all_who:
+					line = where
+				elif not all_who:
 					tarjeta[who+N_PLACES][holder] = MAX_PROB
-					for i in range(N_PLAYERS):
-						if i != holder:
-							tarjeta[who+N_PLACES][i] = MIN_PROB
-				if not all_what:
+					line = who+N_PLACES
+				elif not all_what:
 					tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
+					line = what+N_PLACES+N_PEOPLE
+				else:
+					# Tengo toda la info de la tarjeta
+					all = True
+				if not all:
 					for i in range(N_PLAYERS):
 						if i != holder:
-							tarjeta[what+N_PLACES+N_PEOPLE][i] = MIN_PROB
+							tarjeta[line][i] = MIN_PROB
 			elif increase == 15:
 				if not all_place:
 					tarjeta[where][holder] = min(tarjeta[where][holder] + increase, MAX_PROB)
