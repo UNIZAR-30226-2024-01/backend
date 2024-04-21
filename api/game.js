@@ -75,7 +75,22 @@ async function runGame(io, group) {
 
 
 
-  const {players} = await controller.getPlayersCharacter(group);
+  let { players } = await controller.getPlayersCharacter(group);
+  const characters = [constants.SOPER, constants.REDES, constants.PROG, constants.FISICA, constants.DISCRETO, constants.IA];
+  let charactersAvailable = characters.filter((character) => !players.some((player) => player.character === character));
+
+  players.forEach(async (player) => {
+    if (player.character === null) {
+      const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
+      charactersAvailable = charactersAvailable.filter((char) => char !== character);
+      player.character = character;
+      console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
+      await controller.selectCharacter(player.userName, character);
+      const {areAvailable} = await controller.availabilityCharacters(0);
+      console.log(areAvailable);
+    }
+  });
+
   let dealCards = await controller.dealCards(players,group);
 
   relaciones_socket_username.forEach((s) => {

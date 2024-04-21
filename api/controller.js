@@ -407,7 +407,7 @@ async function dealCards(players,idGame) {
   //consulta que devuelve en una vector de vectores las cartas de cada player
   const selectQuery = constants.SELECT_CARTAS_DISTINT_SOLUTION;
   const selectValues = [idGame];
-
+ 
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect12");
@@ -998,9 +998,13 @@ async function internalDealCards(players, cards_available) {
 
   for (let i = 0; i < cards.length; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
+
+    // si es null, es que es un bot
+    // por ahora se hace continue
+    if (players[playerIndex] == null) continue;
+    
     cards_player[playerIndex].push(cards[i]);
-    //console.log("playerIndex "+players[playerIndex]+" cards[i] "+cards[i]);
-    //console.log("playerIndex "+cards_player[playerIndex]);
+
     await insertCards(players[playerIndex], cards[i]);
   }
 
@@ -1062,6 +1066,9 @@ async function currentCharacters(idGame) {
 async function insertCards(username,  card) {
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const insertValues = [username, card];
+
+  console.log("insertValues " + insertValues);
+  
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect28");
