@@ -97,10 +97,10 @@ def bfs(casilla, dados, vecinos):
 		frontera = [c['idx'] for c in info_tablero if info_tablero[casilla]['roomName'] == c['roomName'] and c['isDoor']!=False]
 		paths = [c for c in info_tablero if info_tablero[casilla]['roomName'] == c['roomName'] and c['isPath']!=False]
 		for c in paths:
-			print(c)
+			# print(c) (DEBUG)
 			visited.append(int(c['isPath']))
 		
-		print(f"la frontera es {frontera} y los visited son {visited}")
+		# print(f"la frontera es {frontera} y los visited son {visited}") (DEBUG)
 		
 	else:
 		frontera = [casilla]
@@ -118,7 +118,7 @@ def bfs(casilla, dados, vecinos):
 def turn(casillas_pjs, casilla, dados, vecinos):
 
 	if dados < 2 or dados > 12:
-		print("Número de dados no válido: ", dados)
+		print("Número de dados no válido: ", dados, file=sys.stderr)
 		sys.exit(1)
 
 	with open('../bot/infoTablero.json', 'r') as file:
@@ -134,7 +134,7 @@ def turn(casillas_pjs, casilla, dados, vecinos):
 
 
 	if casilla < 0 or casilla >= len(info_tablero):
-		print("Casilla inicial no válida: ", casilla)
+		print("Casilla inicial no válida: ", casilla, file=sys.stderr)
 		sys.exit(1)
 
 	# Sintaxis del tablero: { isRoom: bool,  roomName: 'int', isStartingCell: bool, isWalkable: bool, isDoor: 'num_hab', idx:int }
@@ -142,20 +142,20 @@ def turn(casillas_pjs, casilla, dados, vecinos):
 		
 	# Comprobación de la casilla inicial
 	if not checkIndex(casilla):
-		print("Casilla inicial no válida: ", casilla)
+		print("Casilla inicial no válida: ", casilla, file=sys.stderr)
 		sys.exit(1)
 	
 	# Comprobación de las casillas de los jugadores
 	for i in range(len(casillas_pjs)):
 		if not checkIndex(casillas_pjs[i]):
-			print(f"Casilla del jugador {i} no válida: ", casillas_pjs[i])
+			print(f"Casilla del jugador {i} no válida: ", casillas_pjs[i], file=sys.stderr)
 			sys.exit(1)
 		# Marcar las casillas de los jugadores como no transitables
 		info_tablero[casillas_pjs[i]]['isWalkable'] = False
 
 	candidatos = bfs(casilla, dados, vecinos)
 	candidatos = sorted(candidatos)
-	print(candidatos)
+	# print(candidatos) (DEBUG)
 	return candidatos
 
 def bfs_habitacion(candidatos, room, vecinos):
@@ -192,7 +192,6 @@ def getLeastInfo(tarjeta, me):
 	min_info = info.index(min(info))
 	_me = me
 	for i in range(len(info)):
-		print("i: ", i)
 		if info[_me] <= info[min_info]:
 			return _me
 		_me = (_me + 1) % N_PLAYERS
@@ -203,7 +202,7 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 	# Transformar el indice en las puertas de la habitación
 	room = info_habitaciones[min_prob]['roomNumber']
 
-	print("place: ", info_habitaciones[min_prob]['roomName'])
+	# print("place: ", info_habitaciones[min_prob]['roomName']) (DEBUG)
 
 	# Volver a validar las casillas de los jugadores
 	for i in range(len(casillas_pjs)):
@@ -212,9 +211,10 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
-def sospecha(casilla, tarjeta, me):
+def sospecha(casilla, tarjeta, me, election):
 	if info_tablero[casilla]['roomName'] == '':
-		print("No se puede hacer una sospecha en una casilla que no es una habitación")
+		# print("No se puede hacer una sospecha en una casilla que no es una habitación") (DEBUG)
+		print(f"MOVE,{election},-1")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
 		place = getLeastInfo(tarjeta[:N_PLACES], me)
@@ -226,7 +226,8 @@ def sospecha(casilla, tarjeta, me):
 		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS], me)
 
 		# Imprimir la sospecha
-		print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}")
+		# print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}") (DEBUG)
+		print(f"MOVE,{election},SUSPECT,{PLACES[place]},{PEOPLE[who]},{WEAPONS[weapon]}")
 
 def acusacion(tarjeta):
 	info_place = False
@@ -264,7 +265,17 @@ def acusacion(tarjeta):
 
 	return (info_place and info_who and info_weapon), idx_place, idx_who, idx_weapon
 
-			
+def printCard(tarjeta):
+	print("Tarjeta:")
+	print("Lugares:")
+	for i in range(N_PLACES):
+		print(f"{i}: {tarjeta[i]}")
+	print("Personas:")
+	for i in range(N_PLACES, N_PLACES+N_PEOPLE):
+		print(f"{i}: {tarjeta[i]}")
+	print("Armas:")
+	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
+		print(f"{i}: {tarjeta[i]}")		
 			
 
 if __name__ == "__main__":
@@ -273,7 +284,7 @@ if __name__ == "__main__":
 	
 	# Comprobación de parámetros
 	if len(sys.argv) != 5:
-		print("Uso: python bot.py <[casillas_pjs]> <casilla_inicial> <dados> <tarjeta>")
+		print("Uso: python bot.py <[casillas_pjs]> <casilla_inicial> <dados> <tarjeta>", file=sys.stderr)
 		sys.exit(1)
 
 	# Inicialización de variables
@@ -303,32 +314,8 @@ if __name__ == "__main__":
 	if not acusar:
 		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
 		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
-		print("Movimiento: ", election)
-
-		# Printear la tarjeta en orden
-		print("Tarjeta:")
-		print("Lugares:")
-		for i in range(N_PLACES):
-			print(f"{i}: {tarjeta[i]}")
-		print("Personas:")
-		for i in range(N_PLACES, N_PLACES+N_PEOPLE):
-			print(f"{i}: {tarjeta[i]}")
-		print("Armas:")
-		for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
-			print(f"{i}: {tarjeta[i]}")
-
-		sospecha(election, tarjeta, yo)
+		# printCard(tarjeta) (DEBUG)
+		sospecha(election, tarjeta, yo, election)
 	else:
-		print("Acusación")
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
-		print("Movimiento: ", decision)
-		if info_tablero[decision]['roomName'] == '':
-			print("No se puede hacer una acusación en una casilla que no es una habitación")
-		else:
-			print(f"{PLACES[idx_place]}, {PEOPLE[idx_who-N_PLACES]}, {WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
-			
-
-
-
-	time_fin = time.time()
-	print("Tiempo de ejecucion: ", time_fin - time_ini)
+		print(f"MOVE,{decision},-1") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")

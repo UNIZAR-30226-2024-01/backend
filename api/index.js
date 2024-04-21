@@ -9,7 +9,7 @@ require('dotenv').config();
 const constants = require('./constants.js');
 const socketio = require('./socket.js');
 
-const { moveBot, updateCard, createBot } = require('../bot/bot.js');
+const { moveBot, moveBotTest, updateCard, updateCardTest, createBot, printCard } = require('../bot/bot.js');
 
 //connection to database
 // pool.connect();
@@ -37,22 +37,57 @@ ZONA DE PRUEBAS DE BOT
 // let card3 = constants.ROOMS_NAMES[6];
 // let cards = [card1, card2, card3]; 
 
-// // Los 3 últimos parámetros son las index de la sala, el personaje y el arma que tiene el bot
 // const tarjeta = createBot(numBot, cards);
 // console.log(tarjeta);
-// updateCard(tarjeta)
-//   .then((res) => { 
-//     return moveBot(res);
+// updateCardTest(tarjeta)
+//   .then((res) => {
+//     return moveBotTest(res);
 //   })
-//   .then(() => { 
+//   .then(() => {
 //     // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
-//     console.log('Todas las funciones han terminado.');
+//     console.log('Tests de los bots terminados.');
 //   })
 //   .catch(error => {
 //     console.error('Hubo un error:', error);
 //   });
 
-//////////////////////
+/////////////////////////////
+// LLAMADA A FUNCIONES REALES
+// index del bot para crearlo
+// let id_bot = 3;
+// let card1 = constants.ROOMS_NAMES[0];
+// let card2 = constants.CHARACTERS_NAMES[0];
+// let card3 = constants.ROOMS_NAMES[6];
+// let cards = [card1, card2, card3]; 
+
+// const tarjeta = createBot(id_bot, cards);
+
+// let lvl = 3;
+// let asker = 2;
+// let holder = 1;
+// let pjs_pos = [40, 295, 394, 223, 183, 371];
+// let dice = 9;
+// updateCard(id_bot, lvl, asker, holder, 'biblioteca', 'miss REDES', 'troyano', 0, tarjeta)
+//   .then((res) => {
+//     printCard(res);
+//     moveBot(pjs_pos, id_bot, dice, res)
+//     .then((res) => {
+//       console.log(res.toString());
+//     })
+//     .catch(error => {
+//       console.error('Hubo un error:', error);
+//     });
+//   })
+//   .then(() => {
+//     // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
+//     console.log('Funciones de bots terminadas.');
+//   })
+//   .catch(error => {
+//     console.error('Hubo un error:', error);
+//   });
+/*////////////////////
+FIN ZONA DE PRUEBAS DE BOT
+*/////////////////////
 
 const app = express();
 app.use(cors());

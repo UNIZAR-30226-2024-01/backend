@@ -65,8 +65,8 @@ function createBot(me, cards) {
 }
 
 async function moveBot(pjs_pos, me, dice, tarjeta) {
-  console.log('Bot is running...');
-  console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
+  // console.log('Moving bot...');
+  // console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
   const args = [pjs_pos, me, dice, tarjeta];
   
@@ -76,10 +76,10 @@ async function moveBot(pjs_pos, me, dice, tarjeta) {
 }
 
 async function moveBotTest(tarjeta) {
-  console.log('Bot is running...');
-  console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
+  // console.log('Moving bot...');
+  // console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
-  const args2 = [[40, 370, 394, 223, 183, 127], 5, 9, tarjeta];
+  const args2 = [[40, 295, 394, 223, 183, 371], 5, 9, tarjeta];
     
   // Ejecutar el script de Python
   const data = await move(args2);
@@ -106,8 +106,8 @@ function move(args) {
 }
 
 async function updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta) {
-  console.log('Updating card...');
-  console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
+  // console.log('Updating card...');
+  // console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
 
   const args = [me, lvl, asker, holder, where, who, what, hasSmg, tarjeta];
   const data = await update(args);
@@ -115,8 +115,8 @@ async function updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarj
 }
 
 async function updateCardTest(tarjeta){
-  console.log('Updating card...');
-  console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
+  // console.log('Updating card...');
+  // console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
 
   const args_lvl1 = [3, 1, 3, 1, 'biblioteca', 'miss REDES', 'troyano', 0, tarjeta];
   const args_lvl1_sordo = [3, 1, 2, 1, 'biblioteca', 'miss REDES', 'troyano', 0, tarjeta];
@@ -135,7 +135,7 @@ async function updateCardTest(tarjeta){
   const args_ac8 = [3, 3, 4, 3, 'aulas norte', 'miss REDES', 'cable de red', 0, tarjeta];
   // const args_final_bib = [3, 3, 1, 5, 'biblioteca', 'miss FISICA', 'troyano', 1, tarjeta];
   const args_final_sur = [3, 3, 0, 4, 'aulas sur', 'miss FISICA', 'router afilado', 2, tarjeta];
-  const args = [args_ac0, args_ac1, args_ac2, args_ac3, args_ac4, args_ac5, args_ac6, args_ac7, args_ac8, args_final_sur];
+  const args = [args_ac0, args_ac1, args_ac2, args_ac3, args_ac4, args_ac5, args_ac6, args_ac7, args_ac8];
 
   // const pythonProcess = spawn('python3', ['../bot/updateCard.py', ...args_lvl3]);
 
@@ -230,5 +230,8 @@ function printCard(tarjeta) {
 module.exports = {
   createBot,
   moveBot,
-  updateCard
+  moveBotTest,
+  updateCard,
+  updateCardTest,
+  printCard
 };
