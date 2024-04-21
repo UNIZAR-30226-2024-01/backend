@@ -88,9 +88,9 @@ const addSocketToGroup = (socket) => {
 };
 
 function runSocketServer(io) {
-  io.on(constants.CONNECT, (socket) => {
+  io.on(constants.CONNECT, async(socket) => {
     // console.log(socket)
-    console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
+    // console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
 
     addSocketToGroup(socket);
     // añadir usuario a la partida en la DB (partida_actual)
@@ -113,6 +113,8 @@ function runSocketServer(io) {
 
       io.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
+        guns: constants.GUNS_NAMES,
+        rooms: constants.ROOMS_NAMES,
         available: areAvailable,
       });
       /////////////////////////////////////////////////////////////////////////
@@ -131,16 +133,16 @@ function runSocketServer(io) {
     });
 
     socket.on('character-selected', async (character) => {
-      console.log('character-selected: ', character);
+      // console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
       areAvailable[index] = socket.handshake.auth.username;
-      console.log("available "+ areAvailable);
+      // console.log("available "+ areAvailable);
 
       // avisar al backend que yo (username) he elegido el personaje character
       // haciendo update sobre el campo availability de la base de datos
-      console.log("username " + socket.handshake.auth.username);
-      console.log("character " + character);
+      // console.log("username " + socket.handshake.auth.username);
+      // console.log("character " + character);
       await controller.selectCharacter(socket.handshake.auth.username, character);
       // const d = await controller.availabilityCharacters(socket.handshake.auth.group);
       // console.log("available "+ d.areAvailable);
@@ -177,11 +179,6 @@ function runSocketServer(io) {
     socket.on('start-game', async() => {
       console.log('start game received');
       game.runGame(io, socket.handshake.auth.group);
-    });
-
-    socket.on('hola', (msg) => {
-      console.log('hola received!!');
-      console.log('Soy ' + msg);
     });
 
     // gestionar cambio de turno
