@@ -64,7 +64,18 @@ function createBot(me, cards) {
   return strTarjeta;
 }
 
-async function moveBot(tarjeta) {
+async function moveBot(pjs_pos, me, dice, tarjeta) {
+  console.log('Bot is running...');
+  console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
+
+  const args = [pjs_pos, me, dice, tarjeta];
+  
+  // Ejecutar el script de Python
+  const data = await move(args);
+  return data;
+}
+
+async function moveBotTest(tarjeta) {
   console.log('Bot is running...');
   console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
@@ -94,7 +105,16 @@ function move(args) {
   });
 }
 
-async function updateCard(tarjeta){
+async function updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta) {
+  console.log('Updating card...');
+  console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
+
+  const args = [me, lvl, asker, holder, where, who, what, hasSmg, tarjeta];
+  const data = await update(args);
+  return data;
+}
+
+async function updateCardTest(tarjeta){
   console.log('Updating card...');
   console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
 
