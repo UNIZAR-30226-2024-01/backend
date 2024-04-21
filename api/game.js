@@ -34,10 +34,17 @@ async function joinGame(username, idGame) {
     }*/
 
 async function gameWSMessagesListener(relaciones_socket_username) {
+async function gameWSMessagesListener(io,group,relaciones_socket_username) {
   relaciones_socket_username.forEach((s) => {
-    const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
+    // const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
     
-    s.socket.on('hola-respuesta', received);  
+    // s.socket.on('hola-respuesta', received);  
+
+    const onTurnoMovesTo = (username, position) => {
+      // console.log("onTurnoMovesTo", username, position);
+      io.to(group).emit('turno-moves-to', username, position);
+    }
+    s.socket.on('turno-moves-to', onTurnoMovesTo)
   });
 
   // gestionar movimiento de ficha en tablero
@@ -56,10 +63,8 @@ async function runGame(io, group) {
   socketsSet.forEach((s) => {
     relaciones_socket_username.push({socket_id: s, socket:io.sockets.sockets.get(s), username: io.sockets.sockets.get(s).handshake.auth.username});
   });
-  gameWSMessagesListener(relaciones_socket_username);
-  relaciones_socket_username.forEach((s) => {
-    io.to(s.socket_id).emit('hola', s.username);
-  });
+  gameWSMessagesListener(io,group,relaciones_socket_username);
+
   
   // let username;
   // const num = 1;
@@ -79,17 +84,19 @@ async function runGame(io, group) {
   const characters = [constants.SOPER, constants.REDES, constants.PROG, constants.FISICA, constants.DISCRETO, constants.IA];
   let charactersAvailable = characters.filter((character) => !players.some((player) => player.character === character));
 
-  players.forEach(async (player) => {
+  // players.forEach(async (player) => {
+  for (const player of players) {
     if (player.character === null) {
       const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
       charactersAvailable = charactersAvailable.filter((char) => char !== character);
       player.character = character;
-      console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
+      // console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
       await controller.selectCharacter(player.userName, character);
-      const {areAvailable} = await controller.availabilityCharacters(0);
-      console.log(areAvailable);
+
     }
-  });
+  };
+
+
 
   let dealCards = await controller.dealCards(players,group);
 
@@ -99,33 +106,112 @@ async function runGame(io, group) {
   });
 
 
+  const all_players = await controller.getPlayersCharacter(group);
 
-  // // Mandar a cada jugador sus cartas
-  // players.forEach((player, character) => {
-  //   const index = 0;
-  //   switch(character){
-  //     case constants.SOPER: index = 0; break;
-  //     case constants.REDES: index = 1; break;
-  //     case constants.PROG: index = 2; break;
-  //     case constants.FISICA: index = 3; break; 
-  //     case constants.DISCRETO: index = 4; break;
-  //     case constants.IA: index = 5; break;
-  //   }
+  let bot_number = 0;
+  const players_in_order = { username: [], character: [] };
+  constants.CHARACTERS_NAMES.forEach((character) => {
+    const player = all_players.players.find((player) => player.character === character);
+    const username = player ? player.userName : "bot"+bot_number++; 
+    players_in_order.username.push(username);
+    players_in_order.character.push(character);
+  });
 
-  //   // conseguir el socket del jugador 
-  //   const socket = relaciones_socket_username.find((relacion) => relacion.username === player.userName).socket;
+  // console.log("players_in_order", players_in_order);
 
-  //   // mandar a cada jugador sus cartas correspondientes
-  //   io.to(socket).emit('cards', cardsOfPlayers[index]);
-  // });
+
+  const { areAvailable } = await controller.availabilityCharacters(group);
+  // console.log("areAvailable", areAvailable);
+
+  relaciones_socket_username.forEach(async (s) => {
+    io.to(s.socket_id).emit('start-game', {
+      names: constants.CHARACTERS_NAMES, 
+      guns: constants.GUNS_NAMES,
+      rooms: constants.ROOMS_NAMES,
+      available: players_in_order.username,
+    });
+  });
+
 
   // Avisar al primer jugador del grupo que es su turno
+  let gameOver = false;
+  let turno = -1;
 
-  /* Bucle de juego, donde se va cambiando el turno cuando corresponde. 
-    while (!gameOver) { 
-      ...
+  // Bucle de juego, donde se va cambiando el turno cuando corresponde. 
+  // Lógica para manejar el turno de un jugador
+  const handleTurno = (turnoOwner, socketOwner) => {
+    console.log("Es el turno de:", turnoOwner);
+    io.to(group).emit('turno-owner', turnoOwner);
+
+    // Manejador para el evento turno-moves-to
+    const onTurnoMovesToTurno = (username, position, fin) => {
+      io.to(group).emit('turno-moves-to', username, position, fin);
+      socketOwner.socket.off('turno-moves-to', onTurnoMovesToTurno);
+      if (!fin) {
+        console.log("El turno NO termina aquí");
+
+        const onTurnoAsksFor = (username_asking, character, gun, room) => {
+          io.to(group).emit('turno-asks-for', username_asking, character, gun, room);
+          socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
+          
+          // buscar quien es el jugador que debe enseñar la carta
+          const username_shower = 'rold'
+
+          if (username_shower == "") {
+            // nadie tiene cartas para enseñar
+            io.to(group).emit('turno-show-cards', username_asking, "", "");
+            handleNextTurn();
+          }
+          else if (username_shower.includes("bot")) {
+              // el bot enseña una carta
+
+          }
+          else {
+            // un jugador real enseña una carta
+            const socket_shower = relaciones_socket_username.find((s) => s.username === username_shower);
+            socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
+
+            const onTurnoCardsSelectedToShow = (username_showed, card) => {
+              io.to(group).emit('turno-show-cards', username_showed, username_shower, card);
+              socket_shower.socket.off('turno-cards-selected-to-show', onTurnoCardsSelectedToShow);
+              handleNextTurn();
+            };
+            socket_shower.socket.on('turno-cards-selected-to-show', onTurnoCardsSelectedToShow);
+          }
+        }
+        socketOwner.socket.on('turno-asks-for', onTurnoAsksFor);
+      } else {
+        console.log("El turno termina aquí");
+
+        // Continuar con el siguiente turno
+        handleNextTurn();
+      }
+    };
+
+    // Registrar el evento turno-moves-to para este jugador
+    socketOwner.socket.on('turno-moves-to', onTurnoMovesToTurno);
+  };
+
+  // Lógica para manejar el próximo turno
+  const handleNextTurn = () => {
+    turno = (turno + 1) % players_in_order.username.length;
+    const turnoOwner = players_in_order.username[turno];
+    const characterOwner = players_in_order.character[turno];
+    const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
+
+    if (turnoOwner.includes("bot")) {
+      handleNextTurn();
     }
-  */
+    else {
+      // Manejar el turno para el siguiente jugador
+      handleTurno(turnoOwner, socketOwner);
+    }
+  };
+
+  // Iniciar el primer turno
+  handleNextTurn();
+
+ 
 
   // io.on("character-selected", (character) => {
   //   console.log("character selected", character);
