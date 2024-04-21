@@ -16,7 +16,7 @@ const CHARACTERS_NAMES = [
 const GUNS_NAMES = [
   'teclado',
   'cable de red', //db: asfixiaCableRed
-  'café envenenado', //db: cafeEnvenenado
+  'cafe envenenado', //db: cafeEnvenenado
   'router afilado', //db: routerAfilado
   'troyano',
   'cd', //db: lanzar cd
@@ -55,6 +55,7 @@ module.exports = {
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
+    'https://h15hf16d-5173.uks1.devtunnels.ms',
   ],
 
   CONNECT: 'connection',
