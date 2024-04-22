@@ -39,11 +39,11 @@ async function gameWSMessagesListener(io,group,relaciones_socket_username) {
     
     // s.socket.on('hola-respuesta', received);  
 
-    const onTurnoMovesTo = (username, position) => {
-      // console.log("onTurnoMovesTo", username, position);
-      io.to(group).emit('turno-moves-to', username, position);
-    }
-    s.socket.on('turno-moves-to', onTurnoMovesTo)
+    // const onTurnoMovesTo = (username, position) => {
+    //   // console.log("onTurnoMovesTo", username, position);
+    //   io.to(group).emit('turno-moves-to', username, position);
+    // }
+    // s.socket.on('turno-moves-to', onTurnoMovesTo)
   });
 
   // gestionar movimiento de ficha en tablero
@@ -84,6 +84,7 @@ async function runGame(io, group) {
   let charactersAvailable = characters.filter((character) => !players.some((player) => player.character === character));
 
   // players.forEach(async (player) => {
+  // seleccionar un personaje aleatorio de entre los restantes si se comienza partida y aún no se ha seleccionado
   for (const player of players) {
     if (player.character === null) {
       const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
@@ -91,7 +92,6 @@ async function runGame(io, group) {
       player.character = character;
       // console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
       await controller.selectCharacter(player.userName, character);
-
     }
   };
 
@@ -119,7 +119,7 @@ async function runGame(io, group) {
   // console.log("players_in_order", players_in_order);
 
 
-  const { areAvailable } = await controller.availabilityCharacters(group);
+  // const { areAvailable } = await controller.availabilityCharacters(group);
   // console.log("areAvailable", areAvailable);
 
   relaciones_socket_username.forEach(async (s) => {
@@ -143,34 +143,40 @@ async function runGame(io, group) {
     io.to(group).emit('turno-owner', turnoOwner);
 
     // Manejador para el evento turno-moves-to
-    const onTurnoMovesToTurno = (username, position, fin) => {
-      io.to(group).emit('turno-moves-to', username, position, fin);
-      socketOwner.socket.off('turno-moves-to', onTurnoMovesToTurno);
+    const onTurnoMovesTo = (username, position, fin) => {
+      // reenviar a todos el movimiento del jugador
+      io.to(group).emit('turno-moves-to-response', username, position, fin);
+      socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
       if (!fin) {
+        // Entras en una habitación (se hace pregunta)
         console.log("El turno NO termina aquí");
 
         const onTurnoAsksFor = (username_asking, character, gun, room) => {
-          io.to(group).emit('turno-asks-for', username_asking, character, gun, room);
+          // reenviar la pregunta a todos los jugadores
+          io.to(group).emit('turno-asks-for-response', username_asking, character, gun, room);
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
           
           // buscar quien es el jugador que debe enseñar la carta
-          const username_shower = 'rold'
+            // llamar función (pendiente)
+          const username_shower = ''
 
           if (username_shower == "") {
             // nadie tiene cartas para enseñar
-            io.to(group).emit('turno-show-cards', username_asking, "", "");
+            io.to(group).emit('turno-show-cards', username_asking, "luo", "miss IA");
             handleNextTurn();
           }
           else if (username_shower.includes("bot")) {
-              // el bot enseña una carta
+            // el bot enseña una carta
 
           }
           else {
             // un jugador real enseña una carta
             const socket_shower = relaciones_socket_username.find((s) => s.username === username_shower);
-            socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
+            io.to(socket_shower.socket_id).emit('turno-select-to-show', username_asking, username_shower, character, gun, room);
+            // socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
 
             const onTurnoCardsSelectedToShow = (username_showed, card) => {
+              // reenviar al resto de jugadores la carta mostrada
               io.to(group).emit('turno-show-cards', username_showed, username_shower, card);
               socket_shower.socket.off('turno-cards-selected-to-show', onTurnoCardsSelectedToShow);
               handleNextTurn();
@@ -180,6 +186,7 @@ async function runGame(io, group) {
         }
         socketOwner.socket.on('turno-asks-for', onTurnoAsksFor);
       } else {
+        // No has entrado en ninguna habitación (no se hace pregunta)
         console.log("El turno termina aquí");
 
         // Continuar con el siguiente turno
@@ -188,23 +195,26 @@ async function runGame(io, group) {
     };
 
     // Registrar el evento turno-moves-to para este jugador
-    socketOwner.socket.on('turno-moves-to', onTurnoMovesToTurno);
+    socketOwner.socket.on('turno-moves-to', onTurnoMovesTo);
   };
 
   // Lógica para manejar el próximo turno
   const handleNextTurn = () => {
-    turno = (turno + 1) % players_in_order.username.length;
-    const turnoOwner = players_in_order.username[turno];
-    const characterOwner = players_in_order.character[turno];
-    const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
-
-    if (turnoOwner.includes("bot")) {
-      handleNextTurn();
-    }
-    else {
-      // Manejar el turno para el siguiente jugador
-      handleTurno(turnoOwner, socketOwner);
-    }
+    // Hacer un timeout para simular el tiempo de espera entre turnos
+    setTimeout(() => {
+      turno = (turno + 1) % players_in_order.username.length;
+      const turnoOwner = players_in_order.username[turno];
+      const characterOwner = players_in_order.character[turno];
+      const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
+  
+      if (turnoOwner.includes("bot")) { // skippear turnos de bots (produccion)
+        handleNextTurn();
+      }
+      else {
+        // Manejar el turno para el siguiente jugador
+        handleTurno(turnoOwner, socketOwner);
+      }
+    }, 2);
   };
 
   // Iniciar el primer turno
