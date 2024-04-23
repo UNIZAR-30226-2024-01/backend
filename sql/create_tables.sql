@@ -257,35 +257,23 @@ CREATE TABLE IF NOT EXISTS grace_hopper.cartas_jugador
 (
     carta character varying(16) COLLATE pg_catalog."default" NOT NULL,
     jugador character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT cartas_jugador_pkey PRIMARY KEY (carta, jugador),
+    partida integer NOT NULL,
+    CONSTRAINT cartas_jugador_pkey PRIMARY KEY (carta, jugador, partida),
     CONSTRAINT carta FOREIGN KEY (carta)
         REFERENCES grace_hopper.cartas (nombre) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE SET NULL
-        NOT VALID,
+        ON DELETE SET NULL,
     CONSTRAINT jugador FOREIGN KEY (jugador)
         REFERENCES grace_hopper.jugador ("userName") MATCH SIMPLE
         ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT partida FOREIGN KEY (partida)
+        REFERENCES grace_hopper.partida (id_partida) MATCH SIMPLE
+        ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS grace_hopper.cartas_jugador
     OWNER to ufjuuu4tmgx8hdaosrpx;
-
-
--- SQL INSERTS
-
-INSERT INTO  grace_hopper."cartas" (nombre, tipo)
-SELECT nombre, 'personaje'
-FROM grace_hopper.personajes;
-
-INSERT INTO  grace_hopper."cartas" (nombre, tipo)
-SELECT nombre, 'arma'
-FROM grace_hopper.arma;
-
-INSERT INTO  grace_hopper."cartas" (nombre, tipo)
-SELECT nombre, 'lugar'
-FROM grace_hopper.lugar;

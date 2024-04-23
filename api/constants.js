@@ -84,6 +84,8 @@ module.exports = {
   SIGINT: 'SIGINT',
 
   //
+  LOCAL: 'l',
+  ONLINE: 'o',
   PAUSE: 'p',
   STOP: '0',
   PLAY: '1',
@@ -141,7 +143,7 @@ module.exports = {
   INSERT_PARTIDA:
     'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, fecha_fin, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_partida',
   INSERT_CARTAS_JUGADOR:
-    'INSERT INTO grace_hopper."cartas_jugador" ("jugador", "carta") VALUES ($1, $2) RETURNING "jugador"',
+    'INSERT INTO grace_hopper."cartas_jugador" ("jugador", "carta", "partida") VALUES ($1, $2, $3) RETURNING "jugador"',
 
   //-------select-------
   SELECT_USER_USUARIO:
@@ -169,7 +171,7 @@ module.exports = {
   SELECT_USERNAME_JUGADOR:
     'SELECT "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
   SELECT_CARTAS_JUGADOR: 
-    'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1',
+    'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1 AND "partida" = $2',
   SELECT_CARTAS_DISTINT_SOLUTION:
   'SELECT ' +
   '  cartas.nombre AS cards ' +
@@ -200,20 +202,17 @@ module.exports = {
   SELECT_INFO_GAME:
     'SELECT estado, fecha_ini, tipo, turno FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_CARTA_JUGADOR:
-    'SELECT carta, jugador FROM grace_hopper."cartas_jugador" WHERE jugador = $1 AND carta = $2',
+    'SELECT carta, jugador FROM grace_hopper."cartas_jugador" WHERE jugador = $1 AND carta = $2 AND partida = $3',
   SELECT_TURN_PARTIDA:
     'SELECT turno FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_DETERMINADAS_CARTAS_JUGADOR:
     'SELECT ' +
-    '  cartas.carta AS cartas, ' +
-    '  player."userName" AS user ' +
+    '  carta AS cartas, ' +
+    '  jugador AS user  ' +
     'FROM ' +
-    '   grace_hopper."jugador" player ' +
-    'JOIN ' +
-    '   grace_hopper."cartas_jugador" cartas ON cartas.carta= $3 OR cartas.carta= $4 OR cartas.carta= $5 ' +
+    '   grace_hopper."cartas_jugador" ' +
     'WHERE ' +
-    ' player.partida_actual = $2 AND player."ficha" = $1',
-
+    ' carta=$2 OR carta=$3 OR carta=$4 AND partida = $1',
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
@@ -236,6 +235,10 @@ module.exports = {
     'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE "userName" = $1',
   UPDATE_SOSPECHAS:
     'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE "userName" = $1',
+  UPDATE_WIN_JUGADOR_LOCAL:
+    'UPDATE grace_hopper."usuario" SET n_ganadas_local = n_ganadas_local + 1, "XP" = "XP" + $2 WHERE "userName" = $1',
+  UPDATE_WIN_JUGADOR_ONLINE:
+    'UPDATE grace_hopper."usuario" SET n_ganadas_online = n_ganadas_online + 1, "XP" = "XP" + $2 WHERE "userName" = $1',
 
   //-------delete------
   DELETE_GAME_CONVERSACION:

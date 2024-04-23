@@ -169,15 +169,16 @@ async function runGame(io, group) {
         // Entras en una habitación (se hace pregunta)
         console.log("El turno NO termina aquí");
 
-        const onTurnoAsksFor = (username_asking, character, gun, room) => {
+        const onTurnoAsksFor = async (username_asking, character, gun, room) => {
           // reenviar la pregunta a todos los jugadores
           io.to(group).emit('turno-asks-for-response', username_asking, character, gun, room);
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
 
           // buscar quien es el jugador que debe enseñar la carta
-          // llamar función (pendiente) 🎃
-          const getFirstPlayerWithCard = () => {return "mat";};
-          const username_shower = getFirstPlayerWithCard()
+          // llamar función 
+          const { exito, user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.username);
+          const username_shower = user;
+          console.log("username_shower", username_shower);
 
           if (username_shower == "") {
             // nadie tiene cartas para enseñar

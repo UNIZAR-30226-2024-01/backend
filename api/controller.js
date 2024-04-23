@@ -369,9 +369,9 @@ async function getPlayerXP(username) {
   }
 } // informacion como xp
 
-async function getCards(player) {
+async function getCards(player,idGame) {
   const selectQuery = constants.SELECT_CARTAS_JUGADOR;
-  const selectValues = [player];
+  const selectValues = [player,idGame];
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -425,7 +425,7 @@ async function dealCards(players,idGame) {
           playersUsername[i] = players[i].userName;
         }
       }
-      const resultCards = await internalDealCards(playersUsername, cardsNotSolution);
+      const resultCards = await internalDealCards(playersUsername, cardsNotSolution, idGame);
       
      // console.log("resultCards "+resultCards.cards[0]);
       return { exito: true  , cards: resultCards.cards};
@@ -590,6 +590,7 @@ async function leaveGame(username) {
       return { exito: false, msg: constants.ERROR_UPDATING };
     }
     else {
+
       return { exito: true, msg: constants.CORRECT_UPDATE };
     }
   } catch (error) {
@@ -629,7 +630,7 @@ async function finishGame(idGame) {
     if (updatePartidaResult.rows.length == 0) {
       const updateStateandPartidaQuery =
         constants.UPDATE_STATEandPARTIDA_P_JUGADOR;
-      const updateStateandPartidaValues = [idGame, constants.STOP, 0];
+      const updateStateandPartidaValues = [idGame, constants.STOP, null];
 
       const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
       const deletePartidaValues = [idGame];
@@ -705,9 +706,9 @@ async function gameInformation(idGame) {
 }
 
 //check if the player has the card
-async function playerHasCard(player, card) {
+async function playerHasCard(player, card, idGame) {
   const selectQuery = constants.SELECT_CARTA_JUGADOR;
-  const selectValues = [player, card];
+  const selectValues = [player, card, idGame];
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -798,43 +799,43 @@ async function udpate_players_info(idPlayer, sospechas, position){
   }
 }
 
-async function turno_asks_for(idGame, characterQuestioner,  characterCard, weaponCard, placeCard) {
+//devuelve el user mas cercano segun el orden de usernameByOrder que tiene alguna de las cartas
+async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponCard, placeCard, usernameByOrder) {
+  console.log("entra en turno_asks_for");
   const selectQuery = constants.SELECT_DETERMINADAS_CARTAS_JUGADOR;
-
-  const character_idx = {
-    [constants.SOPER]: 0,
-    [constants.REDES]: 1,
-    [constants.PROG]: 2,
-    [constants.FISICA]: 3,
-    [constants.DISCRETO]: 4,
-    [constants.IA]: 5,
-  };
   
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect22");
   try {
-    let players_checked = 0;
-    let i = character_idx[characterQuestioner];
+    //if the character is found, then check if the player has the card
+    const selectValues= [idGame, characterCard, weaponCard, placeCard];
+    const selectResult = await client.query(selectQuery, selectValues);
+    console.log("selectResult.rows.length " + selectResult.rows.length);
+    
+    if(selectResult.rows.length == 0){
+      console.log("no hay cartas");
+      return { exito: true, user: ''}; //modificar
 
-    while(players_checked < constants.NUM_PLAYERS - 1){
+    } else {
+      
+    
+      let resultArray = [];
+      selectResult.rows.forEach(row => {
+        resultArray.push({ exito: true, user: row.user, card: row.cartas });
+      });
+      console.log("resultArray "+resultArray);
 
-      //if the character is found, then check if the player has the card
-      const answerer = constants.CHARACTERS_NAMES[(i+1)%constants.NUM_PLAYERS];
-      const selectValues= [answerer,idGame, characterCard, weaponCard, placeCard];
-      const selectResult = await client.query(selectQuery, selectValues);
+      //eliminas las cartas que tiene el jugador que pregunta
+      resultArray = resultArray.filter((row) => row.user !== usernameQuestioner);
 
-      if(selectResult.rows.length == 0){
-        players_checked++;
-        i++;
-      }else{
-        selectResult.rows.forEach(row => {
-          resultArray.push({ exito: true, user: row.user, card: row.cartas });
-        });
-        return resultArray; 
-      }
-
-    }
+      let i = usernameByOrder.indexOf(usernameQuestioner);
+      resultArray = resultArray.slice(i+1).concat(resultArray.slice(0, i+1));
+      // resultArray tiene ordenados los jugadores que tienen alguna de las cartas
+      // quieres el primer jugador en el order de usernameByOrder a partir de ti, que aparece en resultArra
+  
+      return resultArray[0] ? { exito: true, user: resultArray[0].user} : { exito: true, user: ''}; 
+    }    
 
   } catch (error) {
     throw error;
@@ -878,14 +879,53 @@ async function acuse_to(
 
 }
 
-
+//sumar XP 
 async function win(idGame, idPlayer) {
-
+  //obtener num de bots and xp de los user que estan jugando
+  await playerWin(idPlayer);
+  await finishGame(idGame); 
 }
-async function fail(idGame, idPlayer) {}
+
+//al perder, el jugador 
+//socket se mantiene
+async function fail(idGame, idPlayer) {
+  await playerFail(idPlayer);
+  await leaveGame(idGame); 
+}
 
 
 //********************************************AUX********************************************* */
+// type = 'l' --> local
+// type = 'o' --> online
+async function playerWin(idPlayer, xp, type) {
+
+  let updateQuery;
+  if(type == constants.LOCAL) updateQuery = constants.UPDATE_WIN_JUGADOR_LOCAL;
+  else updateQuery = constants.UPDATE_WIN_JUGADOR_ONLINE;
+
+  const updateValues = [idPlayer, xp];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect32");
+  try {
+    const updateResult = await client.query(updateQuery, updateValues);
+
+
+    if (updateResult.rows.length == 0) return { exito: false, msg: constants.WRONG_IDGAME };
+    else{
+
+      return { exito: true , msg: constants.CORRECT_UPDATE};
+    } 
+
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release32")
+  }
+}
 
 function generarEnteroSeisDigitos() {
   var min = 100000;
@@ -982,7 +1022,7 @@ async function getLugar() {
   }
 }
 
-async function internalDealCards(players, cards_available) {
+async function internalDealCards(players, cards_available,idGame) {
   // Shuffle cards
   const cards = cards_available.slice(); // Copy the array to avoid modifying the original
   cards.sort(() => Math.random() - 0.5); // Sort randomly
@@ -1005,7 +1045,7 @@ async function internalDealCards(players, cards_available) {
     
     cards_player[playerIndex].push(cards[i]);
 
-    await insertCards(players[playerIndex], cards[i]);
+    await insertCards(players[playerIndex], cards[i], idGame);
   }
 
   return { exito: true, msg: constants.CORRECT_INSERT , cards: cards_player};
@@ -1063,9 +1103,9 @@ async function currentCharacters(idGame) {
 }
 
 
-async function insertCards(username,  card) {
+async function insertCards(username,  card, idGame) {
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
-  const insertValues = [username, card];
+  const insertValues = [username, card, idGame];
 
   console.log("insertValues " + insertValues);
   
@@ -1178,6 +1218,32 @@ async function changeGameState(idGame, state){
      client.release();
     if (verbose_client_release)
       console.log("cliente.release31") 
+   }
+}
+
+async function createBot(idGame, lvl) {
+   const crearBotQuery = constants.CREATE_BOT;
+   //supnogo  que update tb el estado de los playerssss
+   const crearBotValues = [idGame, lvl];
+ 
+   const client = await pool.connect();
+   if (verbose_pool_connect)
+    console.log("pool connect32");
+  try {
+     const crearBotResult = await client.query(
+       crearBotQuery,
+       crearBotValues
+     );
+ 
+     if (crearBotResult.rows.length == 0)
+       return { exito: false, msg: constants.ERROR_UPDATING };
+     else return { exito: true };
+   } catch (error) {
+     throw error;
+   } finally {
+     client.release();
+    if (verbose_client_release)
+      console.log("cliente.release32") 
    }
 }
 
