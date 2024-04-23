@@ -101,7 +101,7 @@ async function runGame(io, group) {
 
   relaciones_socket_username.forEach((s) => {
     const idx = players.findIndex((player) => player.userName === s.username); 
-    io.to(s.socket_id).emit("cards", dealCards.cards[idx]);
+    io.to(s.socket_id).emit("cards", dealCards.cards[idx]); // 📩
   });
 
 
@@ -123,7 +123,7 @@ async function runGame(io, group) {
   // console.log("areAvailable", areAvailable);
 
   relaciones_socket_username.forEach(async (s) => {
-    io.to(s.socket_id).emit('start-game', {
+    io.to(s.socket_id).emit('start-game', { // 📩
       names: constants.CHARACTERS_NAMES, 
       guns: constants.GUNS_NAMES,
       rooms: constants.ROOMS_NAMES,
@@ -136,16 +136,34 @@ async function runGame(io, group) {
   let gameOver = false;
   let turno = -1;
 
+  const handleTurnoBot = async (turnoOwner,group) => {
+    // const {position, fin} = moveBot();
+    // io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
+    // if (!fin) {
+    //   const { character, gun, room } = makeQuestion();
+    //   io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room); // 📩
+
+    //   const username_shower = getFirstPlayerWithCard();
+
+    // }
+
+  };
+
   // Bucle de juego, donde se va cambiando el turno cuando corresponde. 
   // Lógica para manejar el turno de un jugador
-  const handleTurno = (turnoOwner, socketOwner) => {
+  const handleTurno = async (turnoOwner, socketOwner) => {
     console.log("Es el turno de:", turnoOwner);
-    io.to(group).emit('turno-owner', turnoOwner);
+    io.to(group).emit('turno-owner', turnoOwner); // 📩
+
+    if (turnoOwner.includes("bot")) {
+      await handleTurnoBot(turnoOwner, group); // gestión de bot en otra función aparte
+      handleNextTurn();
+    }
 
     // Manejador para el evento turno-moves-to
     const onTurnoMovesTo = (username, position, fin) => {
       // reenviar a todos el movimiento del jugador
-      io.to(group).emit('turno-moves-to-response', username, position, fin);
+      io.to(group).emit('turno-moves-to-response', username, position); // 📩
       socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
       if (!fin) {
         // Entras en una habitación (se hace pregunta)
@@ -155,18 +173,21 @@ async function runGame(io, group) {
           // reenviar la pregunta a todos los jugadores
           io.to(group).emit('turno-asks-for-response', username_asking, character, gun, room);
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
-          
+
           // buscar quien es el jugador que debe enseñar la carta
-            // llamar función (pendiente)
-          const username_shower = ''
+          // llamar función (pendiente) 🎃
+          const getFirstPlayerWithCard = () => {return "mat";};
+          const username_shower = getFirstPlayerWithCard()
 
           if (username_shower == "") {
             // nadie tiene cartas para enseñar
-            io.to(group).emit('turno-show-cards', username_asking, "luo", "miss IA");
-            handleNextTurn();
+            io.to(group).emit('turno-show-cards', username_asking, "", "");
+            setTimeout(() => {
+              handleNextTurn();
+            }, 2000);
           }
           else if (username_shower.includes("bot")) {
-            // el bot enseña una carta
+            // turno-show-cards (bot enseña carta a alguien) 🎃
 
           }
           else {
@@ -175,13 +196,15 @@ async function runGame(io, group) {
             io.to(socket_shower.socket_id).emit('turno-select-to-show', username_asking, username_shower, character, gun, room);
             // socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
 
-            const onTurnoCardsSelectedToShow = (username_showed, card) => {
+            const onTurnoCardSelected = (username_asking, username_shower, card) => {
               // reenviar al resto de jugadores la carta mostrada
-              io.to(group).emit('turno-show-cards', username_showed, username_shower, card);
-              socket_shower.socket.off('turno-cards-selected-to-show', onTurnoCardsSelectedToShow);
-              handleNextTurn();
+              io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
+              socket_shower.socket.off('turno-card-selected', onTurnoCardSelected);
+              setTimeout(() => {
+                handleNextTurn();
+            }, 2000);
             };
-            socket_shower.socket.on('turno-cards-selected-to-show', onTurnoCardsSelectedToShow);
+            socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
           }
         }
         socketOwner.socket.on('turno-asks-for', onTurnoAsksFor);
@@ -207,14 +230,14 @@ async function runGame(io, group) {
       const characterOwner = players_in_order.character[turno];
       const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
   
-      if (turnoOwner.includes("bot")) { // skippear turnos de bots (produccion)
+      if (turnoOwner.includes("bot")) { // borrar cuando se implemente lógica de bot 🎃
         handleNextTurn();
       }
       else {
         // Manejar el turno para el siguiente jugador
         handleTurno(turnoOwner, socketOwner);
       }
-    }, 2);
+    }, 0);
   };
 
   // Iniciar el primer turno
