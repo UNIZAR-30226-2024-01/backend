@@ -22,12 +22,12 @@ async function createAccount(username, password) {
   if (verbose_pool_connect)
     console.log("pool connect 1");
   try {
-    //check if "userName" already exits
+    //check if userName already exits
     const selectResult = await client.query(selectQuery, selectValues);
 
     //the userName already exits //return !exito and userName
     if (selectResult.rows.length > 0)
-      return { exito: false, username: selectResult.rows[0].userName };
+      return { exito: false, username: selectResult.rows[0].username };
     else {
       //username doesnt exist yet
 
@@ -41,7 +41,7 @@ async function createAccount(username, password) {
         insertValues_user
       );
       //return exito and userName
-      return { exito: true, username: insertResult_user.rows[0].userName };
+      return { exito: true, username: insertResult_user.rows[0].username };
     }
   } catch (error) {
     throw error;
@@ -269,7 +269,7 @@ async function getPlayersCharacter(idGame) {
       return {
         exito: true,
         players: selectResult.rows.map((row) => ({
-          userName: row.userName,
+          userName: row.username,
           character: row.ficha,
         })),
       };
@@ -422,7 +422,7 @@ async function dealCards(players,idGame) {
       for (let i = 0; i < selectResult.rows.length; i++) {
         cardsNotSolution[i] = selectResult.rows[i].cards;
         if(i < players.length){
-          playersUsername[i] = players[i].userName;
+          playersUsername[i] = players[i].username;
         }
       }
       const resultCards = await internalDealCards(playersUsername, cardsNotSolution, idGame);
@@ -1088,7 +1088,7 @@ async function currentCharacters(idGame) {
       for (let i = 0; i < selectResult.rows.length; i++) {
         // console.log(selectResult.rows[i].userName + "= "+ character_idx[selectResult.rows[i].ficha]);
         userNames[character_idx[selectResult.rows[i].ficha]] =
-          selectResult.rows[i].userName;
+          selectResult.rows[i].username;
       }
       // console.log("userNames which returned "+userNames);
       return  userNames; // return the updated availability array
