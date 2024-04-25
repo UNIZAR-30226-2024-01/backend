@@ -84,7 +84,7 @@ router.post('/createGame', async(req, res) => {
 });
 
 router.get('/getGame', async (req, res) => {
-  console.log("getGame GET REQUEST");
+  // console.log("getGame GET REQUEST");
   const idGame = req.query.idGame;
   try {
     const result = await controller.gameInformation(idGame);
@@ -166,8 +166,8 @@ router.put('/characterSelected', async(req, res) => {
       console.log(`Character: ${players.character}`);
   });
  */
-//post: if the consult was successful, it returns the players and characters of the game 
-router.put('/getNameAndCharacter', async(req, res) => {
+//get: if the consult was successful, it returns the players and characters of the game 
+router.get('/getNameAndCharacter', async(req, res) => {
   const idGame = req.body.id_partida;
   try {
     const createSuccessfully = await controller.getPlayersCharacter(
@@ -182,6 +182,20 @@ router.put('/getNameAndCharacter', async(req, res) => {
       res.status(404).json({ success: false, message: createSuccessfully.msg });
     }
     console.log(`${createSuccessfully.msg}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+router.post('/leaveGame', async (req, res) => {
+  const username = req.body.username;
+
+  try {
+    const createSuccessfully = await controller.leaveGame(username);
+
+    res.json(createSuccessfully);
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
