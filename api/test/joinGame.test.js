@@ -13,7 +13,7 @@ describe('joinGame', () => {
     // Llamar a la función joinGame
     await joinGame(username, idGame);
 
-    // Verificar que controller.joinGame fue llamado con los argumentos correctos
+    // Verificar que controller.joinGame se llama con los argumentos correctos
     expect(controller.joinGame).toHaveBeenCalledWith(username, idGame);
   });
 });
