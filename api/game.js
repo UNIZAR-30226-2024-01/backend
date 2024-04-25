@@ -9,6 +9,7 @@ async function joinGame(username, idGame) {
   //update jugador
   await controller.joinGame(username, idGame);
 }
+
 /*
  posicion asociada a personaje
     let posicion = 0;   
@@ -261,4 +262,5 @@ async function runGame(io, group) {
 
 module.exports = {
   runGame,
+  joinGame
 };

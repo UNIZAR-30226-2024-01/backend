@@ -135,9 +135,9 @@ module.exports = {
   //Múdlo.controller__Querys
   //-------insert-------
   INSERT_JUGADOR:
-    'INSERT INTO grace_hopper."jugador" ("userName", ficha, partida_actual, sospechas, posicion, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"',
+    'INSERT INTO grace_hopper."jugador" (username, ficha, partida_actual, sospechas, posicion, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING username',
   INSERT_USUARIO:
-    'INSERT INTO grace_hopper."usuario" ("userName", passwd, "XP", n_ganadas_online, n_ganadas_local, n_jugadas) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "userName"',
+    'INSERT INTO grace_hopper."usuario" (username, passwd, "XP", n_ganadas_online, n_ganadas_local, n_jugadas) VALUES ($1, $2, $3, $4, $5, $6) RETURNING username',
   INSERT_CONVERSACION:
     'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor',
   INSERT_PARTIDA:
@@ -147,15 +147,15 @@ module.exports = {
 
   //-------select-------
   SELECT_USER_USUARIO:
-    'SELECT "userName" FROM grace_hopper."usuario" WHERE "userName" = $1',
+    'SELECT username FROM grace_hopper."usuario" WHERE username = $1',
   SELECT_PASSWD_USUARIO:
-    'SELECT passwd FROM grace_hopper."usuario" WHERE "userName" = $1',
+    'SELECT passwd FROM grace_hopper."usuario" WHERE username = $1',
   SELECT_XP_USUARIO:
-    'SELECT "XP" FROM grace_hopper."usuario" WHERE "userName" = $1',
+    'SELECT "XP" FROM grace_hopper."usuario" WHERE username = $1',
   SELECT_ALL_CONVERSACION:
     'SELECT contenido,emisor,"isQuestion",instante FROM grace_hopper."conversacion" WHERE  instante <= $1 AND partida = $2 ORDER BY instante',
   SELECT_PARTIDAandSTATE_JUGADOR:
-    'SELECT partida, estado FROM grace_hopper."jugador" WHERE "userName" = $1',
+    'SELECT partida, estado FROM grace_hopper."jugador" WHERE username = $1',
   SELECT_ID_PARTIDA:
     'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_NOMBRE_TYPE:
@@ -167,9 +167,9 @@ module.exports = {
   SELECT_NOMBRE_LUGAR:
     'SELECT nombre FROM grace_hopper."lugar" ORDER BY RANDOM() LIMIT 1',
   SELECT_FICHA_JUGADOR:
-    'SELECT ficha, "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1',
+    'SELECT ficha, username FROM grace_hopper."jugador" WHERE partida_actual = $1',
   SELECT_USERNAME_JUGADOR:
-    'SELECT "userName" FROM grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
+    'SELECT username FROM grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
   SELECT_CARTAS_JUGADOR: 
     'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1 AND "partida" = $2',
   SELECT_CARTAS_DISTINT_SOLUTION:
@@ -193,9 +193,9 @@ module.exports = {
     'FROM ' +
     '   grace_hopper."jugador" player ' +
     'JOIN ' +
-    '  grace_hopper."usuario" user ON player."userName" = user."userName" ' +
+    '  grace_hopper."usuario" user ON player.username = user.username ' +
     'WHERE ' +
-    ' player."userName" = $1',
+    ' player.username = $1',
   SELECT_SOLUTION:
    'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1'+
    'AND asesino = $2 AND arma = $3 AND lugar = $4',
@@ -216,29 +216,29 @@ module.exports = {
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
-    'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE username = $1',
   UPDATE_STATE_PARTIDA:
     'UPDATE grace_hopper."partida" SET estado = $2 WHERE id_partida = $1',
   UPDATE_FICHA_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE "userName" = $1 RETURNING *',
+    'UPDATE grace_hopper."jugador" SET ficha = $2 WHERE username = $1 RETURNING *',
   UPDATE_PARTIDAandSTATE_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE "userName" = $2',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE username = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
-   'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE "userName" = $2 RETURNING *',
+   'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE username = $2 RETURNING *',
   UPDATE_STATE_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET estado = $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."jugador" SET estado = $2 WHERE username = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2, partida_actual = $3 WHERE partida_actual = $1',
   UPDATE_TURNO_PARTIDA:
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
   UPDATE_SOSPECHAS_POSITION:
-    'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE "userName" = $1',
+    'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE username = $1',
   UPDATE_SOSPECHAS:
-    'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE username = $1',
   UPDATE_WIN_JUGADOR_LOCAL:
-    'UPDATE grace_hopper."usuario" SET n_ganadas_local = n_ganadas_local + 1, "XP" = "XP" + $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."usuario" SET n_ganadas_local = n_ganadas_local + 1, "XP" = "XP" + $2 WHERE username = $1',
   UPDATE_WIN_JUGADOR_ONLINE:
-    'UPDATE grace_hopper."usuario" SET n_ganadas_online = n_ganadas_online + 1, "XP" = "XP" + $2 WHERE "userName" = $1',
+    'UPDATE grace_hopper."usuario" SET n_ganadas_online = n_ganadas_online + 1, "XP" = "XP" + $2 WHERE username = $1',
 
   //-------delete------
   DELETE_GAME_CONVERSACION:
