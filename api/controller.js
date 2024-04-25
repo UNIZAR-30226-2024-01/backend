@@ -480,11 +480,12 @@ async function gameExists(username) {
 }
 
 //return exito and if error -> msg else -> id_partida
-async function createGame(username, type) {
+async function createGame(type) {
   var exito = false;
+  // generate random 6 digit numbers until one of them is valid
   do {
     const enteroSeisDigitos = generarEnteroSeisDigitos();
-    const selectQuery = SELECT_ID_PARTIDA;
+    const selectQuery = constants.SELECT_ID_PARTIDA;
     const selectValues = [enteroSeisDigitos];
 
     const client = await pool.connect();
@@ -507,9 +508,8 @@ async function createGame(username, type) {
         const insertQuery_partida = constants.INSERT_PARTIDA;
         const insertValues_partida = [
           enteroSeisDigitos,
-          constants.PLAY,
+          constants.NOT_STARTED,
           date,
-          null,
           type,
           null,
           asesino,
@@ -525,11 +525,10 @@ async function createGame(username, type) {
         //insert_error
         if (insertResult_partida.rows.length == 0)
           return { exito: exito, msg: constants.ERROR_INSERTING };
-        else {
-          const id_partida = insertResult_partida.rows[0].id_partida;
-          await joinGame(username, id_partida);
-        }
-        return { exito: exito, id_partida: id_partida };
+
+        exito = true;
+
+        return { exito: exito, id_partida: enteroSeisDigitos, asesino: asesino, arma: arma, lugar: lugar };
       }
     } catch (error) {
       throw error;
@@ -575,7 +574,7 @@ async function joinGame(username, idGame) {
 
 async function leaveGame(username) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
-  const updateValues_player = [null, username, constants.STOP, null];
+  const updateValues_player = [null, username, constants.NOT_STARTED, null];
 
   const client = await pool.connect();
   if (verbose_pool_connect)

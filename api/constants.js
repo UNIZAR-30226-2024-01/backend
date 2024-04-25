@@ -55,7 +55,7 @@ module.exports = {
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
-    'https://h15hf16d-5173.uks1.devtunnels.ms',
+    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
   ],
 
   CONNECT: 'connection',
@@ -83,12 +83,15 @@ module.exports = {
   HEADERS: 'Content-Type',
   SIGINT: 'SIGINT',
 
-  //
+  // tipos de la partida
   LOCAL: 'l',
   ONLINE: 'o',
-  PAUSE: 'p',
-  STOP: '0',
+
+  // estados de la partida
+  NOT_STARTED: '0',
   PLAY: '1',
+  PAUSE: 'p',
+
   CERO: '0',
   MENOS: '-',
   MAS: '+',
@@ -141,7 +144,7 @@ module.exports = {
   INSERT_CONVERSACION:
     'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor',
   INSERT_PARTIDA:
-    'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, fecha_fin, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_partida',
+    'INSERT INTO grace_hopper."partida" (id_partida, estado, fecha_ini, tipo, turno , asesino, arma , lugar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id_partida',
   INSERT_CARTAS_JUGADOR:
     'INSERT INTO grace_hopper."cartas_jugador" ("jugador", "carta", "partida") VALUES ($1, $2, $3) RETURNING "jugador"',
 
@@ -224,7 +227,7 @@ module.exports = {
   UPDATE_PARTIDAandSTATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE username = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
-   'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE username = $2 RETURNING *',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE username = $2 RETURNING *',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE username = $1',
   UPDATE_STATEandPARTIDA_P_JUGADOR:
