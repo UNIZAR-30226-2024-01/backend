@@ -82,22 +82,19 @@ async function ldrMsg(socket) {
 }
 
 const addSocketToGroup = (socket) => {
-  const username = socket.handshake.auth.username;
+  // const username = socket.handshake.auth.username;
   const group = socket.handshake.auth.group;
   socket.join(group);
 };
 
 function runSocketServer(io) {
   io.on(constants.CONNECT, async(socket) => {
-    // console.log(socket)
-    // console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
 
     addSocketToGroup(socket);
     // añadir usuario a la partida en la DB (partida_actual)
-    // console.log( typeof socket.handshake.auth.group);
-    controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
-    
-    
+
+    await controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
+
     socket.on(constants.DISCONNECT, async() => {
       console.log(constants.USER_DISCONNECTED);
 

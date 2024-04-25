@@ -7,19 +7,11 @@ router.use(express.json());
 
 // Testing
 
-router.get('/test', async(res) => {
-  res.json({ success: true, message: constants.TEST });
+router.get('/test', async(req,res) => {
+  res.json({ success: true, message: "test con exito" });
 });
 
-/*
-
-██╗░░░██╗░██████╗███████╗██████╗░░██████╗
-██║░░░██║██╔════╝██╔════╝██╔══██╗██╔════╝
-██║░░░██║╚█████╗░█████╗░░██████╔╝╚█████╗░
-██║░░░██║░╚═══██╗██╔══╝░░██╔══██╗░╚═══██╗
-╚██████╔╝██████╔╝███████╗██║░░██║██████╔╝
-░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝╚═════╝░
-*/
+// Users
 router.post('/createAccount', async(req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -71,24 +63,36 @@ router.get('/obtainXP', async(req, res) => {
 });
 
 // Game creation
-// username = nombre del jugador
 // type = l->local, o->online
 router.post('/createGame', async(req, res) => {
-  const username = req.body.username;
   const type = req.body.type;
 
   try {
-    const createSuccessfully = await controller.createGame(username, type);
+    const createSuccessfully = await controller.createGame(type);
+    console.log("createSuccessfully",createSuccessfully);
 
-    res.json({
-      success: createSuccessfully.exito,
-      message: createSuccessfully.msg,
-      idGame: createSuccessfully.idGame,
-    });
-    console.log(`${createSuccessfully.msg}  : ${createSuccessfully.username}`);
+    res.status(200).json(createSuccessfully);
+    // {
+      // success: createSuccessfully.exito,
+      // message: createSuccessfully.msg,
+      // idGame: createSuccessfully.idGame,
+    // });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.get('/getGame', async (req, res) => {
+  console.log("getGame GET REQUEST");
+  const idGame = req.query.idGame;
+  try {
+    const result = await controller.gameInformation(idGame);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ exito: false, message: error.message });
   }
 });
 
