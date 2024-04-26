@@ -17,9 +17,10 @@ pool.connect((err, client, done) => {
     console.error(constants.ERROR_DATA_BASE, err);
     return;
   }
-  console.log(constants.CONNECTED_DB);
+  //console.log(constants.CONNECTED_DB);  //LA HE QUITADO PORQUE ME DA ERROR AL HACER LOS TEST
   done();
 });
+
 
 // Manejo de la señal SIGINT para cerrar correctamente la conexión a la base de datos
 process.on('SIGINT', () => {
@@ -29,4 +30,9 @@ process.on('SIGINT', () => {
   });
 });
 
-module.exports = pool;
+module.exports = {
+  pool,
+  connect: pool.connect,
+  end: () => pool.end(),
+};
+

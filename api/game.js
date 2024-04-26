@@ -34,7 +34,29 @@ async function joinGame(username, idGame) {
             break;
     }*/
 
-async function gameWSMessagesListener(io,group,relaciones_socket_username) {
+async function gameWSMessagesListener(io, group, relaciones_socket_username) {
+  io.on('connection', (socket) => {
+
+    // si el socket es de mi grupo lo meto en 'relaciones_socket_username'
+    // sino corto esta conexion--> conex de un user de otra partida
+
+    if (socket.handshake.auth.group != group) {
+      console.log("socket de otro grupo");
+      socket.disconnect();
+      return;
+    }
+    // else: pertenezco a la partida ya empezada
+    
+    // lo meto en 'relaciones_socket_username' en la componente que toque
+    // en funcion de su username (recuperar de la DB qué character es en función de su username)
+
+
+
+    // socket.on('disconnect', () => {
+    //   console.log('socket desconectado:', socket.id);
+    // });
+  });
+
   relaciones_socket_username.forEach((s) => {
     // const received = (msg) => { console.log("received:" + msg); s.socket.off('hola-respuesta', received) };
     

@@ -99,7 +99,11 @@ async function login(username, password) {
     else if (selectResult.rows[0].passwd != password)
       return { exito: false, msg: constants.WRONG_PASSWD };
     //login correcto
-    else return { exito: true, msg: constants.CORRECT_LOGIN };
+    else {
+      const { partida_actual, tipo_partida } = await playerInformation(username, client);
+      // const partida_actual = 0;
+      return { exito: true, id_partida_actual: partida_actual, tipo_partida: tipo_partida,  msg: constants.CORRECT_LOGIN };
+    }
   } catch (error) {
     throw error;
   } finally {
@@ -328,13 +332,17 @@ async function getPlayersCharacter(idGame) {
  * - If the player information cannot be found in the database:
  *   - The function returns an object with success set to false and a message indicating that the player ID is incorrect or not found.
  */
-async function playerInformation(player) {
+async function playerInformation(player, client=null) {
   // Query to fetch player information
   const selectQuery = constants.SELECT_INFO_JUGADOR;
   const selectValues = [player];
 
+  console.log("selectValues ", selectValues);
+
+  const old_client = client;
+  if (!client) client = await pool.connect();
   // Connect to the database client
-  const client = await pool.connect();
+  // const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect9");
   
@@ -351,14 +359,16 @@ async function playerInformation(player) {
       return {
         exito: true,
         character: selectResult.rows[0].ficha,
-        partida_actual: selectResult.rows[0].partida,
+        partida_actual: selectResult.rows[0].id_partida,
         sospechas: selectResult.rows[0].sospechas,
         posicion: selectResult.rows[0].posicion,
-        estado: selectResult.rows[0].estado,
+        estado_player: selectResult.rows[0].estado,
         partidas_jugadas: selectResult.rows[0].n_jugadas,
         partidas_ganadas_local: selectResult.rows[0].n_ganadas_local,
         partidas_ganadas_online: selectResult.rows[0].n_ganadas_online,
-        XP: selectResult.rows[0].XP
+        // XP: selectResult.rows[0].XP,
+        estado_partida: selectResult.rows[0].estado_partida,
+        tipo_partida: selectResult.rows[0].tipo_partida,
       };
     }
   } catch (error) {
@@ -366,7 +376,7 @@ async function playerInformation(player) {
     throw error;
   } finally {
     // Release the database client after usage
-    client.release();
+    if (!old_client) client.release();
     if (verbose_client_release)
       console.log("cliente.release9")
   }
@@ -508,11 +518,12 @@ async function gameExists(username) {
 }
 
 //return exito and if error -> msg else -> id_partida
-async function createGame(username, type) {
+async function createGame(type) {
   var exito = false;
+  // generate random 6 digit numbers until one of them is valid
   do {
     const enteroSeisDigitos = generarEnteroSeisDigitos();
-    const selectQuery = SELECT_ID_PARTIDA;
+    const selectQuery = constants.SELECT_ID_PARTIDA;
     const selectValues = [enteroSeisDigitos];
 
     const client = await pool.connect();
@@ -537,7 +548,6 @@ async function createGame(username, type) {
           enteroSeisDigitos,
           constants.NOT_STARTED,
           date,
-          null,
           type,
           null,
           asesino,
@@ -553,11 +563,10 @@ async function createGame(username, type) {
         //insert_error
         if (insertResult_partida.rows.length == 0)
           return { exito: exito, msg: constants.ERROR_INSERTING };
-        else {
-          const id_partida = insertResult_partida.rows[0].id_partida;
-          await joinGame(username, id_partida);
-        }
-        return { exito: exito, id_partida: id_partida };
+
+        exito = true;
+
+        return { exito: exito, id_partida: enteroSeisDigitos, asesino: asesino, arma: arma, lugar: lugar };
       }
     } catch (error) {
       throw error;

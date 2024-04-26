@@ -101,7 +101,7 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
-    res.header(constants.ALLOW_ORIGIN, origin);
+  res.header(constants.ALLOW_ORIGIN, origin);
   } else return res.status(403).json({ error: 'Origin not allowed' });
 
   res.header(constants.ALLOW_METHODS, constants.METHODS);

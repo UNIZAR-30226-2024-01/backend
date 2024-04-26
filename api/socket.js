@@ -82,42 +82,32 @@ async function ldrMsg(socket) {
 }
 
 const addSocketToGroup = (socket) => {
-  const username = socket.handshake.auth.username;
+  // const username = socket.handshake.auth.username;
   const group = socket.handshake.auth.group;
   socket.join(group);
 };
 
 function runSocketServer(io) {
   io.on(constants.CONNECT, async(socket) => {
-    // console.log(socket)
-    // console.log(constants.USER_CONNECTED + socket.handshake.auth.username);
 
     addSocketToGroup(socket);
     // añadir usuario a la partida en la DB (partida_actual)
-    // console.log( typeof socket.handshake.auth.group);
-    controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
-    
-    
-    socket.on(constants.DISCONNECT, async() => {
+
+    await controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
+
+    socket.on('bye-bye', async() => {
       console.log(constants.USER_DISCONNECTED);
+      socket.disconnect();
 
-      /////////////////////////////////////////////////////////////////////////
-      // 👇 SOLO ES PARA PROBAR Y DESARROLLAR
-      // DEBERÁ ELIMINARSE
-      //disconnect
+      await controller.leaveGame(socket.handshake.auth.username);
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
-      const index = areAvailable.indexOf(socket.handshake.auth.username);
-      areAvailable[index] = '';
 
-      controller.leaveGame(socket.handshake.auth.username);
-
-      io.emit('game-info', {
+      io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
         available: areAvailable,
       });
-      /////////////////////////////////////////////////////////////////////////
     });
 
     // INFO DE JUEGO
