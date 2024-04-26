@@ -69,13 +69,41 @@ async function createBot(username, lvl) {
     const insert_player = await client.query(inserBotlikePlayerQuery, insertPlayerValues);
     
     //the userName already exits //return !exito and userName
-    if (insertResult.rows.length < 0)
+    if (insert_player.rows.length < 0)
     return { exito: false, msg: constants.ERROR_INSERTING };
   else {
     //return exito and userName
       const insertResult = await client.query(insertQuery_bot, insertValues_bot);
       return { exito: true, username: insertResult.rows[0].username};
     }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+}
+
+async function removeBots(idGame) {
+  const deleteCards = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
+  const deleteBotsQuery = constants.DELETE_ALL_BOTS_FROM_BOT;
+  const deleteValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+
+    await client.query(deleteCards, deleteValues);
+    await client.query(deleteBotsQuery, deleteValues);
+
+    const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
+    await client.query(deletePlayer, deleteValues);
+
+  
+    return { exito: true, msg: constants.CORRECT_DELETE };
+  
   } catch (error) {
     throw error;
   } finally {
@@ -275,7 +303,6 @@ async function selectCharacter(username, character) {
       updateValues_player
     );
 
-    console.log("updateResult.rows.length "+updateResult.rows.length);
 
     if (updateResult.rows.length == 0)
       return { exito: false, msg: constants.ERROR_UPDATING };
@@ -342,7 +369,6 @@ async function playerInformation(player, client=null) {
   const selectQuery = constants.SELECT_INFO_JUGADOR;
   const selectValues = [player];
 
-  console.log("selectValues ", selectValues);
 
   const old_client = client;
   if (!client) client = await pool.connect();
@@ -452,7 +478,6 @@ async function dealCards(players,idGame) {
   const selectValues = [idGame];
 
   // rellenar el players con los nombres de los bots
-  console.log("players ",players);
  
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -472,7 +497,6 @@ async function dealCards(players,idGame) {
         }
       }
 
-      console.log("playersUsername ",playersUsername);
       const resultCards = await internalDealCards(playersUsername, cardsNotSolution, idGame);
       
     //  console.log("resultCards "+resultCards.cards[0]);
@@ -874,7 +898,6 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
     console.log("selectResult.rows.length " + selectResult.rows.length);
     
     if(selectResult.rows.length == 0){
-      console.log("no hay cartas");
       return { exito: true, user: ''}; //modificar
 
     } else {
@@ -884,7 +907,6 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
       selectResult.rows.forEach(row => {
         resultArray.push({ exito: true, user: row.user, card: row.cartas });
       });
-      console.log("resultArray "+resultArray);
 
       //eliminas las cartas que tiene el jugador que pregunta
       resultArray = resultArray.filter((row) => row.user !== usernameQuestioner);
@@ -1159,7 +1181,6 @@ async function internalDealCards(players, cards_available,idGame) {
     const playerIndex = i % constants.NUM_PLAYERS;
     await deleteCardsFromPlayer(players[playerIndex]);
   }
-  console.log("players ",players);
   for (let i = 0; i < cards.length; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
 
@@ -1230,7 +1251,6 @@ async function insertCards(username,  card, idGame) {
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const insertValues = [username, card, idGame];
 
-  console.log("insertValues " + insertValues);
   
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -1344,44 +1364,12 @@ async function changeGameState(idGame, state){
    }
 }
 
-/*
-async function createBot(username, lvl) {
-  
-   const crearBotQuery = constants.INSERT_BOT;
-async function createBot(idGame, lvl) {
-   const crearBotQuery = constants.INSERT_BOT;
-   //supnogo  que update tb el estado de los playerssss
-   const crearBotValues = [username, lvl];
-
-   const client = await pool.connect();
-   if (verbose_pool_connect)
-    console.log("pool connect32");
-  try {
-    const insertBot = await client.query(
-      crearBotQuery,
-      crearBotValues
-    );
-     const crearBotResult = await client.query(
-       crearBotQuery,
-       crearBotValues
-     );
- 
-     if (crearBotResult.rows.length == 0)
-       return { exito: false, msg: constants.ERROR_UPDATING };
-     else return { exito: true };
-   } catch (error) {
-     throw error;
-   } finally {
-     client.release();
-    if (verbose_client_release)
-      console.log("cliente.release32") 
-   }
-}*/
 
 //*****************************************EXPORTS******************************************** */
 module.exports = {
   createAccount,
   createBot,
+  removeBots,
   login,
   changePassword,
   //*****************************************CHAT*********************************************** */

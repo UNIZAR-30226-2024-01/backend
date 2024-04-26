@@ -63,53 +63,15 @@ async function runGame(io, group) {
     relaciones_socket_username.push({socket_id: s, socket:io.sockets.sockets.get(s), username: io.sockets.sockets.get(s).handshake.auth.username});
   });
   gameWSMessagesListener(io,group,relaciones_socket_username);
-
-  //calculate the number of bots needed
-  const n_bots = constants.NUM_PLAYERS - relaciones_socket_username.length;
-
-  //create bots
-  let bots_inf=[]
-  for (let i = 0; i < n_bots; i++) {
-
-    //generate a random number between 1 and 3 for level
-    let random_level = Math.floor(Math.random() * 3) + 1;
-
-    //generate a name for the bot's username
-    const username = "bot" + group + i;
-
-    //insert bot in the database
-    await controller.createBot(username,random_level);
-
-    //join bot to the game
-    await controller.joinGame(username, group);
-
-    //save bot info in the array
-    bots_inf.push({username: username + i, level: random_level});
-  }
-
+  
+  await controller.removeBots(group)
+  
   // get players with their characters
   let { players } = await controller.getPlayersCharacter(group);
 
   //charcters available has all the characters that are not selected by any player
   const characters = [constants.SOPER, constants.REDES, constants.PROG, constants.FISICA, constants.DISCRETO, constants.IA];
   let charactersAvailable = characters.filter((character) => !players.some((player) => player.character === character));
-  
-  //asociate to each bot an available character
-  bots_inf.forEach(async (bot) => {
-
-    //select a random character from the available characters
-    const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
-
-    //remove the character from the available characters
-    charactersAvailable = charactersAvailable.filter((char) => char !== character);
-
-    //update the character of the bot
-    await controller.selectCharacter(bot.username, character);
-
-    //add the bot to the players array
-    players.push({userName: bot.username, character: character});
-  });
-
 
   // choose a random character for each player that has not selected a character
   players.forEach(async (player) => {
@@ -126,10 +88,57 @@ async function runGame(io, group) {
       //update the character of the player
       player.character = character;
 
-      // console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
+      console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
       //update the character of the player in the database
       await controller.selectCharacter(player.userName, character);
     }
+  });
+
+
+  //calculate the number of bots needed
+  const n_bots = charactersAvailable.length;
+  
+  //create bots
+  let bots_inf=[]
+  console.log("n_bots", n_bots);
+  for (let i = 0; i < n_bots; i++) {
+
+    //generate a random number between 1 and 3 for level
+    let random_level = Math.floor(Math.random() * 3) + 1;
+
+    //generate a name for the bot's username
+    const username = "bot" + group.slice(2) + i;
+
+    //insert bot in the database
+    await controller.createBot(username,random_level);
+
+    //join bot to the game
+    await controller.joinGame(username, group);
+
+    //save bot info in the array
+    bots_inf.push({username: username, level: random_level});
+  }
+
+
+  
+  //asociate to each bot an available character
+  bots_inf.forEach(async (bot) => {
+
+    //select a random character from the available characters
+    const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
+
+    //remove the character from the available characters
+    charactersAvailable = charactersAvailable.filter((char) => char !== character);
+    console.log("Falta seleccionar personaje, se asigna " + character + " a " + bot.username);
+
+    //update the character of the bot
+    await controller.selectCharacter(bot.username, character);
+
+    const botInf = await controller.playerInformation(bot.username);
+    console.log("name of bot ",  botInf.character);
+
+    //add the bot to the players array
+    players.push({userName: bot.username, character: character});
   });
 
 
@@ -149,16 +158,21 @@ async function runGame(io, group) {
 
   // get all players with their characters
   const all_players = await controller.getPlayersCharacter(group);
+  console.log("all_players", all_players);
 
   //declare a dictionary to store the players in order
   const players_in_order = { username: [], character: [] };
+  
 
   // order players by character
   constants.CHARACTERS_NAMES.forEach((character) => {
-    all_players.players.find((player) => player.character === character);
+    const player = all_players.players.find((player) => player.character === character);
+    const username = player.userName ;
+    players_in_order.username.push(username);
+    players_in_order.character.push(character);
   });
 
-  // console.log("players_in_order", players_in_order);
+  console.log("players_in_order", players_in_order);
   // const { areAvailable } = await controller.availabilityCharacters(group);
   // console.log("areAvailable", areAvailable);
 
@@ -172,21 +186,23 @@ async function runGame(io, group) {
     });
   });
 
+  console.log("players_in_order", players_in_order);
+
 
   // Avisar al primer jugador del grupo que es su turno
   let gameOver = false;
   let turno = -1;
 
   const handleTurnoBot = async (turnoOwner,group) => {
-    // const {position, fin} = moveBot();
-    // io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
-    // if (!fin) {
-    //   const { character, gun, room } = makeQuestion();
-    //   io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room); // 📩
+    const {position, fin} = moveBot();
+    io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
+    if (!fin) {
+      const { character, gun, room } = makeQuestion();
+      io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room); // 📩
 
-    //   const username_shower = getFirstPlayerWithCard();
+      const username_shower = getFirstPlayerWithCard();
 
-    // }
+    }
 
   };
 
@@ -199,6 +215,7 @@ async function runGame(io, group) {
     if (turnoOwner.includes("bot")) {
       await handleTurnoBot(turnoOwner, group); // gestión de bot en otra función aparte
       handleNextTurn();
+      return;
     }
 
     // Manejador para el evento turno-moves-to
@@ -212,7 +229,7 @@ async function runGame(io, group) {
 
         const onTurnoAsksFor = async (username_asking, character, gun, room, is_final) => {
           // reenviar la pregunta a todos los jugadores
-          io.to(group).emit('turno-asks-for-response', username_asking, character, gun, is_final);
+          io.to(group).emit('turno-asks-for-response', username_asking, character, gun, room, is_final);
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
 
           if (is_final) {
@@ -242,7 +259,9 @@ async function runGame(io, group) {
             }
             else if (username_shower.includes("bot")) {
               // turno-show-cards (bot enseña carta a alguien) 🎃
-
+              const { card } = bot.getCardFromQuestion(username_shower, character, gun, room);
+              io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
+              handleNextTurn()
             }
             else {
               // un jugador real enseña una carta

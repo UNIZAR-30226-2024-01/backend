@@ -55,7 +55,7 @@ module.exports = {
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
-    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
+    'https://zpmd6742-5173.uks1.devtunnels.ms',
   ],
 
   CONNECT: 'connection',
@@ -297,6 +297,28 @@ module.exports = {
     'DELETE FROM grace_hopper."cartas_jugador" WHERE jugador = $1',
   DELETE_ALL_CARDS_FROM_PARTIDA:
     'DELETE FROM grace_hopper."cartas_jugador" WHERE partida = $1',
+  DELETE_ALL_BOTS_FROM_BOT:
+    'DELETE FROM grace_hopper."bot" '+ 
+    'WHERE username IN ( '+
+    'SELECT username FROM grace_hopper."jugador" '+ 
+    'WHERE partida_actual = $1)',
+  DELETE_ALL_BOTS_FROM_JUGADOR:  
+    'DELETE FROM grace_hopper."jugador" '+ 
+    'WHERE username LIKE \'bot%\' AND partida_actual = $1',
+  
+  // DELETE FROM grace_hopper."bot" 
+  // WHERE username IN (
+  // SELECT username FROM grace_hopper."jugador" 
+  // WHERE partida_actual = 221718
+
+    /*DELETE FROM tabla1
+WHERE columna1 IN (
+    SELECT columna1
+    FROM tabla1
+    INNER JOIN tabla2 ON tabla1.columna2 = tabla2.columna2
+    WHERE condiciones_de_filtrado
+);
+ */
 
   //Módulo.controller
   WRONG_PASSWD: 'La contraseña introducida es incorrecta.',

@@ -208,4 +208,17 @@ router.get('/playerInformation', async (req, res) => {
     res.status(500).json({ exito: false, message: error.message });
   }
 });
+
+
+router.post('/removeBots', async (req, res) => {
+  const idGame = req.body.idGame;
+  try {
+    const result = await controller.removeBots(idGame);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ exito: false, message: error.message });
+  }
+});
+
 module.exports = router;
