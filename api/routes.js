@@ -37,8 +37,7 @@ router.post('/login', async(req, res) => {
   const password = req.body.password;
   try {
     const resultadoLogin = await controller.login(username, password);
-    res.json({ success: resultadoLogin.exito, message: resultadoLogin.msg });
-    console.log(resultadoLogin.msg);
+    res.json(resultadoLogin);
   } catch (error) {
     console.error(constants.ERROR_LOGIN, error);
     res.status(500).json({ success: false, message: constants.ERROR_LOGIN });
@@ -181,7 +180,6 @@ router.get('/getNameAndCharacter', async(req, res) => {
     } else {  
       res.status(404).json({ success: false, message: createSuccessfully.msg });
     }
-    console.log(`${createSuccessfully.msg}`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
@@ -199,6 +197,20 @@ router.post('/leaveGame', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+router.get('/playerInformation', async (req, res) => {
+  const username = req.query.username;
+
+  try {
+    const result = await controller.playerInformation(username);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ exito: false, message: error.message });
   }
 });
 module.exports = router;

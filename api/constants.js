@@ -185,20 +185,44 @@ module.exports = {
   SELECT_INFO_JUGADOR:
     'SELECT ' +
     '  player.ficha AS ficha, ' +
-    '  player.partida_actual AS partida, ' +
+    '  player.partida_actual AS id_partida, ' +
     '  player.sospechas AS sospechas, ' +
     '  player.posicion AS posicion, ' +
     '  player.estado AS estado, ' +
-    '  user.n_jugadas AS n_jugadas, ' +
-    '  user.n_ganadas_local AS n_ganadas_local, ' +
-    '  user.n_ganadas_online AS n_ganadas_online, ' +
-    '  user."XP" AS XP ' +
+    '  useri.n_jugadas AS n_jugadas, ' +
+    '  useri.n_ganadas_local AS n_ganadas_local, ' +
+    '  useri.n_ganadas_online AS n_ganadas_online, ' +
+    '  useri."XP" AS XP, ' +
+    '  game.estado AS estado_partida, ' +
+    '  game.tipo AS tipo_partida ' +
     'FROM ' +
-    '   grace_hopper."jugador" player ' +
+    '  (grace_hopper."jugador" player ' +
     'JOIN ' +
-    '  grace_hopper."usuario" user ON player.username = user.username ' +
+    '  grace_hopper."usuario" useri ON player.username = useri.username ' +
+    'JOIN ' +
+    '  grace_hopper."partida" game ON player.partida_actual = game.id_partida) ' +
     'WHERE ' +
     ' player.username = $1',
+  
+    // SELECT 
+    //   player.ficha AS ficha, 
+    //   player.partida_actual AS partida, 
+    //   player.sospechas AS sospechas, 
+    //   player.posicion AS posicion, 
+    //   player.estado AS estado, 
+    //   useri.n_jugadas AS n_jugadas, 
+    //   useri.n_ganadas_local AS n_ganadas_local, 
+    //   useri.n_ganadas_online AS n_ganadas_online, 
+    //   useri."XP" AS XP 
+    //   game.estado AS estado_partida 
+    // FROM 
+    //   (grace_hopper."jugador" player 
+    // JOIN 
+    //   grace_hopper."usuario" useri ON player.username = useri.username 
+    // JOIN 
+    //   grace_hopper."partida" game ON player.partida_actual = game.id_partida) 
+    // WHERE 
+    //  player.username = $1;
   SELECT_SOLUTION:
    'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1'+
    'AND asesino = $2 AND arma = $3 AND lugar = $4',
