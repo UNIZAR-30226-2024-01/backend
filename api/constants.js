@@ -87,7 +87,7 @@ module.exports = {
   LOCAL: 'l',
   ONLINE: 'o',
   PAUSE: 'p',
-  STOP: '0',
+  NOT_STARTED: '0',
   PLAY: '1',
   CERO: '0',
   MENOS: '-',
@@ -138,6 +138,8 @@ module.exports = {
     'INSERT INTO grace_hopper."jugador" (username, ficha, partida_actual, sospechas, posicion, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING username',
   INSERT_USUARIO:
     'INSERT INTO grace_hopper."usuario" (username, passwd, "XP", n_ganadas_online, n_ganadas_local, n_jugadas) VALUES ($1, $2, $3, $4, $5, $6) RETURNING username',
+  INSERT_BOT:
+    'INSERT INTO grace_hopper."bot" (username, nivel_dificultad) VALUES ($1, $2) RETURNING username',
   INSERT_CONVERSACION:
     'INSERT INTO grace_hopper."conversacion" (instante, "isQuestion", partida, contenido, emisor) VALUES ($1, $2, $3, $4, $5) RETURNING emisor',
   INSERT_PARTIDA:
@@ -213,6 +215,25 @@ module.exports = {
     '   grace_hopper."cartas_jugador" ' +
     'WHERE ' +
     ' carta=$2 OR carta=$3 OR carta=$4 AND partida = $1',
+  SELECT_TYPE_GAME:
+    'SELECT tipo FROM grace_hopper."partida" WHERE id_partida = $1',
+  SELECT_INFO_END_GAME:
+    'SELECT ' +
+    '  bot.nivel_dificultad AS nivel, ' +
+    '  COUNT(*) AS n_bots ' +
+    ' FROM ' +
+    '   grace_hopper."jugador" player' +
+    ' JOIN ' +
+    '   grace_hopper."bot" bot ON player.username = bot.username ' +
+    ' WHERE ' +
+    '   player.partida_actual = $1' +
+    ' GROUP BY ' + 
+    ' bot.nivel_dificultad' +
+    ' ORDER BY ' +
+    ' bot.nivel_dificultad;',
+  SELECT_VALID_TURN_PARTIDA:
+    ' SELECT COUNT(*) AS n from grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
+  
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
@@ -227,8 +248,8 @@ module.exports = {
    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE username = $2 RETURNING *',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE username = $1',
-  UPDATE_STATEandPARTIDA_P_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET estado = $2, partida_actual = $3 WHERE partida_actual = $1',
+  UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA:
+    'UPDATE grace_hopper."jugador" SET estado = $2, partida_actual = $3, ficha = $4 WHERE partida_actual = $1',
   UPDATE_TURNO_PARTIDA:
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
   UPDATE_SOSPECHAS_POSITION:
@@ -247,6 +268,8 @@ module.exports = {
     'DELETE FROM grace_hopper."partida" WHERE id_partida = $1',
   DELETE_ALL_CARDS_FROM_JUGADOR:
     'DELETE FROM grace_hopper."cartas_jugador" WHERE jugador = $1',
+  DELETE_ALL_CARDS_FROM_PARTIDA:
+    'DELETE FROM grace_hopper."cartas_jugador" WHERE partida = $1',
 
   //Módulo.controller
   WRONG_PASSWD: 'La contraseña introducida es incorrecta.',
@@ -262,6 +285,8 @@ module.exports = {
   CORRECT_ACUSE: 'Acusación correcta.',
   CORRECT_UPDATE: 'Actualización correcta.',
   CORRECT_INSERT: 'Insercción correcta.',
+  WIN: '¡Has ganado la partida!',
+  FAIL: 'Acusación incorrecta. ¡Has perdido la partida!',
 
   //
   ERROR_UPDATING: 'Error al actualizar.',

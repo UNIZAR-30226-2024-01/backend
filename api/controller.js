@@ -52,6 +52,34 @@ async function createAccount(username, password) {
   }
 }
 
+async function createBot(username, lvl) {
+
+  const insertQuery_bot = constants.INSERT_BOT;
+  const insertValues_bot = [username, lvl];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+    //check if userName already exits
+    const insterResult = await client.query(insertQuery_bot, insertValues_bot);
+
+    //the userName already exits //return !exito and userName
+    if (insterResult.rows.length < 0)
+      return { exito: false, msg: constants.ERROR_INSERTING };
+    else {
+      //return exito and userName
+      return { exito: true, username: insertResult_user.rows[0].username};
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+}
+
 //return exito and msg
 async function login(username, password) {
   const selectQuery = constants.SELECT_PASSWD_USUARIO;
@@ -507,7 +535,7 @@ async function createGame(username, type) {
         const insertQuery_partida = constants.INSERT_PARTIDA;
         const insertValues_partida = [
           enteroSeisDigitos,
-          constants.PLAY,
+          constants.NOT_STARTED,
           date,
           null,
           type,
@@ -575,7 +603,7 @@ async function joinGame(username, idGame) {
 
 async function leaveGame(username) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
-  const updateValues_player = [null, username, constants.STOP, null];
+  const updateValues_player = [null, username, constants.CERO, null];
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -604,7 +632,7 @@ async function leaveGame(username) {
 
 //change the state of the game to stop
 async function stopGame(idGame) {
-  const result = await changeGameState(idGame, constants.STOP);
+  const result = await changeGameState(idGame, constants.PAUSE);
   return { exito: result.exito}
 }
 
@@ -614,43 +642,51 @@ async function resumeGame(idGame) {
   return { exito: result.exito}
 }
 
+/**
+ * Finaliza una partida eliminando la conversación asociada, todas las cartas de la partida
+ * y actualiza el estado de la partida y del jugador.
+ * @param {number} idGame - El ID de la partida que se va a finalizar.
+ * @returns {Object} Un objeto que indica si la operación fue exitosa y un mensaje correspondiente.
+ */
 async function finishGame(idGame) {
-  const deleteChatsaQuery = constants.DELETE_GAME_CONVERSACION;
-  const deleteChatsValues = [idGame];
-
+  // Se preparan los valores para las consultas de eliminación
+  const deleteValues = [idGame];
+  
+  // Se establece una conexión con el pool de PostgreSQL
   const client = await pool.connect();
-  if (verbose_pool_connect)
-    console.log("pool connect17");
+  
+  // Se muestra un mensaje en la consola si verbose_pool_connect está activo
+  if (verbose_pool_connect) console.log("pool connect17");
+
   try {
-    const updatePartidaResult = await client.query(
-      deleteChatsaQuery,
-      deleteChatsValues
-    );
+    // Se ejecuta la consulta para eliminar la conversación asociada a la partida
+    const deleteConversacion = constants.DELETE_GAME_CONVERSACION;
+    await client.query(deleteConversacion, deleteValues);
+    
+    // Se ejecuta la consulta para eliminar todas las cartas de la partida
+    const deleteCartas = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
+    await client.query(deleteCartas, deleteValues);
+    
+    // Se ejecuta la consulta para actualizar el estado de la partida y del jugador
+    const updateStateandPartidaQuery = constants.UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA;
+    const updateStateandPartidaValues = [idGame, constants.CERO, null, null];
+    await client.query(updateStateandPartidaQuery, updateStateandPartidaValues);
 
-    if (updatePartidaResult.rows.length == 0) {
-      const updateStateandPartidaQuery =
-        constants.UPDATE_STATEandPARTIDA_P_JUGADOR;
-      const updateStateandPartidaValues = [idGame, constants.STOP, null];
+    // Se elimina la partida si no hay registros asociados
+    const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
+    await client.query(deletePartidaQuery, deleteValues);
 
-      const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
-      const deletePartidaValues = [idGame];
-
-      await client.query(
-        updateStateandPartidaQuery,
-        updateStateandPartidaValues
-      );
-      await client.query(deletePartidaQuery, deletePartidaValues);
-
-      //HAY QUE BORRAR TB LAS TABLAS DE RELACION CARTAS Y player
-
-      return { exito: true, msg: constants.CORRECT_DELETE };
-    } else return { exito: false, msg: constants.ERROR_DELETING };
+    // Se retorna un mensaje de éxito
+    return { exito: true, msg: constants.CORRECT_DELETE };
+   
   } catch (error) {
+    // Se lanza el error para manejarlo en un nivel superior
     throw error;
   } finally {
+    // Se libera el cliente de la conexión
     client.release();
-    if (verbose_client_release)
-      console.log("cliente.release17")
+    // Se muestra un mensaje en la consola si verbose_client_release está activo
+    if (verbose_client_release) console.log("cliente.release17")
   }
 }
 
@@ -730,7 +766,6 @@ async function playerHasCard(player, card, idGame) {
   }
 } 
 
-
 async function changeTurn(idGame) {
   //Pdte: update sospechas, position and others ..
   const selectQuery = constants.SELECT_TURN_PARTIDA;
@@ -743,19 +778,25 @@ async function changeTurn(idGame) {
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      return { exito: false, msg: constants.WRONG_USER };
+      return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
       const turno_player = selectResult.rows[0].turno;
+      let i = 1;
+      let valido = false;
+      let next_turn = turno_player;
 
-      for(let i = 0; i < constants.CHARACTERS_NAMES.length; i++){
-        if(turno_player == constants.CHARACTERS_NAMES[i]){
-          const updateQuery = constants.UPDATE_TURNO_PARTIDA;
-          const new_turno = constants.CHARACTERS_NAMES[(i+1)%constants.CHARACTERS_NAMES.length];
-          const updateValues = [idGame, new_turno];
-          await client.query(updateQuery, updateValues);
-          return { exito: true, turno: new_turno};
-        }
+      while (!valido && i <= constants.CHARACTERS_NAMES.length) {
+        next_turn = constants.CHARACTERS_NAMES[(constants.CHARACTERS_NAMES.indexOf(turno_player)+i)%constants.CHARACTERS_NAMES.length];
+        // si no existe ningun usuario con esa ficha en la partida se da por inactivo
+        valido =  await validateTurno(idGame,next_turn);
       }
+      
+      const updateQuery = constants.UPDATE_TURNO_PARTIDA;
+      const updateValues = [idGame, next_turn];
+      await client.query(updateQuery, updateValues);
+
+      return { exito: true, turno: next_turn};
+
     }
   } catch (error) {
     throw error;
@@ -863,7 +904,7 @@ async function acuse_to(
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      fail(idGame, player);
+      lose(idGame, player);
       return { exito: false, msg: constants.WRONG_ACUSE };
     } else {
       win(idGame, player);
@@ -882,21 +923,86 @@ async function acuse_to(
 //sumar XP 
 async function win(idGame, idPlayer) {
   //obtener num de bots and xp de los user que estan jugando
-  await playerWin(idPlayer);
-  await finishGame(idGame); 
+  const selectQuery_bot = constants.SELECT_INFO_END_GAME;
+  const selectQuery_type = constants.SELECT_TYPE_GAME;
+  const selectValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect33");
+  try {
+    const selectBot = await client.query(selectQuery_bot, selectValues);
+    const selectType = await client.query(selectQuery_type, selectValues);
+
+    if (selectBot.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      
+      let resultArray = [];
+      selectResult.rows.forEach(row => {
+        resultArray.push({ exito: true, nivel: row.nivel, n_bots: row.n_bots });
+      });
+      const type = selectType.rows[0].tipo;
+      const xp_to_add = calculateXP(resultArray[0].n_bots, resultArray[1].n_bots, resultArray[2].n_bots, type);
+
+      await playerWin(idPlayer,xp_to_add, type);
+      await finishGame(idGame); 
+      return { exito: true , msg: constants.WIN};
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release33")
+  }
+
+
 }
 
-//al perder, el jugador 
-//socket se mantiene
-async function fail(idGame, idPlayer) {
-  await playerFail(idPlayer);
-  await leaveGame(idGame); 
+//al perder, el jugador || socket se mantiene
+async function lose(idPlayer) {
+  await leaveGame(idPlayer); 
 }
-
 
 //********************************************AUX********************************************* */
-// type = 'l' --> local
-// type = 'o' --> online
+function calculateXP(nBots_1, nBots_2, nBots_3, type) {
+  let xp = 0;
+  const XP_PER_BOT_1 = 5;
+  const XP_PER_BOT_2 = 10;
+  const XP_PER_BOT_3 = 15;
+  const XP_PER_PLAYER = 12;
+  const XP_BOTS = XP_PER_BOT_1 * nBots_1 + XP_PER_BOT_2 * nBots_2 + XP_PER_BOT_3 * nBots_3;
+
+  if (type === constants.LOCAL) xp = XP_BOTS + XP_PER_PLAYER * (constants.NUM_PLAYERS - (nBots_1 + nBots_2 + nBots_3));
+  else if (type === constants.ONLINE) xp = XP_BOTS + 20 * (constants.NUM_PLAYERS - totalBots);
+  else return "Tipo de juego no válido. Por favor, ingresa 'local' o 'online'.";
+  
+  return xp;
+}
+
+async function validateTurno(idGame,ficha) {
+  const selectValidTur  = constants.SELECT_VALID_TURN_PARTIDA;
+  const validTurnValues = [idGame, next_turn];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect34");
+  try {
+    const selectResult = await client.query(selectValidTur, validTurnValues);
+
+    if (selectResult.rows.length == 0) return false;
+    else return true;
+
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release) console.log("cliente.release34")
+  }
+}
+
+// type = 'o' --> online || type = 'l' --> local
 async function playerWin(idPlayer, xp, type) {
 
   let updateQuery;
@@ -910,7 +1016,6 @@ async function playerWin(idPlayer, xp, type) {
     console.log("pool connect32");
   try {
     const updateResult = await client.query(updateQuery, updateValues);
-
 
     if (updateResult.rows.length == 0) return { exito: false, msg: constants.WRONG_IDGAME };
     else{
@@ -1102,7 +1207,6 @@ async function currentCharacters(idGame) {
   }
 }
 
-
 async function insertCards(username,  card, idGame) {
   const insertQuery = constants.INSERT_CARTAS_JUGADOR; //insert relation cartas y player
   const insertValues = [username, card, idGame];
@@ -1248,9 +1352,9 @@ async function createBot(idGame, lvl) {
 }
 
 //*****************************************EXPORTS******************************************** */
-
 module.exports = {
   createAccount,
+  createBot,
   login,
   changePassword,
   //*****************************************CHAT*********************************************** */

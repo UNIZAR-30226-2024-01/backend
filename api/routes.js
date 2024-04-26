@@ -7,7 +7,7 @@ router.use(express.json());
 
 // Testing
 
-router.get('/test', async(res) => {
+router.get('/test', async(req,res) => {
   res.json({ success: true, message: constants.TEST });
 });
 
