@@ -13,7 +13,7 @@ async function createAccount(username, password) {
   const selectValues = [username];
 
   const insertQuery_player = constants.INSERT_JUGADOR;
-  const insertValues_player = [username, null, null, null, null, 0];
+  const insertValues_player = [username, null, null, null, null, constants.CERO];
 
   const insertQuery_user = constants.INSERT_USUARIO;
   const insertValues_user = [username, password, 0, 0, 0, 0];
@@ -52,24 +52,29 @@ async function createAccount(username, password) {
   }
 }
 
+
 async function createBot(username, lvl) {
 
   const insertQuery_bot = constants.INSERT_BOT;
   const insertValues_bot = [username, lvl];
+  const inserBotlikePlayerQuery = constants.INSERT_JUGADOR;
+  const insertPlayerValues = [username, null, null, null, null, constants.CERO];
+
 
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect 1");
   try {
     //check if userName already exits
-    const insterResult = await client.query(insertQuery_bot, insertValues_bot);
-
+    const insert_player = await client.query(inserBotlikePlayerQuery, insertPlayerValues);
+    
     //the userName already exits //return !exito and userName
-    if (insterResult.rows.length < 0)
-      return { exito: false, msg: constants.ERROR_INSERTING };
-    else {
-      //return exito and userName
-      return { exito: true, username: insertResult_user.rows[0].username};
+    if (insertResult.rows.length < 0)
+    return { exito: false, msg: constants.ERROR_INSERTING };
+  else {
+    //return exito and userName
+      const insertResult = await client.query(insertQuery_bot, insertValues_bot);
+      return { exito: true, username: insertResult.rows[0].username};
     }
   } catch (error) {
     throw error;
@@ -1334,15 +1339,21 @@ async function changeGameState(idGame, state){
    }
 }
 
-async function createBot(idGame, lvl) {
-   const crearBotQuery = constants.CREATE_BOT;
+/*
+async function createBot(username, lvl) {
+  
+   const crearBotQuery = constants.INSERT_BOT;
    //supnogo  que update tb el estado de los playerssss
-   const crearBotValues = [idGame, lvl];
- 
+   const crearBotValues = [username, lvl];
+
    const client = await pool.connect();
    if (verbose_pool_connect)
     console.log("pool connect32");
   try {
+    const insertBot = await client.query(
+      crearBotQuery,
+      crearBotValues
+    );
      const crearBotResult = await client.query(
        crearBotQuery,
        crearBotValues
@@ -1358,7 +1369,7 @@ async function createBot(idGame, lvl) {
     if (verbose_client_release)
       console.log("cliente.release32") 
    }
-}
+}*/
 
 //*****************************************EXPORTS******************************************** */
 module.exports = {
