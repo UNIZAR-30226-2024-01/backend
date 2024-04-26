@@ -3,14 +3,21 @@ const constants = require('../constants.js');
 const pool = require('../connectionManager');
 
 describe('createAccount', () => {
+
+    afterAll(() => {
+        // Close all database connections
+        pool.end();
+    });
+
     test('should create account correctly', async () => {
         const mockClient = {
-        query: jest.fn()
-            .mockResolvedValueOnce({ rows: [] }) // Simulate that the user doesn't exist yet
-            .mockResolvedValueOnce({}) // Simulate the result of inserting the player
-            .mockResolvedValueOnce({ rows: [{ username: 'testUser' }] }), // Simulate the result of inserting the user
-        release: jest.fn(),
+            query: jest.fn()
+                .mockResolvedValueOnce({ rows: [] }) 
+                .mockResolvedValueOnce({}) 
+                .mockResolvedValueOnce({ rows: [{ username: 'testUser' }] }),
+            release: jest.fn(),
         };
+
         const mockPool = require('../connectionManager');
         mockPool.connect = jest.fn().mockResolvedValueOnce(mockClient);
 

@@ -21,6 +21,7 @@ pool.connect((err, client, done) => {
   done();
 });
 
+
 // Manejo de la señal SIGINT para cerrar correctamente la conexión a la base de datos
 process.on('SIGINT', () => {
   pool.end(() => {
@@ -32,5 +33,6 @@ process.on('SIGINT', () => {
 module.exports = {
   pool,
   connect: pool.connect,
+  end: () => pool.end(),
 };
 
