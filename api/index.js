@@ -31,25 +31,25 @@ ZONA DE PRUEBAS DE BOT
 */////////////////////
 
 // index del bot para crearlo
-let numBot = 3;
-let card1 = constants.ROOMS_NAMES[0];
-let card2 = constants.CHARACTERS_NAMES[0];
-let card3 = constants.ROOMS_NAMES[6];
-let cards = [card1, card2, card3]; 
+// let numBot = 3;
+// let card1 = constants.ROOMS_NAMES[0];
+// let card2 = constants.CHARACTERS_NAMES[0];
+// let card3 = constants.ROOMS_NAMES[6];
+// let cards = [card1, card2, card3]; 
 
-const tarjeta = createBot(numBot, cards);
-console.log(tarjeta);
-updateCardTest(tarjeta)
-  .then((res) => {
-    return moveBotTest(res);
-  })
-  .then(() => {
-    // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
-    console.log('Tests de los bots terminados.');
-  })
-  .catch(error => {
-    console.error('Hubo un error:', error);
-  });
+// const tarjeta = createBot(numBot, cards);
+// console.log(tarjeta);
+// updateCardTest(tarjeta)
+//   .then((res) => {
+//     return moveBotTest(res);
+//   })
+//   .then(() => {
+//     // Esta parte del código se ejecutará después de que otraFuncionSecuencial haya terminado
+//     console.log('Tests de los bots terminados.');
+//   })
+//   .catch(error => {
+//     console.error('Hubo un error:', error);
+//   });
 
 /////////////////////////////
 // LLAMADA A FUNCIONES REALES
@@ -100,9 +100,9 @@ app.use((req, res, next) => {
   const allowedOrigins = ips2listen;
   const origin = req.headers.origin;
 
-  if (allowedOrigins.includes(origin)) {
-  res.header(constants.ALLOW_ORIGIN, origin);
-  } else return res.status(403).json({ error: 'Origin not allowed' });
+  // if (allowedOrigins.includes(origin)) {
+    res.header(constants.ALLOW_ORIGIN, origin);
+  // } else return res.status(403).json({ error: 'Origin not allowed' });
 
   res.header(constants.ALLOW_METHODS, constants.METHODS);
   res.header(constants.ALLOW_HEADERS, constants.HEADERS);

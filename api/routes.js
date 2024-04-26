@@ -119,18 +119,13 @@ router.put('/changePassword', async(req, res) => {
 });
 
 router.get('/availableCharacters', async(req, res) => {
-  // const idGame = req.body.idGame;
-  const idGame = 1;
+  const idGame = req.body.idGame;
+  // const idGame = 1;
   try {
     const createSuccessfully = await controller.availabilityCharacters(idGame);
 
-    res.json({
-      success: createSuccessfully.exito,
-      message: createSuccessfully.msg,
-      characters: createSuccessfully.characters,
-    });
+    res.json(createSuccessfully);
     //true are available characters
-    console.log(`${createSuccessfully.msg}`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });

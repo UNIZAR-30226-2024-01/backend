@@ -445,6 +445,9 @@ async function dealCards(players,idGame) {
   //consulta que devuelve en una vector de vectores las cartas de cada player
   const selectQuery = constants.SELECT_CARTAS_DISTINT_SOLUTION;
   const selectValues = [idGame];
+
+  // rellenar el players con los nombres de los bots
+  console.log("players ",players);
  
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -460,12 +463,14 @@ async function dealCards(players,idGame) {
       for (let i = 0; i < selectResult.rows.length; i++) {
         cardsNotSolution[i] = selectResult.rows[i].cards;
         if(i < players.length){
-          playersUsername[i] = players[i].username;
+          playersUsername[i] = players[i].userName;
         }
       }
+
+      console.log("playersUsername ",playersUsername);
       const resultCards = await internalDealCards(playersUsername, cardsNotSolution, idGame);
       
-     // console.log("resultCards "+resultCards.cards[0]);
+    //  console.log("resultCards "+resultCards.cards[0]);
       return { exito: true  , cards: resultCards.cards};
     }
   } catch (error) {
@@ -1149,7 +1154,7 @@ async function internalDealCards(players, cards_available,idGame) {
     const playerIndex = i % constants.NUM_PLAYERS;
     await deleteCardsFromPlayer(players[playerIndex]);
   }
-
+  console.log("players ",players);
   for (let i = 0; i < cards.length; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
 
@@ -1335,7 +1340,7 @@ async function changeGameState(idGame, state){
 }
 
 async function createBot(idGame, lvl) {
-   const crearBotQuery = constants.CREATE_BOT;
+   const crearBotQuery = constants.INSERT_BOT;
    //supnogo  que update tb el estado de los playerssss
    const crearBotValues = [idGame, lvl];
  
