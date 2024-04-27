@@ -55,7 +55,7 @@ module.exports = {
     'http://localhost:5173',
     'http://10.1.64.155:5173',
     'http://localhost:4200',
-    'https://zpmd6742-5173.uks1.devtunnels.ms',
+    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
   ],
 
   CONNECT: 'connection',
@@ -278,7 +278,7 @@ module.exports = {
   UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA:
     'UPDATE grace_hopper."jugador" SET estado = $2, partida_actual = $3, ficha = $4 WHERE partida_actual = $1',
   UPDATE_TURNO_PARTIDA:
-    'UPDATE grace_hopper."partida" SET turno = $2 WHERE partida_actual = $1',
+    'UPDATE grace_hopper."partida" SET turno = $2 WHERE id_partida = $1',
   UPDATE_SOSPECHAS_POSITION:
     'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE username = $1',
   UPDATE_SOSPECHAS:

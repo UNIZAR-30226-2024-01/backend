@@ -750,10 +750,12 @@ async function gameInformation(idGame) {
   const selectQuery = constants.SELECT_INFO_GAME;
   const selectValues = [idGame];
 
+  const availables = await availabilityCharacters(idGame);
+
   // Connect to the database client
   const client = await pool.connect();
   if (verbose_pool_connect)
-    console.log("pool connect18");
+    console.log("pool connect18"); 
   
   try {
     // Execute the query to fetch player information
@@ -770,7 +772,8 @@ async function gameInformation(idGame) {
         estado: selectResult.rows[0].estado,
         fecha_ini: selectResult.rows[0].ficha,
         tipo: selectResult.rows[0].tipo,
-        turno: selectResult.rows[0].turno
+        turno: selectResult.rows[0].turno,
+        areAvailable: availables.areAvailable,
       };
     }
   } catch (error) {
@@ -813,6 +816,8 @@ async function changeTurn(idGame) {
   //Pdte: update sospechas, position and others ..
   const selectQuery = constants.SELECT_TURN_PARTIDA;
   const selectValues = [idGame];
+  const res = await availabilityCharacters(idGame);
+  // console.log("characterAvailability: "+res.areAvailable);
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -823,22 +828,31 @@ async function changeTurn(idGame) {
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
-      const turno_player = selectResult.rows[0].turno;
+      const turno_player_username = selectResult.rows[0].turno;
+      // console.log("turno_player_username "+turno_player_username);
+      const turno_player_character = res.characterAvaliable[res.areAvailable.indexOf(turno_player_username)];
+      // console.log("turno_player_character "+turno_player_character);
       let i = 1;
       let valido = false;
-      let next_turn = turno_player;
+      let next_turn_character = turno_player_character;
 
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
-        next_turn = constants.CHARACTERS_NAMES[(constants.CHARACTERS_NAMES.indexOf(turno_player)+i)%constants.CHARACTERS_NAMES.length];
+        next_turn_character = constants.CHARACTERS_NAMES[(constants.CHARACTERS_NAMES.indexOf(turno_player_character) + i) % constants.CHARACTERS_NAMES.length];
+        // console.log("next_turn_character "+next_turn_character);
+        i++;
         // si no existe ningun usuario con esa ficha en la partida se da por inactivo
-        valido =  await validateTurno(idGame,next_turn);
+        valido =  await validateTurno(idGame,next_turn_character);
       }
-      
+
+      // obtener el username del character "next_turn_character"
+      const username_next_turn = res.areAvailable[constants.CHARACTERS_NAMES.indexOf(next_turn_character)];
+      // console.log("username_next_turn "+username_next_turn);
+
       const updateQuery = constants.UPDATE_TURNO_PARTIDA;
-      const updateValues = [idGame, next_turn];
+      const updateValues = [idGame, username_next_turn];
       await client.query(updateQuery, updateValues);
 
-      return { exito: true, turno: next_turn};
+      return { exito: true, turno: username_next_turn};
 
     }
   } catch (error) {
@@ -848,7 +862,7 @@ async function changeTurn(idGame) {
     if (verbose_client_release)
       console.log("cliente.release20")
   }
-    
+
 }
 
 async function udpate_players_info(idPlayer, sospechas, position){
@@ -1023,14 +1037,14 @@ function calculateXP(nBots_1, nBots_2, nBots_3, type) {
 }
 
 async function validateTurno(idGame,ficha) {
-  const selectValidTur  = constants.SELECT_VALID_TURN_PARTIDA;
-  const validTurnValues = [idGame, next_turn];
+  const selectValidTurn  = constants.SELECT_VALID_TURN_PARTIDA;
+  const validTurnValues = [idGame, ficha];
 
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect34");
   try {
-    const selectResult = await client.query(selectValidTur, validTurnValues);
+    const selectResult = await client.query(selectValidTurn, validTurnValues);
 
     if (selectResult.rows.length == 0) return false;
     else return true;
