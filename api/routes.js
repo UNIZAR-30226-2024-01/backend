@@ -221,4 +221,38 @@ router.post('/removeBots', async (req, res) => {
   }
 });
 
+router.post('/updatePlayerInfo', async (req, res) => {
+
+  const sospechas = req.body.sospechas;
+  const username = req.body.username;
+  const position = req.body.position;
+
+
+  try {
+    const result = await controller.update_players_info(username, sospechas, position);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ exito: false, message: error.message });
+  }
+});
+//getPlayerStateInformation
+
+router.get('/getPlayerStateInformation', async (req, res) => {
+
+  const idGame = req.body.idGame;
+  const username = req.body.username;
+
+
+  try {
+    const result = await controller.getPlayerStateInformation(idGame, username);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ exito: false, message: error.message });
+  }
+});
+
+
+
 module.exports = router;

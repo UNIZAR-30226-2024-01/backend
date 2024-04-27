@@ -245,9 +245,13 @@ async function selectCharacter(username, character) {
     );
 
 
-    if (updateResult.rows.length == 0)
-      return { exito: false, msg: constants.ERROR_UPDATING };
-    else return { exito: true, msg: constants.CORRECT_UPDATE };
+    if (updateResult.rows.length == 0) return { exito: false, msg: constants.ERROR_UPDATING };
+    else{ 
+      const idx = constants.CHARACTERS_NAMES.indexOf(character);
+      const position = constants.INITIAL_POSTIONS[idx];
+      updatePosition(username, position);
+      return { exito: true, msg: constants.CORRECT_UPDATE };
+    }
   } catch (error) {
     throw error;
   } finally {
@@ -800,6 +804,32 @@ async function playerHasCard(player, card, idGame) {
   }
 } 
 
+
+async function updatePosition(username, pos){
+  const updateQuery = constants.UPDATE_POSTION_PLAYER;
+  const updateValues = [username,pos];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect23");
+  try {
+    const updateResult = await client.query(updateQuery, updateValues);
+
+    if (updateResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_USER };
+    } else {
+      return { exito: true , msg: constants.CORRECT_UPDATE};
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release23")
+  }
+}
+
+
 async function changeTurn(idGame) {
   //Pdte: update sospechas, position and others ..
   const selectQuery = constants.SELECT_TURN_PARTIDA;
@@ -853,29 +883,25 @@ async function changeTurn(idGame) {
 
 }
 
-async function udpate_players_info(idPlayer, sospechas, position){
+async function update_players_info(username, sospechas, position){
 
   let updateQuery, updateValues;
+  
 
   if(position != null){
-    updateQuery = constants.UPDATE_SOSPECHAS_POSITION;
-    updateValues = [idPlayer, sospechas, position];
+    await updatePosition(username, position);
   }else{
     updateQuery = constants.UPDATE_SOSPECHAS;
-    updateValues = [idPlayer, sospechas];
+    updateValues = [username, sospechas];
   }
 
   const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect21");
   try {
-    const updateResult = await client.query(updateQuery, updateValues);
-
-    if (updateResult.rows.length == 0) {
-      return { exito: false, msg: constants.WRONG_USER };
-    } else {
-      return { exito: true , msg: constants.CORRECT_UPDATE};
-    }
+    await client.query(updateQuery, updateValues);
+    return { exito: true , msg: constants.CORRECT_UPDATE};
+  
   } catch (error) {
     throw error;
   } finally {
@@ -1460,5 +1486,6 @@ module.exports = {
   getPlayerXP,
   getCards,
   playerHasCard,
-  udpate_players_info,
+  update_players_info,
+  updatePosition
 };

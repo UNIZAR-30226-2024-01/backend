@@ -40,6 +40,17 @@ const TYPES_CARD = [
   'lugar'
 ];
 
+//[120, 432, 561, 16, 191, 566]
+// in order to get the initial positions of the characters
+const INITIAL_POSTIONS = [
+  120,
+  432,
+  561,
+  16,
+  191,
+  566,
+];
+
 module.exports = {
   //Módulo.index
   //
@@ -113,6 +124,9 @@ module.exports = {
 
   //Tipos de cartas
   TYPES_CARD,
+
+  //Posiciones iniciales
+  INITIAL_POSTIONS,
 
   NUM_PLAYERS: CHARACTERS_NAMES.length,
   NUM_CARDS: (CHARACTERS_NAMES.length + GUNS_NAMES.length + ROOMS_NAMES.length) - 3 / CHARACTERS_NAMES.length ,
@@ -287,7 +301,7 @@ module.exports = {
   UPDATE_TURNO_PARTIDA:
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE id_partida = $1',
   UPDATE_SOSPECHAS_POSITION:
-    'UPDATE grace_hopper."jugador" SET sospechas = $2, SET posicion = $3 WHERE username = $1',
+    'UPDATE grace_hopper."jugador" SET sospechas = $2, posicion = $3 WHERE username = $1',
   UPDATE_SOSPECHAS:
     'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE username = $1',
   UPDATE_WIN_JUGADOR_LOCAL:
