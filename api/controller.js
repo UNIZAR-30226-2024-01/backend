@@ -756,12 +756,13 @@ async function getPlayerStateInformation(idGame, username) {
         postion_of_characters.character[idx] = row.ficha;
         postion_of_characters.position[idx] = row.posicion;
       });
+
       return {
         exito: true,
-        positions: postion_of_characters.character,
+        positions: postion_of_characters.position,
         sospechas: playerInf.sospechas,
         cards: playerCards.cards,
-        position: selectResult.rows[0].posicion,
+        turnoOwner: selectResult.rows[0].turno,
       };
     }
   } catch (error) {

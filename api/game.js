@@ -8,6 +8,9 @@ const controller = require('./controller.js');
 // global para hacer efectivos los cambios en todas las funciones y métodos
 let relaciones_socket_username = []
 
+//declare a dictionary to store the players in order
+let players_in_order = { username: [], character: [] };
+
 
 async function joinGame(username, idGame) {
   //update jugador
@@ -16,7 +19,7 @@ async function joinGame(username, idGame) {
 
 
 async function gameWSMessagesListener(io, group) {
-  io.on(constants.CONNECT, (socket) => {
+  io.on(constants.CONNECT, async (socket) => {
 
     // si el socket es de mi grupo lo meto en 'relaciones_socket_username'
     // sino corto esta conexion--> conex de un user de otra partida
@@ -37,12 +40,38 @@ async function gameWSMessagesListener(io, group) {
       s.socket.emit('close-connetion', {})
       s.socket.disconnect();
 
+      
       // enviar al nuevo socket la información actual para que recupere el estado
       socket.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
         available: players_in_order.username,
+      });
+
+      // 🎃 Descometar cuando esté hecha
+      // const gameState = await controller.getPlayerStateInformation(group, socket.handshake.auth.username);
+      const gameState = {
+        positions: [368, 369, 370, 371, 372, 373],
+        cards: ["cafe envenenado", "escaleras", "mr PROG"],
+        sospechas: JSON.stringify(Array(28).fill('')),
+        turnoOwner: "rold",
+      }
+      
+
+      console.log("gameState", {
+        posiciones: gameState.positions,
+        cartas: gameState.cards,
+        sospechas: gameState.sospechas,
+        turnoOwner: gameState.turnoOwner,
+      });
+
+      // enviar estado actual de la partida: POSICIONES, CARTAS, SOSPECHAS, TURNO_OWNER, [PARTE_TURNO]
+      socket.emit('game-state', {
+        posiciones: gameState.positions,
+        cartas: gameState.cards,
+        sospechas: gameState.sospechas,
+        turnoOwner: gameState.turnoOwner,
       });
 
       relaciones_socket_username = relaciones_socket_username.filter((s) => s.username !== socket.handshake.auth.username)
@@ -166,9 +195,6 @@ async function runGame(io, group) {
 
   // get all players with their characters
   const all_players = await controller.getPlayersCharacter(group);
-
-  //declare a dictionary to store the players in order
-  const players_in_order = { username: [], character: [] };
   
 
   // order players by character
@@ -195,8 +221,6 @@ async function runGame(io, group) {
 
 
   // Avisar al primer jugador del grupo que es su turno
-  let gameOver = false;
-  let turno = -1;
 
   const handleTurnoBot = async (turnoOwner,group) => {
     const {position, fin} = moveBot();
@@ -206,30 +230,39 @@ async function runGame(io, group) {
       io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room); // 📩
 
       const username_shower = getFirstPlayerWithCard();
-
     }
-
   };
 
   // Bucle de juego, donde se va cambiando el turno cuando corresponde. 
   // Lógica para manejar el turno de un jugador
   const handleTurno = async (turnoOwner, socketOwner) => {
     console.log("Es el turno de:", turnoOwner);
-    // Meter TODO aquí 🎃
-    // setTimeout(() => {
-      
-    // }, 45000 )
+
+    let timeoutId = setTimeout(() => { 
+      // en caso de que se venza el tiempo del turno, se eliminan los eventos y se salta al siguiente turno
+      console.log("Se ha acabado el tiempo del turno de", turnoOwner);
+      socketOwner.socket.removeAllListeners();
+
+      handleNextTurn();
+      return;
+    }, 47000); // dejar en 47 segundos 
+
     io.to(group).emit('turno-owner', turnoOwner); // 📩
 
     if (turnoOwner.includes("bot")) {
       await handleTurnoBot(turnoOwner, group); // gestión de bot en otra función aparte
+
+      // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+      clearTimeout(timeoutId);
+      socketOwner.interacted = true;
+
       handleNextTurn();
       return;
     }
 
     // Manejador para el evento turno-moves-to
     const onTurnoMovesTo = (username, position, fin) => {
-      // reenviar a todos el movimiento del jugador
+      // reenviar a todos el movimiento del 
       io.to(group).emit('turno-moves-to-response', username, position); // 📩
       socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
       if (!fin) {
@@ -262,15 +295,25 @@ async function runGame(io, group) {
             if (username_shower == "") {
               // nadie tiene cartas para enseñar
               io.to(group).emit('turno-show-cards', username_asking, "", "");
+
+              // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+              clearTimeout(timeoutId);
+
               setTimeout(() => {
                 handleNextTurn();
+                return;
               }, 2000);
             }
             else if (username_shower.includes("bot")) {
               // turno-show-cards (bot enseña carta a alguien) 🎃
               const { card } = bot.getCardFromQuestion(username_shower, character, gun, room);
               io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
+
+              // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+              clearTimeout(timeoutId);
+
               handleNextTurn()
+              return;
             }
             else {
               // un jugador real enseña una carta
@@ -282,8 +325,13 @@ async function runGame(io, group) {
                 // reenviar al resto de jugadores la carta mostrada
                 io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
                 socket_shower.socket.off('turno-card-selected', onTurnoCardSelected);
+
+                // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+                clearTimeout(timeoutId);
+
                 setTimeout(() => {
                   handleNextTurn();
+                  return;
                 }, 2000);
               };
               socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
@@ -295,10 +343,18 @@ async function runGame(io, group) {
         // No has entrado en ninguna habitación (no se hace pregunta)
         console.log("El turno termina aquí");
 
+        // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+        clearTimeout(timeoutId);
+
         // Continuar con el siguiente turno
         handleNextTurn();
+        return;
       }
+      
     };
+
+    // Si el jugador del turno no está conectado (socketOwner == undefined),
+    // se     
 
     // Registrar el evento turno-moves-to para este jugador
     socketOwner.socket.on('turno-moves-to', onTurnoMovesTo);
@@ -309,18 +365,20 @@ async function runGame(io, group) {
     // Hacer un timeout para simular el tiempo de espera entre turnos
     setTimeout(async () => {
 
-      const turno = await controller.changeTurn(group);
+      const { exito, turno:turno_username } = await controller.changeTurn(group); // turno.turno es un username
 
-      if (!turno.exito) {
+      if (!exito) {
         console.log("Error al cambiar de turno");
         return;
       }
 
       // const idx = players_in_order.character.indexOf(turno.turno)
-      const turnoOwner = turno.turno;
+      const turnoOwner = turno_username;
       const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
 
-      if (turnoOwner.includes("bot")) { // borrar cuando se implemente lógica de bot 🎃
+      // si al principio de tu turno no estás conectado, se salta al siguiente
+        // borrar lo de los bots cuando se implemente lógica de bot 🎃
+      if (!socketOwner || turnoOwner.includes("bot")) { 
         handleNextTurn();
       }
       else {
