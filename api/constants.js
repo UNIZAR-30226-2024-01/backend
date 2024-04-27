@@ -261,7 +261,13 @@ module.exports = {
   SELECT_VALID_TURN_PARTIDA:
     ' SELECT COUNT(*) AS n from grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
   SELECT_POSICION_JUGADOR:
-    'SELECT ficha, posicion FROM grace_hopper."jugador" WHERE partida_actual = $1',
+    ' SELECT ' +
+    ' player.ficha AS ficha, '+
+    ' player.posicion AS posicion, '+ 
+    ' game.turno AS turno'+ 
+    ' FROM grace_hopper."jugador" player '+
+    ' JOIN grace_hopper."partida" game ON game.id_partida = player.partida_actual '+
+    ' WHERE partida_actual = $1',
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:

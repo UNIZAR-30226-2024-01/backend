@@ -761,6 +761,7 @@ async function getPlayerStateInformation(idGame, username) {
         positions: postion_of_characters.character,
         sospechas: playerInf.sospechas,
         cards: playerCards.cards,
+        position: selectResult.rows[0].posicion,
       };
     }
   } catch (error) {
