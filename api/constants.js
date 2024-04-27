@@ -260,7 +260,8 @@ module.exports = {
     ' bot.nivel_dificultad;',
   SELECT_VALID_TURN_PARTIDA:
     ' SELECT COUNT(*) AS n from grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
-  
+  SELECT_POSICION_JUGADOR:
+    'SELECT ficha, posicion FROM grace_hopper."jugador" WHERE partida_actual = $1',
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:

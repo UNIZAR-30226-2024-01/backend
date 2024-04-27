@@ -19,11 +19,12 @@ const PEOPLE = ['mr SOPER',
   'miss IA']
 const WEAPONS = ['teclado',
   'cable de red',
-  'café envenenado',
+  'cafe envenenado',
   'router afilado',
   'troyano',
   'cd']
 
+// me == idx en la lista ordenada de jugadores
 function createBot(me, cards) {
   console.log('Creating bot...');
 
@@ -38,7 +39,7 @@ function createBot(me, cards) {
     } else {
       cards[i] = constants.ROOMS_NAMES.indexOf(cards[i]);
     }
-    console.log('Card: ' + cards[i]);
+    //console.log('Card: ' + cards[i]);
   }
   // Crear un string de (N_PLACES+N_ROOMS+N_THINGS)*N_PLAYERS
   const tarjeta = [];
@@ -109,6 +110,7 @@ async function updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarj
   // console.log('Updating card...');
   // console.log('Parameters: <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>');
 
+  
   const args = [me, lvl, asker, holder, where, who, what, hasSmg, tarjeta];
   const data = await update(args);
   return data;

@@ -53,65 +53,6 @@ async function createAccount(username, password) {
 }
 
 
-async function createBot(username, lvl) {
-
-  const insertQuery_bot = constants.INSERT_BOT;
-  const insertValues_bot = [username, lvl];
-  const inserBotlikePlayerQuery = constants.INSERT_JUGADOR;
-  const insertPlayerValues = [username, null, null, null, null, constants.CERO];
-
-
-  const client = await pool.connect();
-  if (verbose_pool_connect)
-    console.log("pool connect 1");
-  try {
-    //check if userName already exits
-    const insert_player = await client.query(inserBotlikePlayerQuery, insertPlayerValues);
-    
-    //the userName already exits //return !exito and userName
-    if (insert_player.rows.length < 0)
-    return { exito: false, msg: constants.ERROR_INSERTING };
-  else {
-    //return exito and userName
-      const insertResult = await client.query(insertQuery_bot, insertValues_bot);
-      return { exito: true, username: insertResult.rows[0].username};
-    }
-  } catch (error) {
-    throw error;
-  } finally {
-    client.release();
-    if (verbose_client_release)
-      console.log("cliente.release1")
-  }
-}
-
-async function removeBots(idGame) {
-  const deleteCards = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
-  const deleteBotsQuery = constants.DELETE_ALL_BOTS_FROM_BOT;
-  const deleteValues = [idGame];
-
-  const client = await pool.connect();
-  if (verbose_pool_connect)
-    console.log("pool connect 1");
-  try {
-
-    await client.query(deleteCards, deleteValues);
-    await client.query(deleteBotsQuery, deleteValues);
-
-    const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
-    await client.query(deletePlayer, deleteValues);
-
-  
-    return { exito: true, msg: constants.CORRECT_DELETE };
-  
-  } catch (error) {
-    throw error;
-  } finally {
-    client.release();
-    if (verbose_client_release)
-      console.log("cliente.release1")
-  }
-}
 
 //return exito and msg
 async function login(username, password) {
@@ -715,6 +656,8 @@ async function finishGame(idGame) {
     const updateStateandPartidaValues = [idGame, constants.CERO, null, null];
     await client.query(updateStateandPartidaQuery, updateStateandPartidaValues);
 
+    await removeBots(idGame);
+
     // Se elimina la partida si no hay registros asociados
     const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
     await client.query(deletePartidaQuery, deleteValues);
@@ -786,6 +729,49 @@ async function gameInformation(idGame) {
       console.log("cliente.release18")
   }
 }
+
+//posicion de players, 
+//
+async function getPlayerStateInformation(idGame, username) {
+  const playerInf = await playerInformation(username);
+  const playerCards = await getCards(username, idGame);
+
+  const selectPostionQuery = constants.SELECT_POSICION_JUGADOR;
+  const selectPositionValues = [idGame];
+
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect19");
+  try {
+    const selectResult = await client.query(selectPostionQuery, selectPositionValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+
+      let postion_of_characters = { character: [], position: [] };
+      selectResult.rows.forEach(row => {
+        let idx = constants.CHARACTERS_NAMES.indexOf(row.ficha);
+        postion_of_characters.character[idx] = row.ficha;
+        postion_of_characters.position[idx] = row.posicion;
+      });
+      return {
+        exito: true,
+        positions: postion_of_characters.character,
+        sospechas: playerInf.sospechas,
+        cards: playerCards.cards,
+      };
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release19")
+  }
+}
+
 
 //check if the player has the card
 async function playerHasCard(player, card, idGame) {
@@ -1018,6 +1004,67 @@ async function win(idGame, idPlayer) {
 //al perder, el jugador || socket se mantiene
 async function lose(idPlayer) {
   await leaveGame(idPlayer); 
+}
+
+//********************************************BOTS********************************************* */
+async function createBot(username, lvl) {
+
+  const insertQuery_bot = constants.INSERT_BOT;
+  const insertValues_bot = [username, lvl];
+  const inserBotlikePlayerQuery = constants.INSERT_JUGADOR;
+  const insertPlayerValues = [username, null, null, null, null, constants.CERO];
+
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+    //check if userName already exits
+    const insert_player = await client.query(inserBotlikePlayerQuery, insertPlayerValues);
+    
+    //the userName already exits //return !exito and userName
+    if (insert_player.rows.length < 0)
+    return { exito: false, msg: constants.ERROR_INSERTING };
+  else {
+    //return exito and userName
+      const insertResult = await client.query(insertQuery_bot, insertValues_bot);
+      return { exito: true, username: insertResult.rows[0].username};
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+}
+
+async function removeBots(idGame) {
+  const deleteCards = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
+  const deleteBotsQuery = constants.DELETE_ALL_BOTS_FROM_BOT;
+  const deleteValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+
+    await client.query(deleteCards, deleteValues);
+    await client.query(deleteBotsQuery, deleteValues);
+
+    const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
+    await client.query(deletePlayer, deleteValues);
+
+  
+    return { exito: true, msg: constants.CORRECT_DELETE };
+  
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
 }
 
 //********************************************AUX********************************************* */
@@ -1407,6 +1454,7 @@ module.exports = {
   acuse_to,
   //****************************************player*********************************************** */
   playerInformation,
+  getPlayerStateInformation,
   getPlayerXP,
   getCards,
   playerHasCard,
