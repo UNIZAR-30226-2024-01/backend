@@ -90,10 +90,16 @@ const addSocketToGroup = (socket) => {
 function runSocketServer(io) {
   io.on(constants.CONNECT, async(socket) => {
 
+    console.log("se ha conectado a SOCKET.JS " + socket.handshake.auth.username);
     addSocketToGroup(socket);
     // añadir usuario a la partida en la DB (partida_actual)
 
     await controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
+
+    socket.on('disconnect', async () => {
+      console.log(constants.USER_DISCONNECTED);
+      socket.disconnect();
+    });
 
     socket.on('bye-bye', async() => {
       console.log(constants.USER_DISCONNECTED);
@@ -170,9 +176,6 @@ function runSocketServer(io) {
       console.log('start game received');
       game.runGame(io, socket.handshake.auth.group);
     });
-
-    // gestionar cambio de turno
-    
 
     ldrMsg(socket);
   });
