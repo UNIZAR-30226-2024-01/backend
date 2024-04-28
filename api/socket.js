@@ -101,7 +101,7 @@ function runSocketServer(io) {
       socket.disconnect();
     });
 
-    socket.on('bye-bye', async() => {
+    socket.on('leave-game', async() => {
       console.log(constants.USER_DISCONNECTED);
       socket.disconnect();
 
@@ -119,12 +119,19 @@ function runSocketServer(io) {
     // INFO DE JUEGO
     socket.on('request-game-info', async() => {
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
+
+      const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
       // console.log(constants.CHARACTERS_NAMES);
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
         available: areAvailable,
+
+        cards: res.cards,
+        sospechas: res.sospechas,
+        posiciones: res.positions,
+        turnoOwner: res.turnoOwner,        
       });
     });
 

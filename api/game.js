@@ -215,6 +215,7 @@ async function runGame(io, group) {
       guns: constants.GUNS_NAMES,
       rooms: constants.ROOMS_NAMES,
       available: players_in_order.username,
+      posiciones: [120, 432, 561, 16, 191, 566],
     });
   });
 
@@ -263,6 +264,7 @@ async function runGame(io, group) {
     // Manejador para el evento turno-moves-to
     const onTurnoMovesTo = (username, position, fin) => {
       // reenviar a todos el movimiento del 
+      console.log("El jugador", username, "se ha movido a la posición", position);
       io.to(group).emit('turno-moves-to-response', username, position); // 📩
       socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
       if (!fin) {
@@ -275,17 +277,18 @@ async function runGame(io, group) {
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
 
           if (is_final) {
-            const { exito } = await controller.acuse_to(username, idGame, character, gun, room);
+            const { exito } = await controller.acuse_to(username, group, character, gun, room);
             io.to(group).emit('game-over', username_asking, exito);
             if (exito) {
               // eliminar la partida, players, ...
+              console.log("FIN. Ha ganado el jugador: ", username_asking);
             } else {
               // eliminar al jugador que ha perdido
               // igual esto ya se hace en acuse_to
+              console.log("FIN. Ha perdido la partida: ", username_asking);
+              handleNextTurn();
             }
           } else {
-            
-
             // buscar quien es el jugador que debe enseñar la carta
             // llamar función 
             const { exito, user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.username);

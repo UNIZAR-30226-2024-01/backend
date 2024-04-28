@@ -240,7 +240,7 @@ module.exports = {
     // WHERE 
     //  player.username = $1;
   SELECT_SOLUTION:
-   'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1'+
+   'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1 '+
    'AND asesino = $2 AND arma = $3 AND lugar = $4',
   SELECT_INFO_GAME:
     'SELECT estado, fecha_ini, tipo, turno FROM grace_hopper."partida" WHERE id_partida = $1',
@@ -302,6 +302,8 @@ module.exports = {
     'UPDATE grace_hopper."partida" SET turno = $2 WHERE id_partida = $1',
   UPDATE_SOSPECHAS_POSITION:
     'UPDATE grace_hopper."jugador" SET sospechas = $2, posicion = $3 WHERE username = $1',
+  UPDATE_POSTION_PLAYER:
+    'UPDATE grace_hopper."jugador" SET posicion = $2 WHERE username = $1',
   UPDATE_SOSPECHAS:
     'UPDATE grace_hopper."jugador" SET sospechas = $2 WHERE username = $1',
   UPDATE_WIN_JUGADOR_LOCAL:

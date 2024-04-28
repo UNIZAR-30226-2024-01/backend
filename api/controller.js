@@ -396,11 +396,12 @@ async function getCards(player,idGame) {
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_USER };
     } else {
+      // list with all the cards of the player obtained in the selectResult
+      const cartas = selectResult.rows.map((row) => row.carta);
+
       return {
         exito: true,
-        cards: selectResult.rows.map((row) => ({
-          card: row.cartas,
-        })),
+        cards: cartas,
       };
     }
   } catch (error) {
@@ -956,13 +957,7 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
   }
 } 
 
-async function acuse_to(
-  player,
-  idGame,
-  characterCard,
-  weaponCard,
-  placeCard
-) {
+async function acuse_to( player, idGame, characterCard, weaponCard, placeCard) {
   const selectQuery = constants.SELECT_SOLUTION;
   const selectValues = [idGame, characterCard, weaponCard, placeCard];
 
@@ -973,10 +968,10 @@ async function acuse_to(
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      lose(idGame, player);
+      // lose(idGame, player);
       return { exito: false, msg: constants.WRONG_ACUSE };
     } else {
-      win(idGame, player);
+      // win(idGame, player);
       return { exito: true , msg: constants.CORRECT_ACUSE};
     }
   } catch (error) {
@@ -1006,17 +1001,20 @@ async function win(idGame, idPlayer) {
     if (selectBot.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
-      
+
       let resultArray = [];
-      selectResult.rows.forEach(row => {
-        resultArray.push({ exito: true, nivel: row.nivel, n_bots: row.n_bots });
-      });
+      for (let i = 0; i < 3; i++) {
+        let n_bots = selectBot.rows.find((row) => i == row.nivel)?.n_bots;
+        if (!n_bots) n_bots = 0;
+        resultArray.push({ exito: true, nivel: i, n_bots: n_bots });
+      }
+
       const type = selectType.rows[0].tipo;
       const xp_to_add = calculateXP(resultArray[0].n_bots, resultArray[1].n_bots, resultArray[2].n_bots, type);
 
       await playerWin(idPlayer,xp_to_add, type);
-      await finishGame(idGame); 
-      return { exito: true , msg: constants.WIN};
+      await finishGame(idGame);
+      return { exito: true , msg: constants.WIN };
     }
   } catch (error) {
     throw error;
