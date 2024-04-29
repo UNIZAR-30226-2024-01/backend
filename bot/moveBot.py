@@ -211,9 +211,9 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
-def sospecha(casilla, tarjeta, me, election):
-	if info_tablero[casilla]['roomName'] == '':
-		# print("No se puede hacer una sospecha en una casilla que no es una habitación") (DEBUG)
+def sospecha(casilla, tarjeta, me, election, last_pos):
+	if info_tablero[casilla]['roomName'] == '' or sameRoom(last_pos, casilla):
+		# print("No se puede hacer una sospecha en una casilla que no es una habitación o si ya estabas ahí") (DEBUG)
 		print(f"MOVE,{election},-1")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
@@ -276,7 +276,15 @@ def printCard(tarjeta):
 	print("Armas:")
 	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
 		print(f"{i}: {tarjeta[i]}")		
-			
+
+def sameRoom(last_pos, decision):
+	room = info_tablero[last_pos]['roomName']
+	# print(f"room: {room}, decision: {info_tablero[decision]['roomName']}") # (DEBUG)
+	if room == '':
+		return False
+	if room == info_tablero[decision]['roomName']:
+		return True
+	return False
 
 if __name__ == "__main__":
 
@@ -303,6 +311,7 @@ if __name__ == "__main__":
 	tarjeta = [[int(str_tarjeta[i*N_PLAYERS+j]) for j in range(N_PLAYERS)] for i in range(N_PEOPLE+N_PLACES+N_WEAPONS)]
 
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
+	last_pos = casillas_pjs[yo]
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
 
 	vecinos = [N_COLS, 1, -N_COLS, -1]
@@ -315,7 +324,7 @@ if __name__ == "__main__":
 		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
 		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
 		# printCard(tarjeta) (DEBUG)
-		sospecha(election, tarjeta, yo, election)
+		sospecha(election, tarjeta, yo, election, last_pos)
 	else:
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
-		print(f"MOVE,{decision},-1") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+		print(f"MOVE,{decision},-1") if (info_tablero[decision]['roomName'] == '' or sameRoom(last_pos, decision)) else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")

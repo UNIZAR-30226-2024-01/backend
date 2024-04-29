@@ -80,7 +80,7 @@ async function moveBotTest(tarjeta) {
   // console.log('Moving bot...');
   // console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
-  const args2 = [[40, 295, 394, 223, 183, 371], 5, 9, tarjeta];
+  const args2 = [[366, 265, 372, 394, 395, 289], 5, 9, tarjeta];
     
   // Ejecutar el script de Python
   const data = await move(args2);
