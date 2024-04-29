@@ -9,7 +9,7 @@ const controller = require('./controller.js');
 let relaciones_socket_username = []
 
 //declare a dictionary to store the players in order
-let players_in_order = { username: [], character: [] };
+let players_in_order = { };
 
 
 async function joinGame(username, idGame) {
@@ -46,7 +46,7 @@ async function gameWSMessagesListener(io, group) {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
-        available: players_in_order.username,
+        available: players_in_order.group.username,
       });
 
       // 🎃 Descometar cuando esté hecha
@@ -86,7 +86,8 @@ async function gameWSMessagesListener(io, group) {
     // cuando se desconecta, lo saco de 'relaciones_socket_username'
   });
   
-  relaciones_socket_username.forEach((s) => {
+  const relaciones_socket_username_group = relaciones_socket_username.filter((s) => s.group === group);
+  relaciones_socket_username_group.forEach((s) => {
     s.socket.on(constants.DISCONNECT, () => {
       console.log('socket desconectado:', s.socket_id);
       relaciones_socket_username = relaciones_socket_username.filter((sock) => sock.socket_id !== s.socket_id);
@@ -101,7 +102,7 @@ async function runGame(io, group) {
 
   // Asociar a cada socket, el nombre de usuario del jugador correspondiente
   socketsSet.forEach((s) => {
-    relaciones_socket_username.push({socket_id: s, socket:io.sockets.sockets.get(s), username: io.sockets.sockets.get(s).handshake.auth.username});
+    relaciones_socket_username.push({socket_id: s, socket:io.sockets.sockets.get(s), username: io.sockets.sockets.get(s).handshake.auth.username , group: group});
   });
   gameWSMessagesListener(io,group);
   
@@ -195,15 +196,19 @@ async function runGame(io, group) {
 
   // get all players with their characters
   const all_players = await controller.getPlayersCharacter(group);
+  console.log("all_players", all_players);
   
+  players_in_order.group = { username: [], character: [] };
 
   // order players by character
   constants.CHARACTERS_NAMES.forEach((character) => {
     const player = all_players.players.find((player) => player.character === character);
-    const username = player.userName ;
-    players_in_order.username.push(username);
-    players_in_order.character.push(character);
+    const username = player.userName;
+    players_in_order.group.username.push(username);
+    players_in_order.group.character.push(character);
   });
+
+  console.log("players_in_order.group", players_in_order.group);
 
   // const { areAvailable } = await controller.availabilityCharacters(group);
   // console.log("areAvailable", areAvailable);
@@ -214,7 +219,7 @@ async function runGame(io, group) {
       names: constants.CHARACTERS_NAMES, 
       guns: constants.GUNS_NAMES,
       rooms: constants.ROOMS_NAMES,
-      available: players_in_order.username,
+      available: players_in_order.group.username,
       posiciones: [120, 432, 561, 16, 191, 566],
     });
   });
@@ -293,7 +298,7 @@ async function runGame(io, group) {
           } else {
             // buscar quien es el jugador que debe enseñar la carta
             // llamar función 
-            const { exito, user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.username);
+            const { exito, user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.group.username);
             const username_shower = user;
             console.log("username_shower", username_shower);
 
@@ -379,7 +384,6 @@ async function runGame(io, group) {
 
       console.log("El turno ha pasado a:", turno_username);
 
-      // const idx = players_in_order.character.indexOf(turno.turno)
       const turnoOwner = turno_username;
       const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
 

@@ -120,6 +120,7 @@ function runSocketServer(io) {
     socket.on('request-game-info', async() => {
       console.log("REQUEST GAME INFO FROM: " + socket.handshake.auth.username);
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
+      console.log("areAvailable: ", areAvailable);
 
       const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
       // console.log(constants.CHARACTERS_NAMES);

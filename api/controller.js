@@ -1104,7 +1104,7 @@ function calculateXP(nBots_1, nBots_2, nBots_3, type) {
   const XP_PER_PLAYER = 12;
   const XP_BOTS = XP_PER_BOT_1 * nBots_1 + XP_PER_BOT_2 * nBots_2 + XP_PER_BOT_3 * nBots_3;
 
-  const totalBots = nBots_1 + nBots_2 + nBots_3;
+  const totalBots = parseInt(nBots_1) + parseInt(nBots_2) + parseInt(nBots_3);
   console.log("totalBots: " + totalBots);
 
   if (type === constants.LOCAL) xp = XP_BOTS + XP_PER_PLAYER * (constants.NUM_PLAYERS - (totalBots));
