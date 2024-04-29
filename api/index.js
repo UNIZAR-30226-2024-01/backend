@@ -100,9 +100,9 @@ app.use((req, res, next) => {
   const allowedOrigins = ips2listen;
   const origin = req.headers.origin;
 
-  // if (allowedOrigins.includes(origin)) {
+  if (allowedOrigins.includes(origin)) {
     res.header(constants.ALLOW_ORIGIN, origin);
-  // } else return res.status(403).json({ error: 'Origin not allowed' });
+  } else return res.status(403).json({ error: 'Origin not allowed' });
 
   res.header(constants.ALLOW_METHODS, constants.METHODS);
   res.header(constants.ALLOW_HEADERS, constants.HEADERS);

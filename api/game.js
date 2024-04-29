@@ -162,9 +162,8 @@ async function runGame(io, group) {
   }
 
 
-  
   //asociate to each bot an available character
-  bots_inf.forEach(async (bot) => {
+  for (const bot of bots_inf) {
 
     //select a random character from the available characters
     const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
@@ -177,11 +176,12 @@ async function runGame(io, group) {
 
     //add the bot to the players array
     players.push({userName: bot.username, character: character});
-  });
+  };
 
 
   //deal cards to players
-  let dealCards = await controller.dealCards(players,group);
+  let dealCards = await controller.dealCards(players, group);
+  console.log("dealCards", dealCards);
 
   // send cards to each player
   relaciones_socket_username.forEach((s) => {
@@ -196,7 +196,6 @@ async function runGame(io, group) {
 
   // get all players with their characters
   const all_players = await controller.getPlayersCharacter(group);
-  console.log("all_players", all_players);
   
   players_in_order.group = { username: [], character: [] };
 
@@ -208,7 +207,6 @@ async function runGame(io, group) {
     players_in_order.group.character.push(character);
   });
 
-  console.log("players_in_order.group", players_in_order.group);
 
   // const { areAvailable } = await controller.availabilityCharacters(group);
   // console.log("areAvailable", areAvailable);

@@ -443,6 +443,8 @@ async function dealCards(players,idGame) {
         }
       }
 
+      // console.log("cardsNotSolution length: ", cardsNotSolution.length, " value: ", cardsNotSolution);
+
       const resultCards = await internalDealCards(playersUsername, cardsNotSolution, idGame);
       
     //  console.log("resultCards "+resultCards.cards[0]);
@@ -1125,8 +1127,10 @@ async function validateTurno(idGame,ficha) {
     console.log("pool connect34");
   try {
     const selectResult = await client.query(selectValidTurn, validTurnValues);
+    // console.log("selectResult.rows", selectResult.rows);
+    // console.log("n", selectResult.rows[0].n);
 
-    if (selectResult.rows.length == 0) return false;
+    if (selectResult.rows[0].n == 0) return false;
     else return true;
 
   } catch (error) {
@@ -1262,7 +1266,11 @@ async function getLugar() {
   }
 }
 
-async function internalDealCards(players, cards_available,idGame) {
+async function internalDealCards(players, cards_available, idGame) {
+  
+  console.log("players: ", players);
+  console.log("cards_available: ", cards_available);
+  console.log("idGame: ", idGame);
   // Shuffle cards
   const cards = cards_available.slice(); // Copy the array to avoid modifying the original
   cards.sort(() => Math.random() - 0.5); // Sort randomly
@@ -1275,14 +1283,19 @@ async function internalDealCards(players, cards_available,idGame) {
     const playerIndex = i % constants.NUM_PLAYERS;
     await deleteCardsFromPlayer(players[playerIndex]);
   }
+  
   for (let i = 0; i < cards.length; i++) {
     const playerIndex = i % constants.NUM_PLAYERS;
 
-    // si es null, es que es un bot
-    // por ahora se hace continue
-    if (players[playerIndex] == null) continue;
+
+    if (players[playerIndex] == null) {
+      console.log("NO SE REPARTE a player idx: " + playerIndex + " cards: " + cards[i]);
+      continue;
+    }
     
     cards_player[playerIndex].push(cards[i]);
+
+    console.log("player: " + players[playerIndex] + " cards: " + cards[i]);
 
     await insertCards(players[playerIndex], cards[i], idGame);
   }
