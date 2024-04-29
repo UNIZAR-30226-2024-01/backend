@@ -345,24 +345,42 @@ async function runGame(io, group) {
   };
 
   //updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta)
-  const actualizar_bots = async (group, holder, turnoOwner, idx_card, where, who, what) => {
+  const actualizar_bots = async (group, hold, turnoOwner, idx_card, where, who, what) => {
     //solo bots
     const bots = await controller.getBotsInfo(group);
+    const { exito, positions, usernames } = await information_for_bot(group);
 
-    for (const bot of bots.personajes) {
-      const idx = bots.personajes.indexOf(bot);
-      console.log("idx", idx);
-      console.log("bots.niveles[idx]", bots.niveles[idx]);
-      console.log("turnoOwner", turnoOwner);
-      console.log("holder", holder);
-      console.log("where", where);
-      console.log("who", who);
-      console.log("what", what);
-      console.log("idx_card", idx_card);
-      console.log("bots.sospechas[idx]", bots.sospechas[idx]);
-      console.log("idx_card", idx_card);
-      let data = await updateCard(idx, bots.niveles[idx], turnoOwner, holder , where, who, what, idx_card, bots.sospechas[idx]);
-      await controller.update_players_info(players_in_order.group.username[idx], data, null);
+    // Iterador sobre bots.personajes
+    for (let bot of bots.personajes) {
+      // Si bot no es undefined, se actualiza la carta enseñada por el bot
+      if (bot) {
+        const idx = bots.personajes.indexOf(bot);
+        console.log("bot", bot);
+        console.log("bs", bots.personajes);
+        console.log("idx", idx);
+        console.log("bots.niveles[idx]", bots.niveles[idx]);
+        console.log("turnoOwner", turnoOwner);
+        console.log("holder", holder);
+        console.log("where", where);
+        console.log("who", who);
+        console.log("what", what);
+        console.log("idx_card", idx_card);
+        console.log("bots.sospechas[idx]", bots.sospechas[idx]);
+        console.log("idx_card", idx_card);
+        //FALTA PASAR TURNOOWNER Y HOLDER A INT
+        let asker = usernames.indexOf(turnoOwner);
+        let holder = usernames.indexOf(hold);
+        updateCard(idx, bots.niveles[idx], asker, holder , where, who, what, idx_card, bots.sospechas[idx])
+          .then((data) => {
+            controller.update_players_info(players_in_order.group.username[idx], data, null)
+            then(() => {
+              console.log('updateCard terminado.');
+            })
+          })
+          .catch(error => {
+            console.error('Hubo un error:', error);
+          });
+      }
     }
   }
 

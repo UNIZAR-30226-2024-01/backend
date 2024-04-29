@@ -1128,8 +1128,11 @@ async function getBotsInfo(idGame){
       let sospechas = [];
       let personajes = [];
       let niveles = [];
+      console.log("selectResult.rows.length: "+selectResult.rows.length);
       selectResult.rows.forEach(row => {
         let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
+        console.log("pj: "+row.personaje);
+        console.log("idx: "+idx);
         sospechas[idx] = row.sospechas;
         personajes[idx] = row.personaje;
         niveles[idx] = row.level;
