@@ -67,6 +67,7 @@ module.exports = {
     'http://10.1.64.155:5173',
     'http://localhost:4200',
     'https://pmjlrx6t-5173.uks1.devtunnels.ms',
+    'https://h15hf16d-5173.uks1.devtunnels.ms',
   ],
 
   CONNECT: 'connection',
@@ -255,7 +256,7 @@ module.exports = {
     'FROM ' +
     '   grace_hopper."cartas_jugador" ' +
     'WHERE ' +
-    ' carta=$2 OR carta=$3 OR carta=$4 AND partida = $1',
+    ' (carta=$2 OR carta=$3 OR carta=$4 )AND partida = $1',
   SELECT_TYPE_GAME:
     'SELECT tipo FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_INFO_END_GAME:
@@ -324,7 +325,8 @@ module.exports = {
     'DELETE FROM grace_hopper."bot" '+ 
     'WHERE username IN ( '+
     'SELECT username FROM grace_hopper."jugador" '+ 
-    'WHERE partida_actual = $1)',
+    'WHERE partida_actual = $1 ) ' +
+    'RETURNING username ',
   DELETE_ALL_BOTS_FROM_JUGADOR:  
     'DELETE FROM grace_hopper."jugador" '+ 
     'WHERE username LIKE \'bot%\' AND partida_actual = $1',

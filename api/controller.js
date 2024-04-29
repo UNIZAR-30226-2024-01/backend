@@ -593,6 +593,8 @@ async function joinGame(username, idGame) {
 async function leaveGame(username) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_player = [null, username, constants.CERO, null];
+  // si es mi turno cuando abandono, asignarlo a null
+  // updateQuery_partida = constants.UPDATE_STATE_PARTIDA;
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -656,12 +658,13 @@ async function finishGame(idGame) {
     const deleteCartas = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
     await client.query(deleteCartas, deleteValues);
     
+    await removeBots(idGame);
+
     // Se ejecuta la consulta para actualizar el estado de la partida y del jugador
     const updateStateandPartidaQuery = constants.UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA;
     const updateStateandPartidaValues = [idGame, constants.CERO, null, null];
     await client.query(updateStateandPartidaQuery, updateStateandPartidaValues);
 
-    await removeBots(idGame);
 
     // Se elimina la partida si no hay registros asociados
     const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
@@ -957,7 +960,7 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
   }
 } 
 
-async function acuse_to( player, idGame, characterCard, weaponCard, placeCard) {
+async function acuse_to(player, idGame, characterCard, weaponCard, placeCard) {
   const selectQuery = constants.SELECT_SOLUTION;
   const selectValues = [idGame, characterCard, weaponCard, placeCard];
 
@@ -968,10 +971,10 @@ async function acuse_to( player, idGame, characterCard, weaponCard, placeCard) {
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      // lose(idGame, player);
+      lose(idGame);
       return { exito: false, msg: constants.WRONG_ACUSE };
     } else {
-      // win(idGame, player);
+      win(idGame, player);
       return { exito: true , msg: constants.CORRECT_ACUSE};
     }
   } catch (error) {
@@ -981,7 +984,6 @@ async function acuse_to( player, idGame, characterCard, weaponCard, placeCard) {
     if (verbose_client_release)
       console.log("cliente.release23")
   }
-
 }
 
 //sumar XP 
@@ -1011,6 +1013,7 @@ async function win(idGame, idPlayer) {
 
       const type = selectType.rows[0].tipo;
       const xp_to_add = calculateXP(resultArray[0].n_bots, resultArray[1].n_bots, resultArray[2].n_bots, type);
+      console.log("xp:" + xp_to_add);
 
       await playerWin(idPlayer,xp_to_add, type);
       await finishGame(idGame);
@@ -1080,9 +1083,8 @@ async function removeBots(idGame) {
 
     const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
     await client.query(deletePlayer, deleteValues);
-
-  
-    return { exito: true, msg: constants.CORRECT_DELETE };
+    
+    return { exito: true };
   
   } catch (error) {
     throw error;
@@ -1102,9 +1104,14 @@ function calculateXP(nBots_1, nBots_2, nBots_3, type) {
   const XP_PER_PLAYER = 12;
   const XP_BOTS = XP_PER_BOT_1 * nBots_1 + XP_PER_BOT_2 * nBots_2 + XP_PER_BOT_3 * nBots_3;
 
-  if (type === constants.LOCAL) xp = XP_BOTS + XP_PER_PLAYER * (constants.NUM_PLAYERS - (nBots_1 + nBots_2 + nBots_3));
+  const totalBots = nBots_1 + nBots_2 + nBots_3;
+  console.log("totalBots: " + totalBots);
+
+  if (type === constants.LOCAL) xp = XP_BOTS + XP_PER_PLAYER * (constants.NUM_PLAYERS - (totalBots));
   else if (type === constants.ONLINE) xp = XP_BOTS + 20 * (constants.NUM_PLAYERS - totalBots);
   else return "Tipo de juego no válido. Por favor, ingresa 'local' o 'online'.";
+
+  console.log("xp: " + xp);
   
   return xp;
 }

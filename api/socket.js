@@ -118,10 +118,12 @@ function runSocketServer(io) {
 
     // INFO DE JUEGO
     socket.on('request-game-info', async() => {
+      console.log("REQUEST GAME INFO FROM: " + socket.handshake.auth.username);
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
 
       const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
       // console.log(constants.CHARACTERS_NAMES);
+
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES, 
         guns: constants.GUNS_NAMES,
@@ -140,15 +142,8 @@ function runSocketServer(io) {
       const index = constants.CHARACTERS_NAMES.indexOf(character);
       const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
       areAvailable[index] = socket.handshake.auth.username;
-      // console.log("available "+ areAvailable);
 
-      // avisar al backend que yo (username) he elegido el personaje character
-      // haciendo update sobre el campo availability de la base de datos
-      // console.log("username " + socket.handshake.auth.username);
-      // console.log("character " + character);
       await controller.selectCharacter(socket.handshake.auth.username, character);
-      // const d = await controller.availabilityCharacters(socket.handshake.auth.group);
-      // console.log("available "+ d.areAvailable);
 
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES,

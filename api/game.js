@@ -277,11 +277,13 @@ async function runGame(io, group) {
           socketOwner.socket.off('turno-asks-for', onTurnoAsksFor);
 
           if (is_final) {
-            const { exito } = await controller.acuse_to(username, group, character, gun, room);
+            const { exito } = await controller.acuse_to(username_asking, group, character, gun, room);
             io.to(group).emit('game-over', username_asking, exito);
             if (exito) {
               // eliminar la partida, players, ...
+              clearTimeout(timeoutId);
               console.log("FIN. Ha ganado el jugador: ", username_asking);
+              return;
             } else {
               // eliminar al jugador que ha perdido
               // igual esto ya se hace en acuse_to
@@ -374,6 +376,8 @@ async function runGame(io, group) {
         console.log("Error al cambiar de turno");
         return;
       }
+
+      console.log("El turno ha pasado a:", turno_username);
 
       // const idx = players_in_order.character.indexOf(turno.turno)
       const turnoOwner = turno_username;

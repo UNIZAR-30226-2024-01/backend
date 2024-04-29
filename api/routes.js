@@ -253,6 +253,24 @@ router.get('/getPlayerStateInformation', async (req, res) => {
   }
 });
 
+// ruta de pruebas para
+router.post('/acuse_to', async (req, res) => {
+  const player = 'rold';
+  const idGame = 712603;
+  const characterCard = 'miss REDES';
+  const weaponCard = 'cafe envenenado';
+  const placeCard = 'recepcion';
+
+  try {
+    const result = await controller.acuse_to(player, idGame, characterCard, weaponCard, placeCard);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error:true, message: error.message });
+  }
+});
+
+
 
 
 module.exports = router;
