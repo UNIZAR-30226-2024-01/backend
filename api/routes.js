@@ -37,6 +37,7 @@ router.post('/login', async(req, res) => {
   const password = req.body.password;
   try {
     const resultadoLogin = await controller.login(username, password);
+    console.log(resultadoLogin);
     res.json(resultadoLogin);
   } catch (error) {
     console.error(constants.ERROR_LOGIN, error);

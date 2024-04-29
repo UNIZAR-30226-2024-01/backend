@@ -872,11 +872,10 @@ async function changeTurn(idGame) {
       const username_next_turn = res.areAvailable[constants.CHARACTERS_NAMES.indexOf(next_turn_character)];
       // console.log("username_next_turn "+username_next_turn);
 
-      const updateQuery = constants.UPDATE_TURNO_PARTIDA;
-      const updateValues = [idGame, username_next_turn];
-      await client.query(updateQuery, updateValues);
+      //update turno
+      await updateTurno(idGame, username_next_turn);
 
-      return { exito: true, turno: username_next_turn};
+      return { exito: true, turno: username_next_turn, turno_character: next_turn_character};
 
     }
   } catch (error) {
@@ -889,17 +888,32 @@ async function changeTurn(idGame) {
 
 }
 
-async function update_players_info(username, sospechas, position){
+async function updateTurno(idGame, username) {
+  const updateQuery = constants.UPDATE_TURNO_PARTIDA;
+  const updateValues = [idGame, username];
 
-  let updateQuery, updateValues;
-  
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect21");
+  try {
+    await client.query(updateQuery, updateValues);
+    return { exito: true , msg: constants.CORRECT_UPDATE};
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release21")
+  }
+}
+
+async function update_players_info(username, sospechas, position){
 
   if(position != null){
     await updatePosition(username, position);
-  }else{
-    updateQuery = constants.UPDATE_SOSPECHAS;
-    updateValues = [username, sospechas];
   }
+    const updateQuery = constants.UPDATE_SOSPECHAS;
+    const updateValues = [username, sospechas];
 
   const client = await pool.connect();
   if (verbose_pool_connect)
@@ -1097,6 +1111,81 @@ async function removeBots(idGame) {
   }
 }
 
+//devuelve lvl, sospechas 
+async function getBotsInfo(idGame){
+  const selectQuery = constants.SELECT_INFO_BOTS;
+  const selectValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      let sospechas = [];
+      let personajes = [];
+      let niveles = [];
+      selectResult.rows.forEach(row => {
+        let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
+        sospechas[idx] = row.sospechas;
+        personajes[idx] = row.personaje;
+        niveles[idx] = row.level;
+      });
+
+      return { 
+        exito: true, 
+        sospechas: sospechas,
+        personajes: personajes,
+        niveles: niveles,
+       };
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+}
+
+async function information_for_bot(idGame) {
+  const selectQuery = constants.SELECT_INFO_PLAYERS_IN_GAME;
+  const selectValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      let posicion = [];
+      let usernames = [];
+      selectResult.rows.forEach(row => {
+        let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
+        posicion[idx] = row.posicion;
+        usernames[idx] = row.username;
+      });
+
+      return { 
+        exito: true, 
+        positions: posicion,
+        usernames: usernames
+      };
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+}
 //********************************************AUX********************************************* */
 function calculateXP(nBots_1, nBots_2, nBots_3, type) {
   let xp = 0;
@@ -1477,6 +1566,8 @@ module.exports = {
   createAccount,
   createBot,
   removeBots,
+  getBotsInfo,
+  information_for_bot,
   login,
   changePassword,
   //*****************************************CHAT*********************************************** */

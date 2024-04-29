@@ -1,5 +1,5 @@
 const constants = require('./constants');
-const { moveBot, updateCard } = require('../bot/bot');
+const { moveBot, updateCard , createBot} = require('../bot/bot');
 const controller = require('./controller.js');
 
 //orden de turnos: mr SOPER, miss REDES, mr PROG, miss FISICA, mr DISCRETO, miss IA
@@ -193,6 +193,15 @@ async function runGame(io, group) {
     io.to(s.socket_id).emit("cards", dealCards.cards[idx]); // 馃摡
 
   });
+  
+  for(let bot of bots_inf){
+    //find the index of the player in the players array
+    const idx = players.findIndex((player) => player.userName === bot.username); 
+    const data = createBot(idx,  dealCards.cards[idx]);
+    await controller.update_players_info(bot.username, data, null);
+
+  }
+  
 
   // get all players with their characters
   const all_players = await controller.getPlayersCharacter(group);
@@ -213,7 +222,7 @@ async function runGame(io, group) {
 
   //send players the game start message with relevant information
   relaciones_socket_username.forEach(async (s) => {
-    io.to(s.socket_id).emit('start-game', { // 馃摡
+    io.to(s.socket_id).emit('start-game', { // 📩😍
       names: constants.CHARACTERS_NAMES, 
       guns: constants.GUNS_NAMES,
       rooms: constants.ROOMS_NAMES,
@@ -222,24 +231,144 @@ async function runGame(io, group) {
     });
   });
 
-
-
   // Avisar al primer jugador del grupo que es su turno
 
-  const handleTurnoBot = async (turnoOwner,group) => {
-    const {position, fin} = moveBot();
-    io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
-    if (!fin) {
-      const { character, gun, room } = makeQuestion();
-      io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room); // 📩
+  const handleTurnoBot = async (turnoOwner,group,character) => {
 
-      const username_shower = getFirstPlayerWithCard();
+    // get the dice between 2 and 12
+    const dice = Math.floor(Math.random() * 11) + 2;
+    const me = constants.CHARACTERS_NAMES.indexOf(character);
+    
+    const { exito, positions, usernames } = await information_for_bot(group);
+    console.log("positions", positions);
+
+    let data = await moveBot(positions,me,dice,sospechas);
+    data = data.split(",");
+    console.log("data", data);
+    
+    //io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
+    //check if the bot has entered a room
+    let move = parseInt(data[1]);
+    controller.updatePosition(turnoOwner, move);
+    
+    io.to(group).emit('turno-moves-to-response', turnoOwner, move); // 📩
+    // const fin = ( data[2] == -1 ? true : false);
+    const fin = (data[2] != '-1');
+
+    
+    if (!fin) {
+      
+      const suspect = data[2] == 'SUSPECT' ;
+      let room = data[3];
+      console.log("room", room);
+      let character = data[4];
+      console.log("character", character);
+      let gun = data[5];
+      console.log("gun", gun);
+      
+      console.log(players_in_order.group);
+      io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room, !suspect); // LUO
+
+      if(suspect){
+        const { exito, user }   = await turno_asks_for( turnoOwner, character, gun, room, players_in_order.group);
+        const username_shower = user;
+        
+        if (username_shower == "") {
+          // nadie tiene cartas para enseñar
+          io.to(group).emit('turno-show-cards', turnoOwner, "", "");
+          // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+          clearTimeout(timeoutId);
+
+          const idx_card = -1;
+          await actualizar_bots(group, username_shower, turnoOwner, idx_card, room, character, gun);
+          handleNextTurn();
+          return;
+
+        } else if (username_shower.includes("bot")) {
+          const { exito, card } = controller.getCards(turnoOwner,idGame);
+          let cards_coincidences = card.filter((card) => card == character || card == gun || card == room);
+          //Get random card of cards_coincidences
+          let card_to_show = cards_coincidences[Math.floor(Math.random() * cards_coincidences.length)];
+          
+          io.to(group).emit('turno-show-cards', turnoOwner, username_shower, card_to_show, character, gun, room);
+
+          // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+          clearTimeout(timeoutId);
+
+          const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+          await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+
+          handleNextTurn()
+          return;
+
+        } else {
+          // un jugador real enseña una carta
+          const socket_shower = relaciones_socket_username.find((s) => s.username === username_shower);
+          io.to(socket_shower.socket_id).emit('turno-select-to-show', turnoOwner, username_shower, character, gun, room);
+          // socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
+
+          const onTurnoCardSelected = async (turnoOwner, username_shower, card) => {
+            // reenviar al resto de jugadores la carta mostrada
+            io.to(group).emit('turno-show-cards', turnoOwner, username_shower, card, character, gun, room);
+            socket_shower.socket.off('turno-card-selected', onTurnoCardSelected);
+
+            // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
+            clearTimeout(timeoutId);
+
+            const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+            await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+            handleNextTurn();
+            return;
+          };
+          socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
+        }
+
+      }else { //Accuse_to
+        const { exito } = await controller.acuse_to(turnoOwner, group, character, gun, room);
+        io.to(group).emit('game-over', turnoOwner, exito);
+        if (exito) {
+          // eliminar la partida, players, ...
+          clearTimeout(timeoutId);
+          console.log("FIN. Ha ganado el jugador: ", turnoOwner);
+          return;
+        } else {
+          // eliminar al jugador que ha perdido
+          // igual esto ya se hace en acuse_to
+          console.log("FIN. Ha perdido la partida: ", turnoOwner);
+
+          // const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+          // await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+          handleNextTurn();
+        }
+      }
     }
   };
 
+  //updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta)
+  const actualizar_bots = async (group, holder, turnoOwner, idx_card, where, who, what) => {
+    //solo bots
+    const bots = await controller.getBotsInfo(group);
+
+    for (const bot of bots.personajes) {
+      const idx = bots.personajes.indexOf(bot);
+      console.log("idx", idx);
+      console.log("bots.niveles[idx]", bots.niveles[idx]);
+      console.log("turnoOwner", turnoOwner);
+      console.log("holder", holder);
+      console.log("where", where);
+      console.log("who", who);
+      console.log("what", what);
+      console.log("idx_card", idx_card);
+      console.log("bots.sospechas[idx]", bots.sospechas[idx]);
+      console.log("idx_card", idx_card);
+      let data = await updateCard(idx, bots.niveles[idx], turnoOwner, holder , where, who, what, idx_card, bots.sospechas[idx]);
+      await controller.update_players_info(players_in_order.group.username[idx], data, null);
+    }
+  }
+
   // Bucle de juego, donde se va cambiando el turno cuando corresponde. 
   // Lógica para manejar el turno de un jugador
-  const handleTurno = async (turnoOwner, socketOwner) => {
+  const handleTurno = async (turnoOwner, socketOwner, characterOwner) => {
     console.log("Es el turno de:", turnoOwner);
 
     let timeoutId = setTimeout(() => { 
@@ -254,11 +383,10 @@ async function runGame(io, group) {
     io.to(group).emit('turno-owner', turnoOwner); // 📩
 
     if (turnoOwner.includes("bot")) {
-      await handleTurnoBot(turnoOwner, group); // gestión de bot en otra función aparte
+      await handleTurnoBot(turnoOwner, group, characterOwner); // gestión de bot en otra función aparte
 
       // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
       clearTimeout(timeoutId);
-      socketOwner.interacted = true;
 
       handleNextTurn();
       return;
@@ -291,6 +419,9 @@ async function runGame(io, group) {
               // eliminar al jugador que ha perdido
               // igual esto ya se hace en acuse_to
               console.log("FIN. Ha perdido la partida: ", username_asking);
+
+              //const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+              //await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
               handleNextTurn();
             }
           } else {
@@ -307,19 +438,23 @@ async function runGame(io, group) {
               // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
               clearTimeout(timeoutId);
 
-              setTimeout(() => {
-                handleNextTurn();
-                return;
-              }, 2000);
+              await actualizar_bots(group, username_shower, turnoOwner, -1, room, character, gun);
+              handleNextTurn();
+              return;
             }
             else if (username_shower.includes("bot")) {
-              // turno-show-cards (bot enseña carta a alguien) 🎃
-              const { card } = bot.getCardFromQuestion(username_shower, character, gun, room);
-              io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
-
+              const { cards } = await controller.getCards(username_shower,group);
+              let cards_coincidences = cards.filter((card) => card == character || card == gun || card == room);
+              //Get random card of cards_coincidences
+              let card_to_show = cards_coincidences[Math.floor(Math.random() * cards_coincidences.length)];
+              
+              io.to(group).emit('turno-show-cards', turnoOwner, username_shower, card_to_show, character, gun, room);
+    
               // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
               clearTimeout(timeoutId);
 
+              const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+              await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
               handleNextTurn()
               return;
             }
@@ -329,18 +464,18 @@ async function runGame(io, group) {
               io.to(socket_shower.socket_id).emit('turno-select-to-show', username_asking, username_shower, character, gun, room);
               // socket_shower.socket.emit('turno-select-to-show', username, username_shower, character, gun, room);
 
-              const onTurnoCardSelected = (username_asking, username_shower, card) => {
+              const onTurnoCardSelected = async (username_asking, username_shower, card) => {
                 // reenviar al resto de jugadores la carta mostrada
                 io.to(group).emit('turno-show-cards', username_asking, username_shower, card, character, gun, room);
                 socket_shower.socket.off('turno-card-selected', onTurnoCardSelected);
 
                 // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
                 clearTimeout(timeoutId);
-
-                setTimeout(() => {
-                  handleNextTurn();
-                  return;
-                }, 2000);
+                
+                const card_type = card == character ? 0 : (card == gun ? 1 : 2);
+                await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+                handleNextTurn();
+                return;
               };
               socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
             }
@@ -373,7 +508,7 @@ async function runGame(io, group) {
     // Hacer un timeout para simular el tiempo de espera entre turnos
     setTimeout(async () => {
 
-      const { exito, turno:turno_username } = await controller.changeTurn(group); // turno.turno es un username
+      const { exito, turno:turno_username, character } = await controller.changeTurn(group); // turno.turno es un username
 
       if (!exito) {
         console.log("Error al cambiar de turno");
@@ -387,12 +522,12 @@ async function runGame(io, group) {
 
       // si al principio de tu turno no estás conectado, se salta al siguiente
         // borrar lo de los bots cuando se implemente lógica de bot 🎃
-      if (!socketOwner || turnoOwner.includes("bot")) { 
+      if (!socketOwner) { 
         handleNextTurn();
       }
       else {
         // Manejar el turno para el siguiente jugador
-        handleTurno(turnoOwner, socketOwner);
+        handleTurno(turnoOwner, socketOwner, character);
       }
     }, 0); // 👈🏼 0 en pruebas. Cuando funcione bien, dejar el timeout a 2 segundos (2000)
   };

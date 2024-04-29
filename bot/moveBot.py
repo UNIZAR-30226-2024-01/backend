@@ -35,7 +35,7 @@ PEOPLE = ['mr SOPER',
   'miss IA']
 WEAPONS = ['teclado',
   'cable de red',
-  'café envenenado',
+  'cafe envenenado',
   'router afilado',
   'troyano',
   'cd']

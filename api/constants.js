@@ -55,58 +55,59 @@ module.exports = {
   //Módulo.index
   //
   PORT: 3000,
-  SERVER_TXT: 'Server is running on port',
+  SERVER_TXT: "Server is running on port",
   //
 
   PRODUCTION_IPS: [
-    'http://51.20.246.74',
-    'http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com',
+    "http://51.20.246.74",
+    "http://ec2-51-20-246-74.eu-north-1.compute.amazonaws.com",
   ],
   DEVELOPMENT_IPS: [
-    'http://localhost:5173',
-    'http://10.1.64.155:5173',
-    'http://localhost:4200',
-    'https://pmjlrx6t-5173.uks1.devtunnels.ms',
-    'https://h15hf16d-5173.uks1.devtunnels.ms',
+    "http://localhost:5173",
+    "http://10.1.64.155:5173",
+    "http://localhost:4200",
+    "https://pmjlrx6t-5173.uks1.devtunnels.ms",
+    "https://h15hf16d-5173.uks1.devtunnels.ms",
+    "https://zpmd6742-5173.uks1.devtunnels.ms",
   ],
 
-  CONNECT: 'connection',
-  DISCONNECT: 'disconnect',
-  CHAT_MESSAGE: 'chat-message',
-  CHAT_RESPONSE: 'chat-response',
-  CHAT_TURN: 'chat turn',
-  USER_CONNECTED: 'A user has connected.',
-  USER_DISCONNECTED: 'A user has disconnected.',
-  CONNECTED_DB: 'Connected to the database',
-  DISCONNECTED_DB: 'Disconnected from PostgreSQL server',
+  CONNECT: "connection",
+  DISCONNECT: "disconnect",
+  CHAT_MESSAGE: "chat-message",
+  CHAT_RESPONSE: "chat-response",
+  CHAT_TURN: "chat turn",
+  USER_CONNECTED: "A user has connected.",
+  USER_DISCONNECTED: "A user has disconnected.",
+  CONNECTED_DB: "Connected to the database",
+  DISCONNECTED_DB: "Disconnected from PostgreSQL server",
 
   //
-  ERROR_STORE_MSG: 'Error al almacenar el mensaje.',
-  ERROR_LOAD_MSG: 'Error al cargar mensaje.',
-  ERROR_DATA_BASE: 'Error connecting to the database:',
-  ERROR_LOGIN: 'Error en el servidor al realizar el inicio de sesión',
-  ERROR_XP: 'Error en el servidor al obtener XP',
+  ERROR_STORE_MSG: "Error al almacenar el mensaje.",
+  ERROR_LOAD_MSG: "Error al cargar mensaje.",
+  ERROR_DATA_BASE: "Error connecting to the database:",
+  ERROR_LOGIN: "Error en el servidor al realizar el inicio de sesión",
+  ERROR_XP: "Error en el servidor al obtener XP",
 
   //
-  ALLOW_ORIGIN: 'Access-Control-Allow-Origin',
-  ALLOW_METHODS: 'Access-Control-Allow-Methods',
-  ALLOW_HEADERS: 'Access-Control-Allow-Headers',
-  METHODS: 'GET, POST, PUT, DELETE',
-  HEADERS: 'Content-Type',
-  SIGINT: 'SIGINT',
+  ALLOW_ORIGIN: "Access-Control-Allow-Origin",
+  ALLOW_METHODS: "Access-Control-Allow-Methods",
+  ALLOW_HEADERS: "Access-Control-Allow-Headers",
+  METHODS: "GET, POST, PUT, DELETE",
+  HEADERS: "Content-Type",
+  SIGINT: "SIGINT",
 
   // tipos de la partida
-  LOCAL: 'l',
-  ONLINE: 'o',
+  LOCAL: "l",
+  ONLINE: "o",
 
   // estados de la partida
-  NOT_STARTED: '0',
-  PLAY: '1',
-  PAUSE: 'p',
+  NOT_STARTED: "0",
+  PLAY: "1",
+  PAUSE: "p",
 
-  CERO: '0',
-  MENOS: '-',
-  MAS: '+',
+  CERO: "0",
+  MENOS: "-",
+  MAS: "+",
 
   //Personajes
   CHARACTERS_NAMES,
@@ -130,25 +131,29 @@ module.exports = {
   INITIAL_POSTIONS,
 
   NUM_PLAYERS: CHARACTERS_NAMES.length,
-  NUM_CARDS: (CHARACTERS_NAMES.length + GUNS_NAMES.length + ROOMS_NAMES.length) - 3 / CHARACTERS_NAMES.length ,
-  
+  NUM_CARDS:
+    CHARACTERS_NAMES.length +
+    GUNS_NAMES.length +
+    ROOMS_NAMES.length -
+    3 / CHARACTERS_NAMES.length,
+
   //Módulo.controller
-  WRONG_PASSWD: 'La contraseña introducida es incorrecta.',
-  WRONG_USER: 'El usuario introducido es incorrecto.',
-  WRONG_MSG: 'El mensaje no se ha almacenado correctamente.',
-  WRONG_LDR_MSG: 'No se han restaurado mensajes',
-  CORRECT_LOGIN: 'Se ha iniciado sesión correctamente.',
-  CORRECT_CHANGE_PASSWD: 'La constraseña ha sido actualizada con exito.',
-  CORRECT_MSG: 'El mensaje se ha almacenado correctamente.',
-  CORRECT_DELETE: 'Partida eliminada correctamente.',
+  WRONG_PASSWD: "La contraseña introducida es incorrecta.",
+  WRONG_USER: "El usuario introducido es incorrecto.",
+  WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
+  WRONG_LDR_MSG: "No se han restaurado mensajes",
+  CORRECT_LOGIN: "Se ha iniciado sesión correctamente.",
+  CORRECT_CHANGE_PASSWD: "La constraseña ha sido actualizada con exito.",
+  CORRECT_MSG: "El mensaje se ha almacenado correctamente.",
+  CORRECT_DELETE: "Partida eliminada correctamente.",
 
   //
-  ERROR_UPDATING: 'Error al actualizar.',
-  ERROR_INSERTING: 'Error al realizar la insercción.',
-  ERROR_DELETING: 'Error al eliminar.',
-  ERROR_ASESINO: 'No se ha obtenido ningun asesino.',
-  ERROR_ARMA: 'No se ha obtenido ningun arma.',
-  ERROR_LUGAR: 'No se ha obtenido ningun lugar.',
+  ERROR_UPDATING: "Error al actualizar.",
+  ERROR_INSERTING: "Error al realizar la insercción.",
+  ERROR_DELETING: "Error al eliminar.",
+  ERROR_ASESINO: "No se ha obtenido ningun asesino.",
+  ERROR_ARMA: "No se ha obtenido ningun arma.",
+  ERROR_LUGAR: "No se ha obtenido ningun lugar.",
 
   //Múdlo.controller__Querys
   //-------insert-------
@@ -190,59 +195,39 @@ module.exports = {
     'SELECT ficha, username FROM grace_hopper."jugador" WHERE partida_actual = $1',
   SELECT_USERNAME_JUGADOR:
     'SELECT username FROM grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
-  SELECT_CARTAS_JUGADOR: 
+  SELECT_CARTAS_JUGADOR:
     'SELECT carta FROM grace_hopper."cartas_jugador" WHERE "jugador" = $1 AND "partida" = $2',
   SELECT_CARTAS_DISTINT_SOLUTION:
-  'SELECT ' +
-  '  cartas.nombre AS cards ' +
-  'FROM ' +
-  '  grace_hopper."cartas" cartas ' +
-  'JOIN ' +
-  '  grace_hopper."partida" game ON cartas.nombre != game.asesino and cartas.nombre != game.arma and cartas.nombre != game.lugar and game.id_partida = $1',
+    "SELECT " +
+    "  cartas.nombre AS cards " +
+    "FROM " +
+    '  grace_hopper."cartas" cartas ' +
+    "JOIN " +
+    '  grace_hopper."partida" game ON cartas.nombre != game.asesino and cartas.nombre != game.arma and cartas.nombre != game.lugar and game.id_partida = $1',
   SELECT_INFO_JUGADOR:
-    'SELECT ' +
-    '  player.ficha AS ficha, ' +
-    '  player.partida_actual AS id_partida, ' +
-    '  player.sospechas AS sospechas, ' +
-    '  player.posicion AS posicion, ' +
-    '  player.estado AS estado, ' +
-    '  useri.n_jugadas AS n_jugadas, ' +
-    '  useri.n_ganadas_local AS n_ganadas_local, ' +
-    '  useri.n_ganadas_online AS n_ganadas_online, ' +
+    "SELECT " +
+    "  player.ficha AS ficha, " +
+    "  player.partida_actual AS id_partida, " +
+    "  player.sospechas AS sospechas, " +
+    "  player.posicion AS posicion, " +
+    "  player.estado AS estado, " +
+    "  useri.n_jugadas AS n_jugadas, " +
+    "  useri.n_ganadas_local AS n_ganadas_local, " +
+    "  useri.n_ganadas_online AS n_ganadas_online, " +
     '  useri."XP" AS XP, ' +
-    '  game.estado AS estado_partida, ' +
-    '  game.tipo AS tipo_partida ' +
-    'FROM ' +
+    "  game.estado AS estado_partida, " +
+    "  game.tipo AS tipo_partida " +
+    "FROM " +
     '  (grace_hopper."jugador" player ' +
-    'JOIN ' +
+    "JOIN " +
     '  grace_hopper."usuario" useri ON player.username = useri.username ' +
-    'JOIN ' +
+    "JOIN " +
     '  grace_hopper."partida" game ON player.partida_actual = game.id_partida) ' +
-    'WHERE ' +
-    ' player.username = $1',
-  
-    // SELECT 
-    //   player.ficha AS ficha, 
-    //   player.partida_actual AS partida, 
-    //   player.sospechas AS sospechas, 
-    //   player.posicion AS posicion, 
-    //   player.estado AS estado, 
-    //   useri.n_jugadas AS n_jugadas, 
-    //   useri.n_ganadas_local AS n_ganadas_local, 
-    //   useri.n_ganadas_online AS n_ganadas_online, 
-    //   useri."XP" AS XP 
-    //   game.estado AS estado_partida 
-    // FROM 
-    //   (grace_hopper."jugador" player 
-    // JOIN 
-    //   grace_hopper."usuario" useri ON player.username = useri.username 
-    // JOIN 
-    //   grace_hopper."partida" game ON player.partida_actual = game.id_partida) 
-    // WHERE 
-    //  player.username = $1;
+    "WHERE " +
+    " player.username = $1",
   SELECT_SOLUTION:
-   'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1 '+
-   'AND asesino = $2 AND arma = $3 AND lugar = $4',
+    'SELECT id_partida FROM grace_hopper."partida" WHERE id_partida = $1 ' +
+    "AND asesino = $2 AND arma = $3 AND lugar = $4",
   SELECT_INFO_GAME:
     'SELECT estado, fecha_ini, tipo, turno FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_CARTA_JUGADOR:
@@ -250,39 +235,54 @@ module.exports = {
   SELECT_TURN_PARTIDA:
     'SELECT turno FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_DETERMINADAS_CARTAS_JUGADOR:
-    'SELECT ' +
-    '  carta AS cartas, ' +
-    '  jugador AS user  ' +
-    'FROM ' +
+    "SELECT " +
+    "  carta AS cartas, " +
+    "  jugador AS user  " +
+    "FROM " +
     '   grace_hopper."cartas_jugador" ' +
-    'WHERE ' +
-    ' (carta=$2 OR carta=$3 OR carta=$4 )AND partida = $1',
+    "WHERE " +
+    " (carta=$2 OR carta=$3 OR carta=$4 )AND partida = $1",
   SELECT_TYPE_GAME:
     'SELECT tipo FROM grace_hopper."partida" WHERE id_partida = $1',
   SELECT_INFO_END_GAME:
-    'SELECT ' +
-    '  bot.nivel_dificultad AS nivel, ' +
-    '  COUNT(*) AS n_bots ' +
-    ' FROM ' +
+    "SELECT " +
+    "  bot.nivel_dificultad AS nivel, " +
+    "  COUNT(*) AS n_bots " +
+    " FROM " +
     '   grace_hopper."jugador" player' +
-    ' JOIN ' +
+    " JOIN " +
     '   grace_hopper."bot" bot ON player.username = bot.username ' +
-    ' WHERE ' +
-    '   player.partida_actual = $1' +
-    ' GROUP BY ' + 
-    ' bot.nivel_dificultad' +
-    ' ORDER BY ' +
-    ' bot.nivel_dificultad;',
+    " WHERE " +
+    "   player.partida_actual = $1" +
+    " GROUP BY " +
+    " bot.nivel_dificultad" +
+    " ORDER BY " +
+    " bot.nivel_dificultad;",
   SELECT_VALID_TURN_PARTIDA:
-    ' SELECT COUNT(*) AS n from grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2',
+    ' SELECT COUNT(*) AS n from grace_hopper."jugador" WHERE partida_actual = $1 AND ficha = $2 ',
   SELECT_POSICION_JUGADOR:
-    ' SELECT ' +
-    ' player.ficha AS ficha, '+
-    ' player.posicion AS posicion, '+ 
-    ' game.turno AS turno'+ 
-    ' FROM grace_hopper."jugador" player '+
-    ' JOIN grace_hopper."partida" game ON game.id_partida = player.partida_actual '+
-    ' WHERE partida_actual = $1',
+    " SELECT " +
+    " player.ficha AS ficha, " +
+    " player.posicion AS posicion, " +
+    " game.turno AS turno " +
+    ' FROM grace_hopper."jugador" player ' +
+    ' JOIN grace_hopper."partida" game ON game.id_partida = player.partida_actual ' +
+    " WHERE partida_actual = $1",
+  SELECT_INFO_BOTS:
+    "SELECT " +
+    "player.sospechas AS sospechas, " +
+    "player.ficha AS personaje, " +
+    "bot.nivel_dificultad AS level  " +
+    'FROM grace_hopper."jugador" player ' +
+    'JOIN grace_hopper."bot" bot ON player.username = bot.username ' +
+    "WHERE partida_actual = $1",
+  SELECT_INFO_PLAYERS_IN_GAME:
+    " SELECT " +
+    " player.posicion AS posicio,n " +
+    " player.ficha AS personaje, " +
+    " player.username AS username " +
+    ' FROM grace_hopper."jugador" player ' +
+    " WHERE partida_actual = $1",
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
@@ -322,21 +322,21 @@ module.exports = {
   DELETE_ALL_CARDS_FROM_PARTIDA:
     'DELETE FROM grace_hopper."cartas_jugador" WHERE partida = $1',
   DELETE_ALL_BOTS_FROM_BOT:
-    'DELETE FROM grace_hopper."bot" '+ 
-    'WHERE username IN ( '+
-    'SELECT username FROM grace_hopper."jugador" '+ 
-    'WHERE partida_actual = $1 ) ' +
-    'RETURNING username ',
-  DELETE_ALL_BOTS_FROM_JUGADOR:  
-    'DELETE FROM grace_hopper."jugador" '+ 
-    'WHERE username LIKE \'bot%\' AND partida_actual = $1',
-  
-  // DELETE FROM grace_hopper."bot" 
+    'DELETE FROM grace_hopper."bot" ' +
+    "WHERE username IN ( " +
+    'SELECT username FROM grace_hopper."jugador" ' +
+    "WHERE partida_actual = $1 ) " +
+    "RETURNING username ",
+  DELETE_ALL_BOTS_FROM_JUGADOR:
+    'DELETE FROM grace_hopper."jugador" ' +
+    "WHERE username LIKE 'bot%' AND partida_actual = $1",
+
+  // DELETE FROM grace_hopper."bot"
   // WHERE username IN (
-  // SELECT username FROM grace_hopper."jugador" 
+  // SELECT username FROM grace_hopper."jugador"
   // WHERE partida_actual = 221718
 
-    /*DELETE FROM tabla1
+  /*DELETE FROM tabla1
 WHERE columna1 IN (
     SELECT columna1
     FROM tabla1
@@ -346,27 +346,27 @@ WHERE columna1 IN (
  */
 
   //Módulo.controller
-  WRONG_PASSWD: 'La contraseña introducida es incorrecta.',
-  WRONG_USER: 'El usuario introducido es incorrecto.',
-  WRONG_IDGAME: 'La partida introducida no existe.',
-  WRONG_MSG: 'El mensaje no se ha almacenado correctamente.',
-  WRONG_LDR_MSG: 'No se han restaurado mensajes',
-  WRONG_ACUSE: 'La acusación no es correcta.',
-  CORRECT_LOGIN: 'Se ha iniciado sesión correctamente.',
-  CORRECT_CHANGE_PASSWD: 'La constraseña ha sido actualizada con exito.',
-  CORRECT_MSG: 'El mensaje se ha almacenado correctamente.',
-  CORRECT_DELETE: 'Partida eliminada correctamente.',
-  CORRECT_ACUSE: 'Acusación correcta.',
-  CORRECT_UPDATE: 'Actualización correcta.',
-  CORRECT_INSERT: 'Insercción correcta.',
-  WIN: '¡Has ganado la partida!',
-  FAIL: 'Acusación incorrecta. ¡Has perdido la partida!',
+  WRONG_PASSWD: "La contraseña introducida es incorrecta.",
+  WRONG_USER: "El usuario introducido es incorrecto.",
+  WRONG_IDGAME: "La partida introducida no existe.",
+  WRONG_MSG: "El mensaje no se ha almacenado correctamente.",
+  WRONG_LDR_MSG: "No se han restaurado mensajes",
+  WRONG_ACUSE: "La acusación no es correcta.",
+  CORRECT_LOGIN: "Se ha iniciado sesión correctamente.",
+  CORRECT_CHANGE_PASSWD: "La constraseña ha sido actualizada con exito.",
+  CORRECT_MSG: "El mensaje se ha almacenado correctamente.",
+  CORRECT_DELETE: "Partida eliminada correctamente.",
+  CORRECT_ACUSE: "Acusación correcta.",
+  CORRECT_UPDATE: "Actualización correcta.",
+  CORRECT_INSERT: "Insercción correcta.",
+  WIN: "¡Has ganado la partida!",
+  FAIL: "Acusación incorrecta. ¡Has perdido la partida!",
 
   //
-  ERROR_UPDATING: 'Error al actualizar.',
-  ERROR_INSERTING: 'Error al realizar la insercción.',
-  ERROR_DELETING: 'Error al eliminar.',
-  ERROR_ASESINO: 'No se ha obtenido ningun asesino.',
-  ERROR_ARMA: 'No se ha obtenido ningun arma.',
-  ERROR_LUGAR: 'No se ha obtenido ningun lugar.',
+  ERROR_UPDATING: "Error al actualizar.",
+  ERROR_INSERTING: "Error al realizar la insercción.",
+  ERROR_DELETING: "Error al eliminar.",
+  ERROR_ASESINO: "No se ha obtenido ningun asesino.",
+  ERROR_ARMA: "No se ha obtenido ningun arma.",
+  ERROR_LUGAR: "No se ha obtenido ningun lugar.",
 };
