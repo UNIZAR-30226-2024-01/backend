@@ -235,12 +235,24 @@ const handleTurnoBot = async (turnoOwner,group,character) => {
   const dice = Math.floor(Math.random() * 11) + 2;
   const me = constants.CHARACTERS_NAMES.indexOf(character);
   
-  const { exito, positions, usernames } = await information_for_bot(group);
+  const { exito, positions, usernames } = await controller.information_for_bot(group);
+  const { sospechas } = await controller.getSospechasBot(turnoOwner)
   console.log("positions", positions);
 
-  let data = await moveBot(positions,me,dice,sospechas);
-  data = data.split(",");
-  console.log("data", data);
+  console.log("me", me);
+  console.log("dice", dice);
+
+  // tarjeta = sospechas[]
+  let data;
+  try {
+    data = await moveBot(positions, me, dice, sospechas);
+  }
+  catch (error) {
+    console.error('Hubo un error:', error.toString());
+  }
+  console.log("data", data.toString());
+
+  data = data.toString().split(',');
   
   //io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
   //check if the bot has entered a room
@@ -357,7 +369,7 @@ const actualizar_bots = async (group, hold, turnoOwner, idx_card, where, who, wh
       updateCard(idx, bots.niveles[idx], asker, holder , where, who, what, idx_card, bots.sospechas[idx])
         .then((data) => {
           controller.update_players_info(players_in_order.group.username[idx], data, null)
-          then(() => {
+          .then(() => {
             console.log('updateCard terminado.');
           })
         })
@@ -399,6 +411,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
     // reenviar a todos el movimiento del 
     console.log("El jugador", username, "se ha movido a la posición", position);
     io.to(group).emit('turno-moves-to-response', username, position); // 📩
+    controller.updatePosition(username, position);
     socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
     if (!fin) {
       // Entras en una habitación (se hace pregunta)
@@ -518,7 +531,7 @@ const handleNextTurn = (group, io) => {
   
   setTimeout(async () => {
 
-    const { exito, turno:turno_username, character } = await controller.changeTurn(group); // turno.turno es un username
+    const { exito, turno:turno_username, turno_character } = await controller.changeTurn(group); // turno.turno es un username
 
     if (!exito) {
       console.log("Error al cambiar de turno");
@@ -537,7 +550,7 @@ const handleNextTurn = (group, io) => {
     }
     else {
       // Manejar el turno para el siguiente jugador
-      handleTurno(turnoOwner, socketOwner, character, group, io);
+      handleTurno(turnoOwner, socketOwner, turno_character, group, io);
     }
   }, 0); // 👈🏼 0 en pruebas. Cuando funcione bien, dejar el timeout a 2 segundos (2000)
 };
