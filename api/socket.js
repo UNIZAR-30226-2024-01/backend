@@ -90,59 +90,61 @@ const addSocketToGroup = (socket) => {
 function runSocketServer(io) {
   io.on(constants.CONNECT, async(socket) => {
 
-    console.log("se ha conectado a SOCKET.JS " + socket.handshake.auth.username);
+    console.log("se ha conectado a SOCKET.JS " + socket.handshake.auth.username + " en la sala " + socket.handshake.auth.group);
     addSocketToGroup(socket);
     // añadir usuario a la partida en la DB (partida_actual)
+    
+    await controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);    
 
-    await controller.joinGame(socket.handshake.auth.username, socket.handshake.auth.group);
+    // INFO DE JUEGO --> mandar incondicionalmente la información sin necesidad de esperar a request-game-info
+    // socket.on('request-game-info', async() => {
+    const {areAvailable:areAvailable1} = await controller.availabilityCharacters(socket.handshake.auth.group);
+    console.log("areAvailable1: ", areAvailable1);
 
+    const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
+
+    io.to(socket.handshake.auth.group).emit('game-info', {
+      names: constants.CHARACTERS_NAMES,
+      guns: constants.GUNS_NAMES,
+      rooms: constants.ROOMS_NAMES,
+      available: areAvailable1,
+
+      cards: res.cards,
+      sospechas: res.sospechas,
+      posiciones: res.positions,
+      turnoOwner: res.turnoOwner,        
+    });
+    // });
+    
+    
     socket.on('disconnect', async () => {
       console.log(constants.USER_DISCONNECTED);
       socket.disconnect();
     });
 
     socket.on('leave-game', async() => {
-      console.log(constants.USER_DISCONNECTED);
-      socket.disconnect();
-
+      console.log(constants.USER_DISCONNECTED + socket.handshake.auth.username);
+      
       await controller.leaveGame(socket.handshake.auth.username);
-      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
-
+      const { areAvailable: areAvailable2} = await controller.availabilityCharacters(socket.handshake.auth.group);
+      
       io.to(socket.handshake.auth.group).emit('game-info', {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
-        available: areAvailable,
+        available: areAvailable2,
       });
+      
+      socket.disconnect();
     });
 
-    // INFO DE JUEGO
-    socket.on('request-game-info', async() => {
-      console.log("REQUEST GAME INFO FROM: " + socket.handshake.auth.username);
-      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
-      console.log("areAvailable: ", areAvailable);
 
-      const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
-      // console.log(constants.CHARACTERS_NAMES);
-
-      io.to(socket.handshake.auth.group).emit('game-info', {
-        names: constants.CHARACTERS_NAMES, 
-        guns: constants.GUNS_NAMES,
-        rooms: constants.ROOMS_NAMES,
-        available: areAvailable,
-
-        cards: res.cards,
-        sospechas: res.sospechas,
-        posiciones: res.positions,
-        turnoOwner: res.turnoOwner,        
-      });
-    });
 
     socket.on('character-selected', async (character) => {
       // console.log('character-selected: ', character);
       const index = constants.CHARACTERS_NAMES.indexOf(character);
-      const {areAvailable} = await controller.availabilityCharacters(socket.handshake.auth.group);
-      areAvailable[index] = socket.handshake.auth.username;
+      const { areAvailable: areAvailable3} = await controller.availabilityCharacters(socket.handshake.auth.group);
+      areAvailable3[index] = socket.handshake.auth.username;
 
       await controller.selectCharacter(socket.handshake.auth.username, character);
 
@@ -150,7 +152,7 @@ function runSocketServer(io) {
         names: constants.CHARACTERS_NAMES,
         guns: constants.GUNS_NAMES,
         rooms: constants.ROOMS_NAMES,
-        available: areAvailable,
+        available: areAvailable3,
       });
     });
 

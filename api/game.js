@@ -37,10 +37,10 @@ async function gameWSMessagesListener(io, group) {
       // se da si abres la partida con 2 navegadores (o 2 tecnologias)
       // quitar de relaciones_socket_username al previo y meter al nuevo
       const s = relaciones_socket_username.find((s) => s.username === socket.handshake.auth.username);      
-      s.socket.emit('close-connetion', {})
+      // s.socket.emit('close-connetion', {})
       s.socket.disconnect();
 
-      
+
       // enviar al nuevo socket la información actual para que recupere el estado
       socket.emit('game-info', {
         names: constants.CHARACTERS_NAMES,
@@ -116,8 +116,9 @@ async function runGame(io, group) {
   let charactersAvailable = characters.filter((character) => !players.some((player) => player.character === character));
 
   // choose a random character for each player that has not selected a character
-  players.forEach(async (player) => {
+  //players.forEach(async (player) => {});
 
+  for (const player of players) {
     //if the player has not selected a character
     if (player.character === null) {
 
@@ -130,11 +131,10 @@ async function runGame(io, group) {
       //update the character of the player
       player.character = character;
 
-      console.log("Falta seleccionar personaje, se asigna " + character + " a " + player.userName);
       //update the character of the player in the database
       await controller.selectCharacter(player.userName, character);
     }
-  });
+  }
 
 
   //calculate the number of bots needed
@@ -348,26 +348,13 @@ async function runGame(io, group) {
   const actualizar_bots = async (group, hold, turnoOwner, idx_card, where, who, what) => {
     //solo bots
     const bots = await controller.getBotsInfo(group);
-    const { exito, positions, usernames } = await information_for_bot(group);
+    const { positions, usernames } = await controller.information_for_bot(group);
 
     // Iterador sobre bots.personajes
     for (let bot of bots.personajes) {
       // Si bot no es undefined, se actualiza la carta enseñada por el bot
       if (bot) {
         const idx = bots.personajes.indexOf(bot);
-        console.log("bot", bot);
-        console.log("bs", bots.personajes);
-        console.log("idx", idx);
-        console.log("bots.niveles[idx]", bots.niveles[idx]);
-        console.log("turnoOwner", turnoOwner);
-        console.log("holder", holder);
-        console.log("where", where);
-        console.log("who", who);
-        console.log("what", what);
-        console.log("idx_card", idx_card);
-        console.log("bots.sospechas[idx]", bots.sospechas[idx]);
-        console.log("idx_card", idx_card);
-        //FALTA PASAR TURNOOWNER Y HOLDER A INT
         let asker = usernames.indexOf(turnoOwner);
         let holder = usernames.indexOf(hold);
         updateCard(idx, bots.niveles[idx], asker, holder , where, who, what, idx_card, bots.sospechas[idx])

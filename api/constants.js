@@ -278,7 +278,7 @@ module.exports = {
     "WHERE partida_actual = $1",
   SELECT_INFO_PLAYERS_IN_GAME:
     " SELECT " +
-    " player.posicion AS posicio,n " +
+    " player.posicion AS posicion, " +
     " player.ficha AS personaje, " +
     " player.username AS username " +
     ' FROM grace_hopper."jugador" player ' +
