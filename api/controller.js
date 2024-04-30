@@ -1199,6 +1199,7 @@ async function information_for_bot(idGame) {
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
+      let sospechas = [];
       let posicion = [];
       let usernames = [];
       selectResult.rows.forEach(row => {
@@ -1210,7 +1211,7 @@ async function information_for_bot(idGame) {
       return { 
         exito: true, 
         positions: posicion,
-        usernames: usernames
+        usernames: usernames,
       };
     }
   } catch (error) {
@@ -1220,6 +1221,29 @@ async function information_for_bot(idGame) {
     
     if (verbose_client_release)
       console.log("cliente.release1")
+  }
+}
+
+async function getSospechasBot(username) {
+  const selectQuery = constants.SELECT_SOSPECHAS_BOT;
+  const selectValues = [username];
+
+  // const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+    const selectResult = await client.query(selectQuery, selectValues);
+
+    if (selectResult.rows.length == 0) {
+      return { exito: false, msg: constants.WRONG_IDGAME };
+    } else {
+      return {
+        exito: true,
+        sospechas: selectResult.rows[0].sospechas,
+      };
+    }
+  } catch (error) {
+    throw error;
   }
 }
 //********************************************AUX********************************************* */
@@ -1645,5 +1669,6 @@ module.exports = {
   getCards,
   playerHasCard,
   update_players_info,
-  updatePosition
+  updatePosition,
+  getSospechasBot
 };

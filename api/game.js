@@ -239,12 +239,25 @@ async function runGame(io, group) {
     const dice = Math.floor(Math.random() * 11) + 2;
     const me = constants.CHARACTERS_NAMES.indexOf(character);
     
-    const { exito, positions, usernames } = await information_for_bot(group);
-    console.log("positions", positions);
+    const { exito, positions, usernames } = await controller.information_for_bot(group);
+    const { sospechas } = await controller.getSospechasBot(turnoOwner);
 
-    let data = await moveBot(positions,me,dice,sospechas);
-    data = data.split(",");
-    console.log("data", data);
+    console.log("positions", positions);
+    console.log("me", me);
+    console.log("dice", dice);
+
+    // tarjeta = sospechas[]
+    let data;
+    try{
+      data = await moveBot(positions,me,dice,sospechas);
+    }
+    catch(error){
+      console.error('Hubo un error:', error.toString());
+    }
+    console.log("data", data.toString());
+
+    data = data.toString().split(',');
+
     
     //io.to(group).emit('turno-moves-to-response', turnoOwner, position); // 📩
     //check if the bot has entered a room
@@ -360,7 +373,7 @@ async function runGame(io, group) {
         updateCard(idx, bots.niveles[idx], asker, holder , where, who, what, idx_card, bots.sospechas[idx])
           .then((data) => {
             controller.update_players_info(players_in_order.group.username[idx], data, null)
-            then(() => {
+            .then(() => {
               console.log('updateCard terminado.');
             })
           })
@@ -388,6 +401,7 @@ async function runGame(io, group) {
     io.to(group).emit('turno-owner', turnoOwner); // 📩
 
     if (turnoOwner.includes("bot")) {
+      console.log("characterOwner", characterOwner);
       await handleTurnoBot(turnoOwner, group, characterOwner); // gestión de bot en otra función aparte
 
       // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
@@ -402,6 +416,7 @@ async function runGame(io, group) {
       // reenviar a todos el movimiento del 
       console.log("El jugador", username, "se ha movido a la posición", position);
       io.to(group).emit('turno-moves-to-response', username, position); // 📩
+      controller.updatePosition(username, position);
       socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
       if (!fin) {
         // Entras en una habitación (se hace pregunta)
@@ -513,7 +528,7 @@ async function runGame(io, group) {
     // Hacer un timeout para simular el tiempo de espera entre turnos
     setTimeout(async () => {
 
-      const { exito, turno:turno_username, character } = await controller.changeTurn(group); // turno.turno es un username
+      const { exito, turno:turno_username, turno_character  } = await controller.changeTurn(group); // turno.turno es un username
 
       if (!exito) {
         console.log("Error al cambiar de turno");
@@ -525,14 +540,12 @@ async function runGame(io, group) {
       const turnoOwner = turno_username;
       const socketOwner = relaciones_socket_username.find((s) => s.username === turnoOwner);
 
-      // si al principio de tu turno no estás conectado, se salta al siguiente
-        // borrar lo de los bots cuando se implemente lógica de bot 🎃
-      if (!socketOwner) { 
+      if (!socketOwner && !turnoOwner.includes("bot")) { 
         handleNextTurn();
       }
       else {
         // Manejar el turno para el siguiente jugador
-        handleTurno(turnoOwner, socketOwner, character);
+        handleTurno(turnoOwner, socketOwner, turno_character);
       }
     }, 0); // 👈🏼 0 en pruebas. Cuando funcione bien, dejar el timeout a 2 segundos (2000)
   };

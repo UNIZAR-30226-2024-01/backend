@@ -7,8 +7,6 @@
 
 import sys
 import json
-import random
-import time
 
 info_tablero = []
 info_habitaciones = []
@@ -287,8 +285,6 @@ def sameRoom(last_pos, decision):
 	return False
 
 if __name__ == "__main__":
-
-	time_ini = time.time()
 	
 	# Comprobación de parámetros
 	if len(sys.argv) != 5:

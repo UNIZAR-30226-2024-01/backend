@@ -283,7 +283,11 @@ module.exports = {
     " player.username AS username " +
     ' FROM grace_hopper."jugador" player ' +
     " WHERE partida_actual = $1",
-
+  SELECT_SOSPECHAS_BOT:
+    " SELECT " +
+    " player.sospechas AS sospechas " +
+    ' FROM grace_hopper."jugador" player ' +
+    " WHERE player.username = $1",
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
     'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE username = $1',
