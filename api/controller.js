@@ -1201,7 +1201,6 @@ async function information_for_bot(idGame) {
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
-      let sospechas = [];
       let posicion = [];
       let usernames = [];
       selectResult.rows.forEach(row => {
@@ -1230,7 +1229,7 @@ async function getSospechasBot(username) {
   const selectQuery = constants.SELECT_SOSPECHAS_BOT;
   const selectValues = [username];
 
-  // const client = await pool.connect();
+  const client = await pool.connect();
   if (verbose_pool_connect)
     console.log("pool connect 1");
   try {
@@ -1246,6 +1245,11 @@ async function getSospechasBot(username) {
     }
   } catch (error) {
     throw error;
+  } finally {
+    client.release();
+
+    if (verbose_client_release)
+      console.log("cliente.release1")
   }
 }
 //********************************************AUX********************************************* */

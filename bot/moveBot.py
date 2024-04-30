@@ -45,7 +45,7 @@ N_COLS = 24
 def checkIndex(index):
 	if index < 0 or index >= len(info_tablero):
 		return False
-	if info_tablero[index]['isWalkable'] == False or (info_tablero[index]['roomName'] != '' and info_tablero[index]['isDoor'] == False):
+	if (info_tablero[index]['isWalkable'] == False and info_tablero[index]['isRoom'] == False) or (info_tablero[index]['roomName'] != '' and info_tablero[index]['isDoor'] == False):
 		return False
 	return True
 
@@ -145,11 +145,8 @@ def turn(casillas_pjs, casilla, dados, vecinos):
 	
 	# Comprobación de las casillas de los jugadores
 	for i in range(len(casillas_pjs)):
-		if not checkIndex(casillas_pjs[i]):
-			print(f"Casilla del jugador {i} no válida: ", casillas_pjs[i], file=sys.stderr)
-			sys.exit(1)
 		# Marcar las casillas de los jugadores como no transitables
-		info_tablero[casillas_pjs[i]]['isWalkable'] = False
+		info_tablero[casillas_pjs[i]]['isWalkable'] = False if info_tablero[casillas_pjs[i]]['isRoom'] == False else None
 
 	candidatos = bfs(casilla, dados, vecinos)
 	candidatos = sorted(candidatos)
@@ -204,7 +201,7 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 
 	# Volver a validar las casillas de los jugadores
 	for i in range(len(casillas_pjs)):
-		info_tablero[casillas_pjs[i]]['isWalkable'] = True
+		info_tablero[casillas_pjs[i]]['isWalkable'] = True if info_tablero[casillas_pjs[i]]['isRoom'] == False else None
 
 	return bfs_habitacion(candidatos, room, vecinos)
 

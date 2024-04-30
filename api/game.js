@@ -229,7 +229,7 @@ async function runGame(io, group) {
 }
   // Avisar al primer jugador del grupo que es su turno
 
-const handleTurnoBot = async (turnoOwner,group,character) => {
+const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
   // get the dice between 2 and 12
   const dice = Math.floor(Math.random() * 11) + 2;
@@ -242,7 +242,6 @@ const handleTurnoBot = async (turnoOwner,group,character) => {
   console.log("me", me);
   console.log("dice", dice);
 
-  // tarjeta = sospechas[]
   let data;
   try {
     data = await moveBot(positions, me, dice, sospechas);
@@ -261,7 +260,7 @@ const handleTurnoBot = async (turnoOwner,group,character) => {
   
   io.to(group).emit('turno-moves-to-response', turnoOwner, move); // 📩
   // const fin = ( data[2] == -1 ? true : false);
-  const fin = (data[2] != '-1');
+  const fin = (data[2] == '-1');
 
   
   if (!fin) {
@@ -397,7 +396,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
   io.to(group).emit('turno-owner', turnoOwner); // 📩
 
   if (turnoOwner.includes("bot")) {
-    await handleTurnoBot(turnoOwner, group, characterOwner); // gestión de bot en otra función aparte
+    await handleTurnoBot(turnoOwner, group, characterOwner, io); // gestión de bot en otra función aparte
 
     // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
     clearTimeout(timeoutId);
@@ -545,7 +544,7 @@ const handleNextTurn = (group, io) => {
 
     // si al principio de tu turno no estás conectado, se salta al siguiente
       // borrar lo de los bots cuando se implemente lógica de bot 🎃
-    if (!socketOwner) { 
+    if (!socketOwner && !turnoOwner.includes("bot")) { 
       handleNextTurn(group, io);
     }
     else {
