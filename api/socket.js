@@ -112,7 +112,7 @@ function runSocketServer(io) {
       cards: res.cards,
       sospechas: res.sospechas,
       posiciones: res.positions,
-      turnoOwner: res.turnoOwner,        
+      turnoOwner: res.turnoOwner,   
     });
     // });
     
