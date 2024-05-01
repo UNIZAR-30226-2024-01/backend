@@ -220,7 +220,7 @@
 
 ---
 
-### close-conection():
+### close-connection():
 
 - **Descripción:** Se ha cerrado la sesion, al iniciar sesion en otro dispositivo.
 - **Emitido por:** Servidor.
