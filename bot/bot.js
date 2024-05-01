@@ -100,9 +100,9 @@ function move(args) {
       reject(data);
     });
 
-    pythonProcess.on('close', (code) => {
-      console.log(`Proceso de Python cerrado con código ${code}`);
-    });
+    // pythonProcess.on('close', (code) => {
+    //   console.log(`Proceso de Python cerrado con código ${code}`);
+    // });
   });
 }
 
@@ -184,9 +184,9 @@ function update(args) {
       reject(data);
     });
 
-    pythonProcess.on('close', (code) => {
-      console.log(`Proceso de Python cerrado con código ${code}`);
-    });
+    // pythonProcess.on('close', (code) => {
+    //   console.log(`Proceso de Python cerrado con código ${code}`);
+    // });
   });
 }
 

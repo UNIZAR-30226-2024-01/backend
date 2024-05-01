@@ -848,7 +848,7 @@ async function updatePosition(username, pos) {
     console.log("pool connect23");
   try {
     const updateResult = await client.query(updateQuery, updateValues);
-
+    console.log("updatingInside");
     if (updateResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_USER };
     } else {
@@ -882,15 +882,13 @@ async function changeTurn(idGame) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
       const turno_player_username = selectResult.rows[0].turno;
-      console.log("turno_player_username "+turno_player_username);
+      console.log("turno acabado para "+turno_player_username);
       const turno_player_character = res.characterAvaliable[res.areAvailable.indexOf(turno_player_username)];
-      console.log("turno_player_character "+turno_player_character);
+      console.log("con ficha "+turno_player_character);
       let i = 1;
       let valido = false;
       let next_turn_character = turno_player_character;
       
-      console.log("next_turn"+next_turn_character)
-
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
         next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) + i ) % constants.CHARACTERS_NAMES.length];
 
@@ -1164,14 +1162,14 @@ async function removeBots(idGame) {
     console.log("pool connect 1");
   try {
 
-    //console.log("Eliminando cartas y bots")
-    //await client.query(deleteCards, deleteValues);
+    // console.log("Eliminando cartas y bots")
+    // await client.query(deleteCards, deleteValues);
 
     console.log("Eliminando bots 2")
     await client.query(deleteBotsQuery, deleteValues);
 
     const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
-    console.log("Eliminando bots 3")
+    
     await client.query(deletePlayer, deleteValues);
     console.log("Bots eliminados kk");
 
@@ -1206,8 +1204,6 @@ async function getBotsInfo(idGame) {
       let niveles = [];
       selectResult.rows.forEach(row => {
         let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
-        console.log("pj: " + row.personaje);
-        console.log("idx: " + idx);
         sospechas[idx] = row.sospechas;
         personajes[idx] = row.personaje;
         niveles[idx] = row.level;
@@ -1246,7 +1242,6 @@ async function information_for_bot(idGame) {
       let posicion = [];
       let usernames = [];
       selectResult.rows.forEach(row => {
-        console.log("row: " + row.username + " " + row.personaje + " " + row.posicion)
         let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
         posicion[idx] = row.posicion;
         usernames[idx] = row.username;

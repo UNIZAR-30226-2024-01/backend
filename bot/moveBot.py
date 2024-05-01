@@ -188,10 +188,11 @@ def getLeastInfo(tarjeta, me, group):
 	min_info = info.index(min(info))
 	# Get the last digit of the group
 	_me = (me + group) % N_PLAYERS 
-	for i in range(len(info)):
+	for _ in range(len(info)):
 		if info[_me] <= info[min_info]:
 			return _me
 		_me = (_me + 1) % N_PLAYERS
+	return min_info
 
 def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
 	min_prob = getLeastInfo(tarjeta, me, group)
@@ -287,16 +288,23 @@ def getDoor(casilla, vecinos):
 		door = doors[0]
 		entrance = info_tablero[door]['idx']
 		if info_tablero[door]['isdoor'] == 'd':
-			return entrance + vecinos[0]
+			# print(f"entrance: {entrance}, vecinos[0]: {vecinos[0]}, result: {entrance + vecinos[0]}")
+			return (entrance + vecinos[0])
 		elif info_tablero[door]['isdoor'] == 'u':
-			return entrance + vecinos[2]
+			# print(f"entrance: {entrance}, vecinos[2]: {vecinos[2]}, result: {entrance + vecinos[2]}")
+			return (entrance + vecinos[2])
 		elif info_tablero[door]['isdoor'] == 'r':
-			return entrance + vecinos[1]
+			# print(f"entrance: {entrance}, vecinos[1]: {vecinos[1]}, result: {entrance + vecinos[1]}")
+			return (entrance + vecinos[1])
 		elif info_tablero[door]['isdoor'] == 'l':
-			return entrance + vecinos[3]
+			# print(f"entrance: {entrance}, vecinos[3]: {vecinos[3]}, result: {entrance + vecinos[3]}")
+			return (entrance + vecinos[3])
+		else:
+			# L a puerta no tiene dirección
+			return info_tablero[casilla]['idx']
 	else:
 		# No hay puertas en la habitación
-		return casilla
+		return info_tablero[casilla]['idx']
 
 if __name__ == "__main__":
 	
@@ -341,8 +349,8 @@ if __name__ == "__main__":
 			print(f"MOVE,{last_pos},FIN")
 		else:
 			if sameRoom(last_pos, election):
-				election = getDoor(election, vecinos)
-				print(f"PUERTA,{election},FIN")
+				puerta = getDoor(election, vecinos)
+				print(f"DOOR,{puerta},FIN")
 			else:
 				sospecha(election, tarjeta, yo, election, group)
 	else:
@@ -352,7 +360,7 @@ if __name__ == "__main__":
 			print(f"MOVE,{last_pos},FIN")
 		else:
 			if sameRoom(last_pos, decision):
-				decision = getDoor(decision, vecinos)
-				print(f"PUERTA,{decision},FIN")
+				puerta = getDoor(decision, vecinos)
+				print(f"DOOR,{puerta},FIN")
 			else:
 				print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
