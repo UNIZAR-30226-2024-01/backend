@@ -614,9 +614,6 @@ async function joinGame(username, idGame) {
 
 async function leaveGame(username) {
 
-  const selectAlivePlayers = constants.SELECT_JUGADORES_PARTIDA;
-  const selectValues = [username];
-
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_player = [null, username, constants.CERO, null, null];
   // si es mi turno cuando abandono, asignarlo a null
@@ -627,22 +624,15 @@ async function leaveGame(username) {
   if (verbose_pool_connect)
     console.log("pool connect16");
   try {
-    const selectResult =  await client.query(selectAlivePlayers,selectValues);
-
+    
     const updateResult = await client.query(
       updateQuery_player,
       updateValues_player
     );
-    // console.log("updateQuery_player: ", updateQuery_player);
-    if (updateResult.rows.length == 0) {
-      return { exito: false, msg: constants.ERROR_UPDATING };
-    }
-    else {
-      if(selectResult.rows[0].n_players <= 0){
-        finishGame(selectResult.rows[0].partida)
-     }
-      // console.log("Leave game satisfactorio");
-      return { exito: true, msg: constants.CORRECT_UPDATE };
+    
+    if (updateResult.rows.length == 0) return { exito: false, msg: constants.ERROR_UPDATING };
+    else return { exito: true, msg: constants.CORRECT_UPDATE 
+
     }
   } catch (error) {
     throw error;
@@ -691,7 +681,9 @@ async function finishGame(idGame) {
     const deleteCartas = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
     await client.query(deleteCartas, deleteValues);
 
+    console.log("Eliminando bots")
     await removeBots(idGame);
+    console.log("Bots eliminados");
 
     // Se ejecuta la consulta para actualizar el estado de la partida y del jugador
     const updateStateandPartidaQuery = constants.UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA;
@@ -702,6 +694,7 @@ async function finishGame(idGame) {
     // Se elimina la partida si no hay registros asociados
     const deletePartidaQuery = constants.DELETE_ALL_PARTIDA;
     await client.query(deletePartidaQuery, deleteValues);
+    console.log("Partida eliminada");
 
     // Se retorna un mensaje de éxito
     return { exito: true, msg: constants.CORRECT_DELETE };
@@ -899,7 +892,7 @@ async function changeTurn(idGame) {
       console.log("next_turn"+next_turn_character)
 
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
-        next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) +i ) % constants.CHARACTERS_NAMES.length];
+        next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) + i ) % constants.CHARACTERS_NAMES.length];
 
         console.log("i: ", next_turn_character)
         // console.log("next_turn_character "+next_turn_character);
@@ -1096,6 +1089,37 @@ async function lose(idPlayer) {
   await leaveGame(idPlayer);
 }
 
+async function isAlive(idGame){
+
+  const selectAlivePlayers = constants.SELECT_JUGADORES_PARTIDA;
+  const selectAliveValues = [idGame];
+
+  const client = await pool.connect();
+  if (verbose_pool_connect)
+    console.log("pool connect 1");
+  try {
+
+    const selectAliveResult =  await client.query(selectAlivePlayers,selectAliveValues);
+    let alive = selectAliveResult.rows.length > 0;
+
+    // console.log("selectResult " + selectResult.rows[0].partida);
+    // console.log("alivePlayers " + selectResult.rows.length)
+    if(!alive){
+      finishGame(idGame);
+    }
+
+    return alive
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+
+    if (verbose_client_release)
+      console.log("cliente.release1")
+  }
+
+}
+
 //********************************************BOTS********************************************* */
 async function createBot(username, lvl) {
 
@@ -1131,7 +1155,7 @@ async function createBot(username, lvl) {
 }
 
 async function removeBots(idGame) {
-  const deleteCards = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
+  //const deleteCards = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
   const deleteBotsQuery = constants.DELETE_ALL_BOTS_FROM_BOT;
   const deleteValues = [idGame];
 
@@ -1140,11 +1164,16 @@ async function removeBots(idGame) {
     console.log("pool connect 1");
   try {
 
-    await client.query(deleteCards, deleteValues);
+    //console.log("Eliminando cartas y bots")
+    //await client.query(deleteCards, deleteValues);
+
+    console.log("Eliminando bots 2")
     await client.query(deleteBotsQuery, deleteValues);
 
     const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
+    console.log("Eliminando bots 3")
     await client.query(deletePlayer, deleteValues);
+    console.log("Bots eliminados kk");
 
     return { exito: true };
 
@@ -1681,6 +1710,7 @@ module.exports = {
   changeTurn,
   turno_asks_for,
   acuse_to,
+  isAlive,
   //****************************************player*********************************************** */
   playerInformation,
   getPlayerStateInformation,

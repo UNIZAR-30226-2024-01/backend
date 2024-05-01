@@ -290,12 +290,10 @@ module.exports = {
     " WHERE player.username = $1",
   SELECT_JUGADORES_PARTIDA:
     ' SELECT ' +
-    ' COUNT (*) AS n_players, ' +
-    ' player.partida_actual AS partida ' +
+    ' player.username AS n_players ' +
     ' FROM grace_hopper."usuario" ' +
     ' JOIN grace_hopper."jugador" player ON grace_hopper."usuario".username = player.username ' +
-    ' WHERE player.partida_actual = (SELECT partida_actual FROM grace_hopper."jugador" WHERE username = $1) ' +
-    ' GROUP BY player.partida_actual' ,
+    ' WHERE player.partida_actual =  $1 ',
 
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
