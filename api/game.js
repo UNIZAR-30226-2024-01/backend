@@ -217,7 +217,7 @@ async function runGame(io, group) {
 
   //send players the game start message with relevant information
   relaciones_socket_username.forEach(async (s) => {
-    io.to(s.socket_id).emit('start-game', { // 📩😍
+    io.to(s.socket_id).emit('start-game-response', { // 📩😍
       names: constants.CHARACTERS_NAMES, 
       guns: constants.GUNS_NAMES,
       rooms: constants.ROOMS_NAMES,
