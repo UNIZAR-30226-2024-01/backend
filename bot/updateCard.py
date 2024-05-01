@@ -23,7 +23,7 @@ PLACES = ['aulas norte',
   'laboratorio',
   'escaleras',
   'biblioteca',
-  'baños',
+  'ba:nos',
   'despacho',
   'cafeteria',
   'aulas sur']

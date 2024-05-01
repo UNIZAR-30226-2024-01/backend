@@ -21,7 +21,7 @@ PLACES = ['aulas norte',
   'laboratorio',
   'escaleras',
   'biblioteca',
-  'baños',
+  'ba:nos',
   'despacho',
   'cafeteria',
   'aulas sur']
@@ -342,7 +342,9 @@ if __name__ == "__main__":
 		else:
 			if sameRoom(last_pos, election):
 				election = getDoor(election, vecinos)
-			sospecha(election, tarjeta, yo, election, group)
+				print(f"PUERTA,{election},FIN")
+			else:
+				sospecha(election, tarjeta, yo, election, group)
 	else:
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
 		if decision == -1:
@@ -351,4 +353,6 @@ if __name__ == "__main__":
 		else:
 			if sameRoom(last_pos, decision):
 				decision = getDoor(decision, vecinos)
-			print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+				print(f"PUERTA,{decision},FIN")
+			else:
+				print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")

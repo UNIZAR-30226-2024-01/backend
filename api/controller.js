@@ -881,17 +881,18 @@ async function changeTurn(idGame) {
       return { exito: false, msg: constants.WRONG_IDGAME };
     } else {
       const turno_player_username = selectResult.rows[0].turno;
-      // console.log("turno_player_username "+turno_player_username);
+      console.log("turno_player_username "+turno_player_username);
       const turno_player_character = res.characterAvaliable[res.areAvailable.indexOf(turno_player_username)];
-      // console.log("turno_player_character "+turno_player_character);
+      console.log("turno_player_character "+turno_player_character);
       let i = 1;
       let valido = false;
       let next_turn_character = turno_player_character;
       
-      console.log(next_turn_character)
+      console.log("next_turn"+next_turn_character)
 
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
-        next_turn_character = constants.CHARACTERS_NAMES[(constants.CHARACTERS_NAMES.indexOf(turno_player_character) + i) % constants.CHARACTERS_NAMES.length];
+        next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) +i ) % constants.CHARACTERS_NAMES.length];
+
         console.log("i: ", next_turn_character)
         // console.log("next_turn_character "+next_turn_character);
         i++;
@@ -1208,6 +1209,7 @@ async function information_for_bot(idGame) {
       let posicion = [];
       let usernames = [];
       selectResult.rows.forEach(row => {
+        console.log("row: " + row.username + " " + row.personaje + " " + row.posicion)
         let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
         posicion[idx] = row.posicion;
         usernames[idx] = row.username;
@@ -1679,5 +1681,6 @@ module.exports = {
   playerHasCard,
   update_players_info,
   updatePosition,
-  getSospechasBot
+  getSospechasBot,
+  updateTurno,
 };

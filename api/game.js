@@ -173,6 +173,10 @@ async function runGame(io, group) {
     players.push({userName: bot.username, character: character});
   };
 
+  //get player whose character == mrSoper
+  const player_soper = players.find((char) => char.character == constants.CHARACTERS_NAMES[0]);
+  console.log("player_soper", player_soper);
+  await controller.updateTurno(group, player_soper.userName);
 
   //deal cards to players
   let dealCards = await controller.dealCards(players, group);
@@ -279,6 +283,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
     console.log("El turno NO termina aquí");
     const suspect = data[2] == 'SUSPECT' ;
     let room = data[3];
+    // Replace ':n' by 'ñ'
+    room = room.replace(/:n/g, 'ñ');
     console.log("room", room);
     let character = data[4];
     console.log("character", character);
@@ -379,6 +385,8 @@ const actualizar_bots = async (group, hold, turnoOwner, idx_card, where, who, wh
       const idx = bots.personajes.indexOf(bot);
       let asker = usernames.indexOf(turnoOwner);
       let holder = usernames.indexOf(hold);
+      // Reemplazar las ñ por :n
+      where = where.replace(/ñ/g, ':n');
       updateCard(idx, bots.niveles[idx], asker, holder , where, who, what, idx_card, bots.sospechas[idx])
         .then((data) => {
           controller.update_players_info(players_in_order.group.username[idx], data, null)
