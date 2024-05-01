@@ -14,6 +14,34 @@ let players_in_order = { };
 // variable to store the pause state of the game and the io object
 let game_info = { };
 
+// function to manage the web sockets when the game is paused
+const createEventListenersStopGame = (s, group) => {
+  console.log("new socket connected during game:", s.socket_id);
+  if (s.group !== group) return;
+  console.log("NOT RETURNED");
+  s.socket.on(constants.DISCONNECT, () => {
+    console.log('socket desconectado:', s.socket_id);
+    relaciones_socket_username = relaciones_socket_username.filter((sock) => sock.socket_id !== s.socket_id);
+  });
+
+  s.socket.on('request-pause-game', async () => {
+    console.log('request-pause-game');
+    game_info.group.pause = true;
+
+    await controller.stopGame(group);
+  });
+
+  s.socket.on('request-resume-game', async () => {
+    console.log('request-resume-game');
+    const io = game_info.group.io;
+    io.to(group).emit('game-resumed-response', {}); // 📩
+    game_info.group.pause = false;
+
+    await controller.resumeGame(group);
+
+    handleNextTurn(group, io);
+  });
+}  
 
 async function gameWSMessagesListener(io, group) {
   io.on(constants.CONNECT, async (socket) => {
@@ -47,43 +75,39 @@ async function gameWSMessagesListener(io, group) {
       relaciones_socket_username = relaciones_socket_username.filter((s) => s.username !== socket.handshake.auth.username)
     }
     // console.log("socket nuevo:", socket.id);
-    relaciones_socket_username.push({ socket_id: socket.id, socket: socket, username: socket.handshake.auth.username });
+    const s = { socket_id: socket.id, socket: socket, username: socket.handshake.auth.username, io: io, group: group}; 
+    relaciones_socket_username.push(s);
     // else: pertenezco a la partida ya empezada
     
     // lo meto en 'relaciones_socket_username' en la componente que toque
     // en funcion de su username (recuperar de la DB qu茅 character es en funci贸n de su username)
 
-
+    createEventListenersStopGame(s, group);
     // cuando se desconecta, lo saco de 'relaciones_socket_username'
   });
+
+  // io.on('request-pause-game', async () => {
+  //   console.log('IO ON request-pause-game');
+  //   game_info.group.pause = true;
+
+  //   await controller.stopGame(group);
+  // });
+
+  // io.on('request-resume-game', async () => {
+  //   console.log('IO ON request-resume-game');
+  //   const io = game_info.group.io;
+  //   io.to(group).emit('game-resumed-response', {}); // 📩
+  //   game_info.group.pause = false;
+
+  //   await controller.resumeGame(group);
+
+  //   handleNextTurn(group, io);
+  //   // handleNextTurn(group, io).catch(error => console.error(error));
+  // });
   
-  const relaciones_socket_username_group = relaciones_socket_username.filter((s) => s.group === group);
-  relaciones_socket_username_group.forEach((s) => {
-    s.socket.on(constants.DISCONNECT, () => {
-      console.log('socket desconectado:', s.socket_id);
-      relaciones_socket_username = relaciones_socket_username.filter((sock) => sock.socket_id !== s.socket_id);
-    });
-
-    const group = s.group;
-
-    s.socket.on('request-pause-game', async () => {
-      console.log('request-pause-game');
-      game_info.group.pause = true;
-
-      await controller.stopGame(group);
-    });
-
-    s.socket.on('request-resume-game', async () => {
-      console.log('request-resume-game');
-      const io = game_info.group.io;
-      io.to(group).emit('game-resumed-response', {}); // 📩
-      game_info.group.pause = false;
-
-      await controller.resumeGame(group);
-
-      handleNextTurn(group, io);
-      // handleNextTurn(group, io).catch(error => console.error(error));
-    });
+  // const relaciones_socket_username_group = relaciones_socket_username.filter((s) => s.group === group);
+  relaciones_socket_username.forEach((s) => {
+    createEventListenersStopGame(s, group);
   });
 }
 
@@ -137,7 +161,7 @@ async function runGame(io, group) {
   
   //create bots
   let bots_inf=[]
-  console.log("n_bots", n_bots);
+  // console.log("n_bots", n_bots);
   for (let i = 0; i < n_bots; i++) {
 
     //generate a random number between 1 and 3 for level
@@ -180,7 +204,7 @@ async function runGame(io, group) {
 
   //deal cards to players
   let dealCards = await controller.dealCards(players, group);
-  console.log("dealCards", dealCards);
+  // console.log("dealCards", dealCards);
 
   // send cards to each player
   relaciones_socket_username.forEach((s) => {
@@ -243,10 +267,10 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   
   const { exito, positions, usernames } = await controller.information_for_bot(group);
   const { sospechas } = await controller.getSospechasBot(turnoOwner)
-  console.log("positions", positions);
+  // console.log("positions", positions);
 
-  console.log("me", me);
-  console.log("dice", dice);
+  // console.log("me", me);
+  // console.log("dice", dice);
 
   let data;
   try {
@@ -255,50 +279,50 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   catch (error) {
     console.error('Hubo un error:', error.toString());
   }
-  console.log("data", data.toString());
+  // console.log("data", data.toString());
 
   // remove the last character of the string
   // data = data.slice(0, -1);
   data = data.toString().split(',');
 
   data[data.length - 1] = data[data.length - 1].slice(0, -2);
-  console.log("data[data.length - 1].length", data[data.length - 1].length);
+  // console.log("data[data.length - 1].length", data[data.length - 1].length);
 
   // iter data in order to remove the initial character
-  for (let i = 0; i < data.length; i++) {
-    // data[i] = data[i].slice(1);
-    console.log("\""+data[i]+"\"");
-  }
+  // for (let i = 0; i < data.length; i++) {
+  //   // data[i] = data[i].slice(1);
+  //   console.log("\""+data[i]+"\"");
+  // }
   //check if the bot has entered a room
   let move = parseInt(data[1]);
   controller.updatePosition(turnoOwner, move);
   
   io.to(group).emit('turno-moves-to-response', turnoOwner, move); // 📩
   // const fin = ( data[2] == -1 ? true : false);
-  console.log(typeof data[2])
-  console.log("data[2]: \"" +data[2]+"\"");
+  // console.log(typeof data[2])
+  // console.log("data[2]: \"" +data[2]+"\"");
   const fin = (data[2] === "FIN");
 
   if (!fin) { // Se entra en una habitación
-    console.log("El turno NO termina aquí");
+    // console.log("El turno NO termina aquí");
     const suspect = data[2] == 'SUSPECT' ;
     let room = data[3];
     // Replace ':n' by 'ñ'
     room = room.replace(/:n/g, 'ñ');
     console.log("room", room);
     let character = data[4];
-    console.log("character", character);
+    // console.log("character", character);
     let gun = data[5];
-    console.log("gun", gun);
+    // console.log("gun", gun);
     
-    console.log(players_in_order.group);
+    // console.log(players_in_order.group);
     io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room, !suspect);
 
     if (suspect) {
-      console.log("suspect");
+      // console.log("suspect");
       const { user } = await controller.turno_asks_for(group, turnoOwner, character, gun, room, players_in_order.group.username);
       const username_shower = user;
-      console.log("username_shower", username_shower);
+      // console.log("username_shower", username_shower);
       
       if (username_shower == "") {
         // nadie tiene cartas para enseñar
@@ -346,7 +370,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
       }
 
     } else { //Accuse_to
-      console.log("Accuse_to");
+      // console.log("Accuse_to");
       const { exito } = await controller.acuse_to(turnoOwner, group, character, gun, room);
       io.to(group).emit('game-over', turnoOwner, exito);
       if (exito) {
@@ -391,7 +415,7 @@ const actualizar_bots = async (group, hold, turnoOwner, idx_card, where, who, wh
         .then((data) => {
           controller.update_players_info(players_in_order.group.username[idx], data, null)
           .then(() => {
-            console.log('updateCard terminado.');
+            // console.log('updateCard terminado.');
           })
         })
         .catch(error => {
@@ -408,7 +432,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 
   let timeoutId = setTimeout(() => { 
     // en caso de que se venza el tiempo del turno, se eliminan los eventos y se salta al siguiente turno
-    console.log("Se ha acabado el tiempo del turno de", turnoOwner);
+    // console.log("Se ha acabado el tiempo del turno de", turnoOwner);
     socketOwner.socket.removeAllListeners();
 
     handleNextTurn(group, io);
@@ -436,7 +460,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
     socketOwner.socket.off('turno-moves-to', onTurnoMovesTo);
     if (!fin) {
       // Entras en una habitación (se hace pregunta)
-      console.log("El turno NO termina aquí");
+      // console.log("El turno NO termina aquí");
 
       const onTurnoAsksFor = async (username_asking, character, gun, room, is_final) => {
         // reenviar la pregunta a todos los jugadores
@@ -466,7 +490,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
           // llamar función 
           const { user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.group.username);
           const username_shower = user;
-          console.log("username_shower", username_shower);
+          // console.log("username_shower", username_shower);
 
           if (username_shower == "") {
             // nadie tiene cartas para enseñar
@@ -579,7 +603,7 @@ const handleNextTurn = (group, io) => {
       handleTurno(turnoOwner, socketOwner, turno_character, group, io);
       return;
     }
-  }, 2000); // 👈🏼 0 en pruebas. Cuando funcione bien, dejar el timeout a 2 segundos (2000)
+  }, 2000);
 };
 
 

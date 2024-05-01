@@ -288,6 +288,15 @@ module.exports = {
     " player.sospechas AS sospechas " +
     ' FROM grace_hopper."jugador" player ' +
     " WHERE player.username = $1",
+  SELECT_JUGADORES_PARTIDA:
+    ' SELECT ' +
+    ' COUNT (*) AS n_players, ' +
+    ' player.partida_actual AS partida ' +
+    ' FROM grace_hopper."usuario" ' +
+    ' JOIN grace_hopper."jugador" player ON grace_hopper."usuario".username = player.username ' +
+    ' WHERE player.partida_actual = (SELECT partida_actual FROM grace_hopper."jugador" WHERE username = $1) ' +
+    ' GROUP BY player.partida_actual' ,
+
   //-------update-------;
   UPDATE_PASSWD_USUARIO:
     'UPDATE grace_hopper."usuario" SET  passwd = $2 WHERE username = $1',

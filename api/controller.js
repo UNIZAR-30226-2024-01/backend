@@ -612,8 +612,11 @@ async function joinGame(username, idGame) {
   }
 }
 
-//LUO: chekear los usuarios en la partida para removear los bots
 async function leaveGame(username) {
+
+  const selectAlivePlayers = constants.SELECT_JUGADORES_PARTIDA;
+  const selectValues = [username];
+
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
   const updateValues_player = [null, username, constants.CERO, null, null];
   // si es mi turno cuando abandono, asignarlo a null
@@ -624,6 +627,8 @@ async function leaveGame(username) {
   if (verbose_pool_connect)
     console.log("pool connect16");
   try {
+    const selectResult =  await client.query(selectAlivePlayers,selectValues);
+
     const updateResult = await client.query(
       updateQuery_player,
       updateValues_player
@@ -633,6 +638,9 @@ async function leaveGame(username) {
       return { exito: false, msg: constants.ERROR_UPDATING };
     }
     else {
+      if(selectResult.rows[0].n_players <= 0){
+        finishGame(selectResult.rows[0].partida)
+     }
       // console.log("Leave game satisfactorio");
       return { exito: true, msg: constants.CORRECT_UPDATE };
     }
