@@ -175,50 +175,48 @@ def bfs_habitacion(candidatos, room, vecinos):
 			if vecino not in visitados:
 				frontera.append(vecino)
 	
-	return None  # No se encontraron casillas candidatas
+	# No se encontraron casillas candidatas, el jugador está atrapado
+	return -1
 
-def getLeastInfo(tarjeta, me):
+def getLeastInfo(tarjeta, me, group):
 	# Calcular la cantidad de información de cada carta
-	info = [0 for i in range(len(tarjeta))]
+	info = [0 for _ in range(len(tarjeta))]
 	for i in range(len(tarjeta)):
 		for j in range(N_PLAYERS):
 			info[i] += abs(tarjeta[i][j]-50)
 	
 	min_info = info.index(min(info))
-	_me = me
+	# Get the last digit of the group
+	_me = (me + group) % N_PLAYERS 
 	for i in range(len(info)):
 		if info[_me] <= info[min_info]:
 			return _me
 		_me = (_me + 1) % N_PLAYERS
 
-def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
-	min_prob = getLeastInfo(tarjeta, me)
+def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
+	min_prob = getLeastInfo(tarjeta, me, group)
 
 	# Transformar el indice en las puertas de la habitación
 	room = info_habitaciones[min_prob]['roomNumber']
 
 	# print("place: ", info_habitaciones[min_prob]['roomName']) (DEBUG)
 
-	# Volver a validar las casillas de los jugadores
-	for i in range(len(casillas_pjs)):
-		info_tablero[casillas_pjs[i]]['isWalkable'] = True if info_tablero[casillas_pjs[i]]['isRoom'] == False else None
-
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
-def sospecha(casilla, tarjeta, me, election, last_pos):
-	if info_tablero[casilla]['roomName'] == '' or sameRoom(last_pos, casilla):
+def sospecha(casilla, tarjeta, me, election, group):
+	if info_tablero[casilla]['roomName'] == '':
 		# print("No se puede hacer una sospecha en una casilla que no es una habitación o si ya estabas ahí") (DEBUG)
 		print(f"MOVE,{election},FIN")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
-		place = getLeastInfo(tarjeta[:N_PLACES], me)
+		place = getLeastInfo(tarjeta[:N_PLACES], me, group)
 
 		# Desde N_PLACES hasta N_PLACES+N_PEOPLE están los personajes
-		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE], me)
+		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE], me, group)
 
 		# Desde N_PLACES+N_PEOPLE hasta N_PLACES+N_PEOPLE+N_WEAPONS están las armas
-		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS], me)
+		weapon = getLeastInfo(tarjeta[N_PLACES+N_PEOPLE:N_PLACES+N_PEOPLE+N_WEAPONS], me, group)
 
 		# Imprimir la sospecha
 		# print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}") (DEBUG)
@@ -281,11 +279,30 @@ def sameRoom(last_pos, decision):
 		return True
 	return False
 
+# Devuelve la posición frente a la puerta de la habitación
+def getDoor(casilla, vecinos):
+	doors = [c['idx'] for c in info_tablero if c['isDoor'] != False and c['roomName'] == info_tablero[casilla]['roomName']]
+	if doors:
+		# Depende de dónde esté la puerta, se elige la casilla de la puerta
+		door = doors[0]
+		entrance = info_tablero[door]['idx']
+		if info_tablero[door]['isdoor'] == 'd':
+			return entrance + vecinos[0]
+		elif info_tablero[door]['isdoor'] == 'u':
+			return entrance + vecinos[2]
+		elif info_tablero[door]['isdoor'] == 'r':
+			return entrance + vecinos[1]
+		elif info_tablero[door]['isdoor'] == 'l':
+			return entrance + vecinos[3]
+	else:
+		# No hay puertas en la habitación
+		return casilla
+
 if __name__ == "__main__":
 	
 	# Comprobación de parámetros
-	if len(sys.argv) != 5:
-		print("Uso: python bot.py <[casillas_pjs]> <casilla_inicial> <dados> <tarjeta>", file=sys.stderr)
+	if len(sys.argv) != 6:
+		print("Uso: python bot.py <[casillas_pjs]> <casilla_inicial> <dados> <tarjeta> <group>", file=sys.stderr)
 		sys.exit(1)
 
 	# Inicialización de variables
@@ -296,6 +313,8 @@ if __name__ == "__main__":
 	casilla = casillas_pjs[yo]
 	dados = int(sys.argv[3])
 	str_tarjeta = sys.argv[4]
+
+	group = int(sys.argv[5]) % 10
 
 	# Rellenar la tarjeta como una matriz de n_jugadores x n_cartas
 	str_tarjeta = str_tarjeta.split(",")
@@ -315,9 +334,21 @@ if __name__ == "__main__":
 	
 	if not acusar:
 		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
-		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, casillas_pjs, yo)
+		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, yo, group)
 		# printCard(tarjeta) (DEBUG)
-		sospecha(election, tarjeta, yo, election, last_pos)
+		if election == -1:
+			# No se puede mover
+			print(f"MOVE,{last_pos},FIN")
+		else:
+			if sameRoom(last_pos, election):
+				election = getDoor(election, vecinos)
+			sospecha(election, tarjeta, yo, election, group)
 	else:
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
-		print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '' or sameRoom(last_pos, decision)) else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+		if decision == -1:
+			# No me muevo
+			print(f"MOVE,{last_pos},FIN")
+		else:
+			if sameRoom(last_pos, decision):
+				decision = getDoor(decision, vecinos)
+			print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")

@@ -246,7 +246,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
   let data;
   try {
-    data = await moveBot(positions, me, dice, sospechas);
+    data = await moveBot(positions, me, dice, sospechas, group);
   }
   catch (error) {
     console.error('Hubo un error:', error.toString());
@@ -286,7 +286,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
     console.log("gun", gun);
     
     console.log(players_in_order.group);
-    io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room, !suspect); // LUO
+    io.to(group).emit('turno-asks-for-response', turnoOwner, character, gun, room, !suspect);
 
     if (suspect) {
       console.log("suspect");

@@ -65,11 +65,11 @@ function createBot(me, cards) {
   return strTarjeta;
 }
 
-async function moveBot(pjs_pos, me, dice, tarjeta) {
+async function moveBot(pjs_pos, me, dice, tarjeta, group) {
   // console.log('Moving bot...');
   // console.log('Parameters: <List of players\' positions>, <my index>, <my dice>, <my card>');
 
-  const args = [pjs_pos, me, dice, tarjeta];
+  const args = [pjs_pos, me, dice, tarjeta, group];
   
   // Ejecutar el script de Python
   const data = await move(args);
