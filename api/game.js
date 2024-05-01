@@ -254,9 +254,17 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   console.log("data", data.toString());
 
   // remove the last character of the string
-  data = data.slice(0, -1);
+  // data = data.slice(0, -1);
   data = data.toString().split(',');
-  
+
+  data[data.length - 1] = data[data.length - 1].slice(0, -2);
+  console.log("data[data.length - 1].length", data[data.length - 1].length);
+
+  // iter data in order to remove the initial character
+  for (let i = 0; i < data.length; i++) {
+    // data[i] = data[i].slice(1);
+    console.log("\""+data[i]+"\"");
+  }
   //check if the bot has entered a room
   let move = parseInt(data[1]);
   controller.updatePosition(turnoOwner, move);
@@ -264,8 +272,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   io.to(group).emit('turno-moves-to-response', turnoOwner, move); // 📩
   // const fin = ( data[2] == -1 ? true : false);
   console.log(typeof data[2])
-  console.log("data[2]:" , data[2]);
-  const fin = (data[2] === "-1");
+  console.log("data[2]: \"" +data[2]+"\"");
+  const fin = (data[2] === "FIN");
 
   if (!fin) { // Se entra en una habitación
     console.log("El turno NO termina aquí");
@@ -282,23 +290,23 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
     if (suspect) {
       console.log("suspect");
-      const { user } = await controller.turno_asks_for( turnoOwner, character, gun, room, players_in_order.group);
+      const { user } = await controller.turno_asks_for(group, turnoOwner, character, gun, room, players_in_order.group.username);
       const username_shower = user;
       console.log("username_shower", username_shower);
       
       if (username_shower == "") {
         // nadie tiene cartas para enseñar
-        io.to(group).emit('turno-show-cards', turnoOwner, "", "");
+        io.to(group).emit('turno-show-cards', turnoOwner, "", "", character, gun, room);
         // eliminar el timeout ya que el jugador ha terminado el turno satisfactoriamente
 
         const idx_card = -1;
         await actualizar_bots(group, username_shower, turnoOwner, idx_card, room, character, gun);
-        handleNextTurn(group, io);
+        // handleNextTurn(group, io);
         return;
 
       } else if (username_shower.includes("bot")) {
-        const { card } = controller.getCards(turnoOwner,idGame);
-        let cards_coincidences = card.filter((card) => card == character || card == gun || card == room);
+        const { cards } = await controller.getCards(username_shower,group);
+        let cards_coincidences = cards.filter((card) => card == character || card == gun || card == room);
         //Get random card of cards_coincidences
         let card_to_show = cards_coincidences[Math.floor(Math.random() * cards_coincidences.length)];
         
@@ -309,7 +317,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
         const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
         await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
 
-        handleNextTurn(group, io)
+        // handleNextTurn(group, io)
         return;
 
       } else {
@@ -323,9 +331,9 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           io.to(group).emit('turno-show-cards', turnoOwner, username_shower, card, character, gun, room);
           socket_shower.socket.off('turno-card-selected', onTurnoCardSelected);
 
-          const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
+          const card_type = card == character ? 1 : (card == gun ? 2 : 0);
           await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
-          handleNextTurn(group, io);
+          // handleNextTurn(group, io);
           return;
         };
         socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
@@ -346,14 +354,14 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
         // const card_type = card_to_show == character ? 0 : (card_to_show == gun ? 1 : 2);
         // await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
-        handleNextTurn(group, io);
+        // handleNextTurn(group, io);
         return;
       }
     }
   }
   else { // NO se entra en una habitación
     console.log("El turno termina aquí");
-    handleNextTurn(group, io);
+    // handleNextTurn(group, io);
     return;
   }
 };

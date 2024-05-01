@@ -173,7 +173,7 @@ async function updateCardTest(tarjeta){
 
 function update(args) {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python3', ['../bot/updateCard.py', ...args]);
+    const pythonProcess = spawn('python', ['../bot/updateCard.py', ...args]);
 
     pythonProcess.stdout.on('data', (data) => {
       resolve(data);

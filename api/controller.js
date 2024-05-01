@@ -403,12 +403,16 @@ async function getCards(player, idGame) {
     console.log("pool connect11");
   try {
     const selectResult = await client.query(selectQuery, selectValues);
+    // console.log("selectResult.rows: ", selectResult.rows);
+    // console.log("selectResult.rows.length: ", selectResult.rows.length);
 
     if (selectResult.rows.length == 0) {
       return { exito: false, msg: constants.WRONG_USER };
     } else {
       // list with all the cards of the player obtained in the selectResult
       const cartas = selectResult.rows.map((row) => row.carta);
+      // console.log("selectResult.rows: ", selectResult.rows);
+      // console.log("cartas: ", cartas);
 
       return {
         exito: true,
@@ -883,9 +887,12 @@ async function changeTurn(idGame) {
       let i = 1;
       let valido = false;
       let next_turn_character = turno_player_character;
+      
+      console.log(next_turn_character)
 
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
         next_turn_character = constants.CHARACTERS_NAMES[(constants.CHARACTERS_NAMES.indexOf(turno_player_character) + i) % constants.CHARACTERS_NAMES.length];
+        console.log("i: ", next_turn_character)
         // console.log("next_turn_character "+next_turn_character);
         i++;
         // si no existe ningun usuario con esa ficha en la partida se da por inactivo
@@ -1271,6 +1278,7 @@ function calculateXP(nBots_1, nBots_2, nBots_3, type) {
 }
 
 async function validateTurno(idGame, ficha) {
+  console.log("Validando turno")
   const selectValidTurn = constants.SELECT_VALID_TURN_PARTIDA;
   const validTurnValues = [idGame, ficha];
 

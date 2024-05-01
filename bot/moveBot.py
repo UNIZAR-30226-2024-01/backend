@@ -209,7 +209,7 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, casillas_pjs, me):
 def sospecha(casilla, tarjeta, me, election, last_pos):
 	if info_tablero[casilla]['roomName'] == '' or sameRoom(last_pos, casilla):
 		# print("No se puede hacer una sospecha en una casilla que no es una habitación o si ya estabas ahí") (DEBUG)
-		print(f"MOVE,{election},-1")
+		print(f"MOVE,{election},FIN")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
 		place = getLeastInfo(tarjeta[:N_PLACES], me)
@@ -320,4 +320,4 @@ if __name__ == "__main__":
 		sospecha(election, tarjeta, yo, election, last_pos)
 	else:
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
-		print(f"MOVE,{decision},-1") if (info_tablero[decision]['roomName'] == '' or sameRoom(last_pos, decision)) else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+		print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '' or sameRoom(last_pos, decision)) else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")

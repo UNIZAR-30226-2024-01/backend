@@ -42,7 +42,7 @@ WEAPONS = ['teclado',
 
 def checkArgs():
 	if len(sys.argv) != 10:
-		print("Usage: python3 updateCard.py <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>")
+		print("Usage: python updateCard.py <me> <lvl> <asker> <holder> <where> <who> <what> <hasSmg> <card>")
 		print(len(sys.argv))
 		sys.exit(1)
 
