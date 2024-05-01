@@ -298,7 +298,8 @@ module.exports = {
   UPDATE_PARTIDAandSTATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3 WHERE username = $2',
   UPDATE_PARTIDAandSTATEandCHAR_JUGADOR:
-    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4 WHERE username = $2 RETURNING *',
+    'UPDATE grace_hopper."jugador" SET  partida_actual = $1, estado = $3, ficha = $4, sospechas = $5 ' + 
+    ' WHERE username = $2 RETURNING *',
   UPDATE_STATE_JUGADOR:
     'UPDATE grace_hopper."jugador" SET estado = $2 WHERE username = $1',
   UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA:

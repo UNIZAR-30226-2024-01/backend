@@ -374,7 +374,6 @@ async function getPlayerXP(username) {
 
   const client = await pool.connect();
 
-  console.log("conecta a la base de datos para obtener la xp del jugador");
   if (verbose_pool_connect)
     console.log("pool connect10");
   try {
@@ -612,7 +611,7 @@ async function joinGame(username, idGame) {
 //LUO: chekear los usuarios en la partida para removear los bots
 async function leaveGame(username) {
   const updateQuery_player = constants.UPDATE_PARTIDAandSTATEandCHAR_JUGADOR;
-  const updateValues_player = [null, username, constants.CERO, null];
+  const updateValues_player = [null, username, constants.CERO, null, null];
   // si es mi turno cuando abandono, asignarlo a null
   // updateQuery_partida = constants.UPDATE_STATE_PARTIDA;
 
@@ -971,7 +970,6 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
     //if the character is found, then check if the player has the card
     const selectValues = [idGame, characterCard, weaponCard, placeCard];
     const selectResult = await client.query(selectQuery, selectValues);
-    console.log("selectResult.rows.length " + selectResult.rows.length);
 
     if (selectResult.rows.length == 0) {
       return { exito: true, user: '' }; //modificar
@@ -1161,7 +1159,6 @@ async function getBotsInfo(idGame) {
       let sospechas = [];
       let personajes = [];
       let niveles = [];
-      console.log("selectResult.rows.length: " + selectResult.rows.length);
       selectResult.rows.forEach(row => {
         let idx = constants.CHARACTERS_NAMES.indexOf(row.personaje);
         console.log("pj: " + row.personaje);
@@ -1282,7 +1279,6 @@ async function validateTurno(idGame, ficha) {
     console.log("pool connect34");
   try {
     const selectResult = await client.query(selectValidTurn, validTurnValues);
-    // console.log("selectResult.rows", selectResult.rows);
     // console.log("n", selectResult.rows[0].n);
 
     if (selectResult.rows[0].n == 0) return false;
@@ -1498,7 +1494,6 @@ async function currentCharacters(idGame) {
       };
 
       console.log("idGame currentCharacters", idGame);
-      console.log("selectResult.rows", selectResult.rows);
 
       for (let i = 0; i < selectResult.rows.length; i++) {
         // console.log(selectResult.rows[i].userName + "= "+ character_idx[selectResult.rows[i].ficha]);

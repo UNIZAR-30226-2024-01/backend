@@ -103,6 +103,11 @@ function runSocketServer(io) {
 
     const res = await controller.getPlayerStateInformation(socket.handshake.auth.group, socket.handshake.auth.username);
 
+    // const sos = Array(28).fill('');
+    // sos[10] = Array(7).fill(2);
+
+    console.log("res.sospechas: ", res.sospechas);
+
     io.to(socket.handshake.auth.group).emit('game-info', {
       names: constants.CHARACTERS_NAMES,
       guns: constants.GUNS_NAMES,
@@ -180,6 +185,11 @@ function runSocketServer(io) {
     socket.on('start-game', async() => {
       console.log('start game received');
       game.runGame(io, socket.handshake.auth.group);
+    });
+
+    socket.on('response-sospechas', async (sospechas) => {
+      // console.log('response-sospechas: ', sospechas);
+      await controller.update_players_info(socket.handshake.auth.username, sospechas, null);
     });
 
     ldrMsg(socket);

@@ -89,7 +89,7 @@ async function moveBotTest(tarjeta) {
 
 function move(args) {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python3', ['../bot/moveBot.py', ...args]);
+    const pythonProcess = spawn('python', ['../bot/moveBot.py', ...args]);
 
     pythonProcess.stdout.on('data', (data) => {
       resolve(data);
