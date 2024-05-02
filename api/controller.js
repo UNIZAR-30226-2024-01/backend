@@ -681,6 +681,7 @@ async function finishGame(idGame) {
     const deleteCartas = constants.DELETE_ALL_CARDS_FROM_PARTIDA;
     await client.query(deleteCartas, deleteValues);
 
+    await updateTurno(idGame, null);
     console.log("Eliminando bots")
     await removeBots(idGame);
     console.log("Bots eliminados");
