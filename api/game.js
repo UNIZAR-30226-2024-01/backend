@@ -326,6 +326,9 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
         const idx_card = -1;
         await actualizar_bots(group, turnoOwner, turnoOwner, idx_card, room, character, gun);
+
+        handleNextTurn(group,io);
+
         return;
 
       } else if (username_shower.includes("bot")) {
@@ -340,6 +343,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
         const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
         await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+
+        handleNextTurn(group,io);
 
         return;
 
@@ -362,6 +367,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
           await actualizar_bots(group, username_shower, turnoOwner, card_type, room, character, gun);
 
+          handleNextTurn(group,io);
+
           return;
         }, 15000); // dejar en 15 segundos
 
@@ -377,6 +384,9 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           
           const card_type = card == character ? 1 : (card == gun ? 2 : 0);
           await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
+          
+          handleNextTurn(group,io);
+
           return;
         };
         socket_shower?.socket.on('turno-card-selected', onTurnoCardSelected);
@@ -394,6 +404,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
         // eliminar al jugador que ha perdido
         // igual esto ya se hace en acuse_to
         console.log("FIN. Ha perdido la partida: ", turnoOwner);
+        handleNextTurn(group,io);
 
         return;
       }
@@ -401,6 +412,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   }
   else { // NO se entra en una habitación
     console.log("El turno termina aquí");
+    handleNextTurn(group,io);
+
     return;
   }
   console.log("WTF");
@@ -438,9 +451,8 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
   console.log("Es el turno de:", turnoOwner);
 
   if (turnoOwner.includes("bot")) {
+    
     await handleTurnoBot(turnoOwner, group, characterOwner, io); // gestión de bot en otra función aparte
-
-    handleNextTurn(group,io);
     return;
   }
     
