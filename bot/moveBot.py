@@ -63,13 +63,13 @@ def checkNeighbour(index, vecino):
 def checkNeighbours(index, vecinos):
 	checked = []
 	if info_tablero[index]['isDoor'] != False:
-		if(info_tablero[index]['isDoor'] == 'd'):
+		if(info_tablero[index]['isDoor'] == 'd' and checkIndex(index + vecinos[0])):
 			checked.append(index + vecinos[0])
-		elif(info_tablero[index]['isDoor'] == 'r'):
+		elif(info_tablero[index]['isDoor'] == 'r' and checkIndex(index + vecinos[1])):
 			checked.append(index + vecinos[1])
-		elif(info_tablero[index]['isDoor'] == 'u'):
+		elif(info_tablero[index]['isDoor'] == 'u' and checkIndex(index + vecinos[2])):
 			checked.append(index + vecinos[2])
-		elif(info_tablero[index]['isDoor'] == 'l'):
+		elif(info_tablero[index]['isDoor'] == 'l' and checkIndex(index + vecinos[3])):
 			checked.append(index + vecinos[3])
 	else:
 		for i in range(4):
@@ -205,13 +205,19 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
 	return bfs_habitacion(candidatos, room, vecinos)
 
 
-def sospecha(casilla, tarjeta, me, election, group):
-	if info_tablero[casilla]['roomName'] == '':
-		# print("No se puede hacer una sospecha en una casilla que no es una habitación o si ya estabas ahí") (DEBUG)
+def sospecha(tarjeta, me, election, group):
+	if info_tablero[election]['roomName'] == '':
+		# print("No se puede hacer una sospecha en una casilla que no es una habitación") (DEBUG)
 		print(f"MOVE,{election},FIN")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
-		place = getLeastInfo(tarjeta[:N_PLACES], me, group)
+		# La habitación debe ser la de la casilla en la que se encuentra el jugador
+		i = 0
+		for room in info_habitaciones:
+			if int(info_tablero[election]['roomName']) == room['roomNumber']:
+				place = i
+				break
+			i += 1
 
 		# Desde N_PLACES hasta N_PLACES+N_PEOPLE están los personajes
 		who = getLeastInfo(tarjeta[N_PLACES:N_PLACES+N_PEOPLE], me, group)
@@ -281,30 +287,38 @@ def sameRoom(last_pos, decision):
 	return False
 
 # Devuelve la posición frente a la puerta de la habitación
-def getDoor(casilla, vecinos):
+def getDoor(casilla, vecinos, casillas_pjs):
+	# Si hay un pasadizo, se elige la casilla del pasadizo
+	path = [c['idx'] for c in info_tablero if c['isPath'] != False and c['roomName'] == info_tablero[casilla]['roomName']]
+	if path:
+		return int(info_tablero[path[0]]['isPath'])
 	doors = [c['idx'] for c in info_tablero if c['isDoor'] != False and c['roomName'] == info_tablero[casilla]['roomName']]
-	if doors:
+	choice = -1
+	for door in doors:
 		# Depende de dónde esté la puerta, se elige la casilla de la puerta
-		door = doors[0]
 		entrance = info_tablero[door]['idx']
 		if info_tablero[door]['isDoor'] == 'd':
-			# print(f"entrance: {entrance}, vecinos[0]: {vecinos[0]}, result: {entrance + vecinos[0]}")
-			return (entrance + vecinos[0])
+			# Comprobar si la puerta está bloqueada
+			if not (entrance + vecinos[0] in casillas_pjs):
+				# print(f"entrance: {entrance}, vecinos[0]: {vecinos[0]}, result: {entrance + vecinos[0]}")
+				choice = (entrance + vecinos[0])
+				break
 		elif info_tablero[door]['isDoor'] == 'u':
-			# print(f"entrance: {entrance}, vecinos[2]: {vecinos[2]}, result: {entrance + vecinos[2]}")
-			return (entrance + vecinos[2])
+			if not (entrance + vecinos[2] in casillas_pjs):
+				# print(f"entrance: {entrance}, vecinos[2]: {vecinos[2]}, result: {entrance + vecinos[2]}")
+				choice = (entrance + vecinos[2])
+				break
 		elif info_tablero[door]['isDoor'] == 'r':
-			# print(f"entrance: {entrance}, vecinos[1]: {vecinos[1]}, result: {entrance + vecinos[1]}")
-			return (entrance + vecinos[1])
+			if not (entrance + vecinos[1] in casillas_pjs):
+				# print(f"entrance: {entrance}, vecinos[1]: {vecinos[1]}, result: {entrance + vecinos[1]}")
+				choice = (entrance + vecinos[1])
+				break
 		elif info_tablero[door]['isDoor'] == 'l':
-			# print(f"entrance: {entrance}, vecinos[3]: {vecinos[3]}, result: {entrance + vecinos[3]}")
-			return (entrance + vecinos[3])
-		else:
-			# La puerta no tiene dirección
-			return info_tablero[casilla]['idx']
-	else:
-		# No hay puertas en la habitación
-		return info_tablero[casilla]['idx']
+			if not (entrance + vecinos[3] in casillas_pjs):
+				# print(f"entrance: {entrance}, vecinos[3]: {vecinos[3]}, result: {entrance + vecinos[3]}")
+				choice = (entrance + vecinos[3])
+				break
+	return choice
 
 if __name__ == "__main__":
 	
@@ -351,10 +365,13 @@ if __name__ == "__main__":
 			print(f"MOVE,{last_pos},FIN")
 		else:
 			if sameRoom(last_pos, election):
-				puerta = getDoor(election, vecinos)
-				print(f"DOOR,{puerta},FIN")
+				puerta = getDoor(election, vecinos, casillas_pjs)
+				if puerta == -1:
+					print(f"MOVE,{election},FIN")
+				else:
+					sospecha(tarjeta, yo, puerta, group)
 			else:
-				sospecha(election, tarjeta, yo, election, group)
+				sospecha(tarjeta, yo, election, group)
 	else:
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
 		if decision == -1:
@@ -362,7 +379,7 @@ if __name__ == "__main__":
 			print(f"MOVE,{last_pos},FIN")
 		else:
 			if sameRoom(last_pos, decision):
-				puerta = getDoor(decision, vecinos)
+				puerta = getDoor(decision, vecinos, casillas_pjs)
 				print(f"DOOR,{puerta},FIN")
 			else:
 				print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
