@@ -287,20 +287,20 @@ def getDoor(casilla, vecinos):
 		# Depende de dónde esté la puerta, se elige la casilla de la puerta
 		door = doors[0]
 		entrance = info_tablero[door]['idx']
-		if info_tablero[door]['isdoor'] == 'd':
+		if info_tablero[door]['isDoor'] == 'd':
 			# print(f"entrance: {entrance}, vecinos[0]: {vecinos[0]}, result: {entrance + vecinos[0]}")
 			return (entrance + vecinos[0])
-		elif info_tablero[door]['isdoor'] == 'u':
+		elif info_tablero[door]['isDoor'] == 'u':
 			# print(f"entrance: {entrance}, vecinos[2]: {vecinos[2]}, result: {entrance + vecinos[2]}")
 			return (entrance + vecinos[2])
-		elif info_tablero[door]['isdoor'] == 'r':
+		elif info_tablero[door]['isDoor'] == 'r':
 			# print(f"entrance: {entrance}, vecinos[1]: {vecinos[1]}, result: {entrance + vecinos[1]}")
 			return (entrance + vecinos[1])
-		elif info_tablero[door]['isdoor'] == 'l':
+		elif info_tablero[door]['isDoor'] == 'l':
 			# print(f"entrance: {entrance}, vecinos[3]: {vecinos[3]}, result: {entrance + vecinos[3]}")
 			return (entrance + vecinos[3])
 		else:
-			# L a puerta no tiene dirección
+			# La puerta no tiene dirección
 			return info_tablero[casilla]['idx']
 	else:
 		# No hay puertas en la habitación
@@ -333,6 +333,8 @@ if __name__ == "__main__":
 	# Eliminar la componente "yo" de la lista de casillas de los jugadores
 	last_pos = casillas_pjs[yo]
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
+	# Eliminar los posibles <empty items> de la lista de casillas de los jugadores
+	casillas_pjs = [c for c in casillas_pjs if c != '']
 
 	vecinos = [N_COLS, 1, -N_COLS, -1]
 
