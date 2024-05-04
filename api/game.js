@@ -262,6 +262,7 @@ async function runGame(io, group) {
 
 const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
+  io.to(group).emit('turno-owner', turnoOwner); // 📩
   // get the dice between 2 and 12
   const dice = Math.floor(Math.random() * 11) + 2;
   const me = constants.CHARACTERS_NAMES.indexOf(character);

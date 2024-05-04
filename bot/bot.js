@@ -2,6 +2,10 @@ const { spawn } = require('child_process');
 const constants = require('../api/constants.js');
 const N_PLAYERS = 6;
 
+require('dotenv').config();
+
+const PYTHON_NAME = process.env.NODE_ENV == 'PRODUCTION' ? 'python3' : 'python';
+
 const PLACES = ['aulas norte',
   'recepcion',
   'laboratorio',
@@ -89,7 +93,7 @@ async function moveBotTest(tarjeta) {
 
 function move(args) {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python', ['../bot/moveBot.py', ...args]);
+    const pythonProcess = spawn(PYTHON_NAME, ['../bot/moveBot.py', ...args]);
 
     pythonProcess.stdout.on('data', (data) => {
       resolve(data);
@@ -173,7 +177,7 @@ async function updateCardTest(tarjeta){
 
 function update(args) {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python', ['../bot/updateCard.py', ...args]);
+    const pythonProcess = spawn(PYTHON_NAME, ['../bot/updateCard.py', ...args]);
 
     pythonProcess.stdout.on('data', (data) => {
       resolve(data);
