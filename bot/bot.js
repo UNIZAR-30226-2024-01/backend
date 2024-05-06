@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 const constants = require('../api/constants.js');
 const N_PLAYERS = 6;
 
-require('dotenv').config();
+//require('dotenv').config();
 
 const PYTHON_NAME = process.env.NODE_ENV == 'PRODUCTION' ? 'python3' : 'python';
 
