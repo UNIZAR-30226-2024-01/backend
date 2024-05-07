@@ -429,10 +429,10 @@ async function getCards(player, idGame) {
   }
 }
 
-//reparte las cartas entre los playeres,
+//reparte las cartas entre los players,
 //podría pasarle todos los idplayeres que estan en la partida
 // POST: devuelve las cartas en un vector en funcion de como han entrado en players
-// si players = [user1, user2, user3] deveulve = [[c1,c2,c3],[c4,c5,c6],[c7,c8,c9]]
+// si players = [user1, user2, user3] devuelve = [[c1,c2,c3],[c4,c5,c6],[c7,c8,c9]]
 // siendo c1,c2,c3 las cartas de user1
 async function dealCards(players, idGame) {
   //consulta que devuelve en una vector de vectores las cartas de cada player

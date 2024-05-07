@@ -1,0 +1,3240 @@
+
+	ME: 3, ASKER: 3, HOLDER: 5, WHERE: 0:aulas norte, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 50, 0, 50, 50]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [50, 50, 50, 0, 50, 50]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 50, 0, 50, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [50, 50, 50, 0, 50, 50]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 50, 0, 50, 50]
+Armas:
+teclado: [50, 50, 50, 0, 50, 50]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [50, 50, 50, 0, 50, 50]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 50, 0, 50, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [50, 50, 50, 0, 0, 50]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 50, 0, 50, 50]
+Armas:
+teclado: [50, 50, 50, 0, 0, 50]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 5, WHERE: 0:aulas norte, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [50, 0, 50, 50, 50, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [50, 0, 50, 50, 50, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [50, 0, 50, 50, 50, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [50, 0, 50, 50, 50, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [50, 0, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [50, 0, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 1, WHERE: 2:laboratorio, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [50, 50, 50, 0, 50, 50]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 50, 0, 50, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [50, 50, 50, 0, 0, 50]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 50, 0, 50, 50]
+Armas:
+teclado: [50, 50, 50, 0, 0, 50]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 50, 0, 50, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 50, 0, 50, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 1, WHERE: 2:laboratorio, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [50, 0, 50, 50, 50, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [50, 0, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [50, 0, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 4, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 50, 0, 50, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 50, 0, 50, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 4, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 2, WHERE: 3:escaleras, WHO: 1:miss REDES, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [50, 50, 50, 0, 50, 50]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [50, 50, 50, 0, 50, 50]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [50, 50, 50, 0, 50, 50]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 2, WHERE: 3:escaleras, WHO: 1:miss REDES, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [50, 0, 50, 50, 50, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 100, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 3, WHERE: 4:biblioteca, WHO: 3:miss FISICA, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [50, 50, 50, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [50, 50, 50, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [40, 0, 0, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 3, WHERE: 4:biblioteca, WHO: 3:miss FISICA, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 100, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [50, 0, 50, 50, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [50, 0, 50, 50, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 5, WHERE: 4:biblioteca, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [40, 0, 0, 0, 50, 50]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 5, WHERE: 4:biblioteca, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 5, HOLDER: 3, WHERE: 1:recepcion, WHO: 2:mr PROG, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [50, 50, 50, 0, 50, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [50, 50, 50, 0, 50, 50]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 50, 40]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 50, 40]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 5, HOLDER: 3, WHERE: 1:recepcion, WHO: 2:mr PROG, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 0, WHERE: 7:cafeteria, WHO: 4:mr DISCRETO, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [50, 50, 50, 0, 50, 50]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 50, 40]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [50, 50, 50, 0, 50, 50]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 50, 40]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 50, 40]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 0, WHERE: 7:cafeteria, WHO: 4:mr DISCRETO, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 50, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 5, WHERE: 0:aulas norte, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 50, 40]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 50, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 5, WHERE: 0:aulas norte, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 50, 50, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 50, 40, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 4, WHERE: 6:despacho, WHO: 5:miss IA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [50, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 4, WHERE: 6:despacho, WHO: 5:miss IA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 55, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 1, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [50, 50, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [50, 50, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 1, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [50, 0, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [50, 0, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 0, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [40, 50, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 3, WHERE: 1:recepcion, WHO: 3:miss FISICA, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 50, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 3, WHERE: 1:recepcion, WHO: 3:miss FISICA, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 60, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [40, 50, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [40, 50, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 0, WHERE: 2:laboratorio, WHO: 4:mr DISCRETO, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 40, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [60, 50, 50, 0, 40, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 50, 50]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 0, WHERE: 2:laboratorio, WHO: 4:mr DISCRETO, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 50, 40, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [60, 0, 50, 50, 40, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [40, 50, 50, 40, 55, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 50, 50, 30, 0, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 1, WHERE: 2:laboratorio, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [40, 60, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 1, WHERE: 2:laboratorio, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 50, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 50, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [50, 50, 50, 30, 0, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	ME: 3, ASKER: 5, HOLDER: 4, WHERE: 8:aulas sur, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [50, 50, 50, 0, 50, 50]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 5, HOLDER: 4, WHERE: 8:aulas sur, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [40, 50, 40, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [50, 0, 40, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 2, WHERE: 6:despacho, WHO: 3:miss FISICA, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [50, 50, 50, 0, 50, 50]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 0, 50, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 55, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 2, WHERE: 6:despacho, WHO: 3:miss FISICA, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [50, 0, 50, 40, 55, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [40, 0, 0, 70, 50, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 50, 40, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [0, 0, 60, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 2, WHERE: 6:despacho, WHO: 1:miss REDES, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 2, WHERE: 6:despacho, WHO: 1:miss REDES, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [0, 0, 60, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 60, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [40, 0, 0, 60, 50, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 3, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [40, 60, 40, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 3, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [40, 50, 40, 0, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 0, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 4, WHERE: 7:cafeteria, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [60, 50, 50, 0, 40, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 4, WHERE: 7:cafeteria, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [60, 0, 50, 50, 40, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 40, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 30, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 1, WHERE: 2:laboratorio, WHO: 3:miss FISICA, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 60, 50, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 1, WHERE: 2:laboratorio, WHO: 3:miss FISICA, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 55, 50, 40, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 60, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 4, HOLDER: 3, WHERE: 1:recepcion, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 40, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 4, HOLDER: 3, WHERE: 1:recepcion, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 50, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 3, HOLDER: 2, WHERE: 5:ba:nos, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [30, 0, 0, 0, 60, 50]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 60, 50, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 65, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 3, HOLDER: 2, WHERE: 5:ba:nos, WHO: 0:mr SOPER, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [30, 0, 0, 50, 55, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 55, 50, 30, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 55, 50, 20, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 60, 20, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 2, WHERE: 0:aulas norte, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 2, WHERE: 0:aulas norte, WHO: 0:mr SOPER, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 100, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 60, 20, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 2, WHERE: 1:recepcion, WHO: 1:miss REDES, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 30, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 2, WHERE: 1:recepcion, WHO: 1:miss REDES, WHAT: 1:cable de red
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 70, 40, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 0, WHERE: 3:escaleras, WHO: 4:mr DISCRETO, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 50, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 40, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 0, WHERE: 3:escaleras, WHO: 4:mr DISCRETO, WHAT: 2:cafe envenenado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 60, 40, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [70, 0, 50, 40, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 50, 40, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	ME: 3, ASKER: 5, HOLDER: 4, WHERE: 6:despacho, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 100, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 0, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 5, HOLDER: 4, WHERE: 6:despacho, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 70, 30, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 50, 60, 50]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 50, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 0, 0, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 3, ASKER: 0, HOLDER: 1, WHERE: 2:laboratorio, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 0, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 0, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 1, WHERE: 2:laboratorio, WHO: 2:mr PROG, WHAT: 0:teclado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 0, 0, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 0, 0, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 3, ASKER: 2, HOLDER: 5, WHERE: 4:biblioteca, WHO: 2:mr PROG, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 0, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 100]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 0]
+escaleras: [0, 0, 40, 0, 0, 0]
+biblioteca: [0, 0, 0, 0, 0, 100]
+ba:nos: [0, 0, 0, 0, 0, 0]
+despacho: [0, 0, 0, 0, 0, 0]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [0, 0, 0, 0, 60, 40]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 0]
+miss REDES: [0, 0, 100, 0, 0, 0]
+mr PROG: [0, 0, 0, 0, 0, 0]
+miss FISICA: [0, 0, 0, 0, 0, 0]
+mr DISCRETO: [100, 0, 0, 0, 0, 0]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 0]
+cable de red: [0, 0, 40, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 0]
+router afilado: [0, 0, 0, 100, 0, 0]
+troyano: [0, 0, 50, 0, 0, 0]
+cd: [0, 0, 0, 100, 0, 0]
+
+	ME: 5, ASKER: 2, HOLDER: 5, WHERE: 4:biblioteca, WHO: 2:mr PROG, WHAT: 3:router afilado
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 0, 0, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 60, 40, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [0, 0, 0, 0, 0, 0]
+recepcion: [0, 0, 0, 100, 0, 0]
+laboratorio: [0, 100, 0, 0, 0, 50]
+escaleras: [0, 0, 50, 0, 0, 50]
+biblioteca: [0, 0, 0, 0, 0, 0]
+ba:nos: [0, 0, 0, 40, 0, 50]
+despacho: [0, 0, 0, 0, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 50]
+aulas sur: [0, 0, 0, 0, 100, 0]
+Personas:
+mr SOPER: [0, 0, 100, 0, 0, 50]
+miss REDES: [0, 0, 100, 0, 0, 50]
+mr PROG: [0, 0, 0, 0, 0, 50]
+miss FISICA: [0, 0, 0, 0, 0, 50]
+mr DISCRETO: [100, 0, 0, 0, 0, 50]
+miss IA: [0, 0, 0, 0, 100, 0]
+Armas:
+teclado: [0, 0, 0, 0, 0, 50]
+cable de red: [0, 0, 0, 0, 0, 0]
+cafe envenenado: [0, 0, 0, 0, 0, 50]
+router afilado: [0, 0, 0, 0, 0, 50]
+troyano: [0, 0, 60, 10, 0, 50]
+cd: [0, 0, 0, 0, 55, 50]
+
+	ME: 1, ASKER: 1, HOLDER: 5, WHERE: 5:ba:nos, WHO: 5:miss IA, WHAT: 5:cd
+
+Tarjeta:Lugares:
+aulas norte: [50, 0, 50, 50, 50, 50]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [50, 0, 50, 50, 50, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [50, 0, 50, 50, 50, 50]
+ba:nos: [50, 0, 50, 50, 50, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [50, 0, 50, 50, 50, 50]
+miss REDES: [0, 100, 0, 0, 0, 0]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [0, 100, 0, 0, 0, 0]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 50, 50, 50, 50]
+Armas:
+teclado: [50, 0, 50, 50, 50, 50]
+cable de red: [50, 0, 50, 50, 50, 50]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [0, 100, 0, 0, 0, 0]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [50, 0, 50, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [50, 0, 50, 50, 50, 50]
+recepcion: [50, 0, 50, 50, 50, 50]
+laboratorio: [50, 0, 50, 50, 50, 50]
+escaleras: [50, 0, 50, 50, 50, 50]
+biblioteca: [50, 0, 50, 50, 50, 50]
+ba:nos: [50, 0, 0, 0, 0, 50]
+despacho: [50, 0, 50, 50, 50, 50]
+cafeteria: [50, 0, 50, 50, 50, 50]
+aulas sur: [50, 0, 50, 50, 50, 50]
+Personas:
+mr SOPER: [50, 0, 50, 50, 50, 50]
+miss REDES: [0, 100, 0, 0, 0, 0]
+mr PROG: [50, 0, 50, 50, 50, 50]
+miss FISICA: [0, 100, 0, 0, 0, 0]
+mr DISCRETO: [50, 0, 50, 50, 50, 50]
+miss IA: [50, 0, 0, 0, 0, 50]
+Armas:
+teclado: [50, 0, 50, 50, 50, 50]
+cable de red: [50, 0, 50, 50, 50, 50]
+cafe envenenado: [50, 0, 50, 50, 50, 50]
+router afilado: [0, 100, 0, 0, 0, 0]
+troyano: [50, 0, 50, 50, 50, 50]
+cd: [0, 0, 0, 0, 0, 100]
+
+	ME: 2, ASKER: 0, HOLDER: 4, WHERE: 3:escaleras, WHO: 3:miss FISICA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 0, 50, 50, 50]
+recepcion: [50, 50, 0, 50, 50, 50]
+laboratorio: [50, 50, 0, 50, 50, 50]
+escaleras: [50, 50, 0, 50, 50, 50]
+biblioteca: [50, 50, 0, 50, 50, 50]
+ba:nos: [50, 50, 0, 50, 50, 50]
+despacho: [50, 50, 0, 50, 50, 50]
+cafeteria: [50, 50, 0, 50, 50, 50]
+aulas sur: [50, 50, 0, 50, 50, 50]
+Personas:
+mr SOPER: [50, 50, 0, 50, 50, 50]
+miss REDES: [50, 50, 0, 50, 50, 50]
+mr PROG: [0, 0, 100, 0, 0, 0]
+miss FISICA: [50, 50, 0, 50, 50, 50]
+mr DISCRETO: [50, 50, 0, 50, 50, 50]
+miss IA: [0, 0, 100, 0, 0, 0]
+Armas:
+teclado: [50, 50, 0, 50, 50, 50]
+cable de red: [50, 50, 0, 50, 50, 50]
+cafe envenenado: [0, 0, 100, 0, 0, 0]
+router afilado: [50, 50, 0, 50, 50, 50]
+troyano: [50, 50, 0, 50, 50, 50]
+cd: [50, 50, 0, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 0, 50, 50, 50]
+recepcion: [50, 50, 0, 50, 50, 50]
+laboratorio: [50, 50, 0, 50, 50, 50]
+escaleras: [40, 0, 0, 0, 55, 50]
+biblioteca: [50, 50, 0, 50, 50, 50]
+ba:nos: [50, 50, 0, 50, 50, 50]
+despacho: [50, 50, 0, 50, 50, 50]
+cafeteria: [50, 50, 0, 50, 50, 50]
+aulas sur: [50, 50, 0, 50, 50, 50]
+Personas:
+mr SOPER: [50, 50, 0, 50, 50, 50]
+miss REDES: [50, 50, 0, 50, 50, 50]
+mr PROG: [0, 0, 100, 0, 0, 0]
+miss FISICA: [40, 0, 0, 0, 55, 50]
+mr DISCRETO: [50, 50, 0, 50, 50, 50]
+miss IA: [0, 0, 100, 0, 0, 0]
+Armas:
+teclado: [50, 50, 0, 50, 50, 50]
+cable de red: [50, 50, 0, 50, 50, 50]
+cafe envenenado: [0, 0, 100, 0, 0, 0]
+router afilado: [50, 50, 0, 50, 50, 50]
+troyano: [40, 0, 0, 0, 55, 50]
+cd: [50, 50, 0, 50, 50, 50]
+
+	ME: 4, ASKER: 0, HOLDER: 4, WHERE: 3:escaleras, WHO: 3:miss FISICA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 50, 50, 0, 50]
+recepcion: [50, 50, 50, 50, 0, 50]
+laboratorio: [50, 50, 50, 50, 0, 50]
+escaleras: [0, 0, 0, 0, 100, 0]
+biblioteca: [50, 50, 50, 50, 0, 50]
+ba:nos: [50, 50, 50, 50, 0, 50]
+despacho: [50, 50, 50, 50, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [50, 50, 50, 50, 0, 50]
+Personas:
+mr SOPER: [50, 50, 50, 50, 0, 50]
+miss REDES: [50, 50, 50, 50, 0, 50]
+mr PROG: [50, 50, 50, 50, 0, 50]
+miss FISICA: [50, 50, 50, 50, 0, 50]
+mr DISCRETO: [50, 50, 50, 50, 0, 50]
+miss IA: [50, 50, 50, 50, 0, 50]
+Armas:
+teclado: [50, 50, 50, 50, 0, 50]
+cable de red: [50, 50, 50, 50, 0, 50]
+cafe envenenado: [50, 50, 50, 50, 0, 50]
+router afilado: [50, 50, 50, 50, 0, 50]
+troyano: [50, 50, 50, 50, 0, 50]
+cd: [0, 0, 0, 0, 100, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 50, 50, 0, 50]
+recepcion: [50, 50, 50, 50, 0, 50]
+laboratorio: [50, 50, 50, 50, 0, 50]
+escaleras: [0, 0, 0, 0, 100, 0]
+biblioteca: [50, 50, 50, 50, 0, 50]
+ba:nos: [50, 50, 50, 50, 0, 50]
+despacho: [50, 50, 50, 50, 0, 50]
+cafeteria: [0, 0, 0, 0, 100, 0]
+aulas sur: [50, 50, 50, 50, 0, 50]
+Personas:
+mr SOPER: [50, 50, 50, 50, 0, 50]
+miss REDES: [50, 50, 50, 50, 0, 50]
+mr PROG: [50, 50, 50, 50, 0, 50]
+miss FISICA: [40, 0, 0, 0, 0, 50]
+mr DISCRETO: [50, 50, 50, 50, 0, 50]
+miss IA: [50, 50, 50, 50, 0, 50]
+Armas:
+teclado: [50, 50, 50, 50, 0, 50]
+cable de red: [50, 50, 50, 50, 0, 50]
+cafe envenenado: [50, 50, 50, 50, 0, 50]
+router afilado: [50, 50, 50, 50, 0, 50]
+troyano: [40, 0, 0, 0, 0, 50]
+cd: [0, 0, 0, 0, 100, 0]
+
+	ME: 5, ASKER: 0, HOLDER: 4, WHERE: 3:escaleras, WHO: 3:miss FISICA, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 50, 50, 50, 0]
+recepcion: [0, 0, 0, 0, 0, 100]
+laboratorio: [50, 50, 50, 50, 50, 0]
+escaleras: [50, 50, 50, 50, 50, 0]
+biblioteca: [50, 50, 50, 50, 50, 0]
+ba:nos: [50, 50, 50, 50, 50, 0]
+despacho: [0, 0, 0, 0, 0, 100]
+cafeteria: [50, 50, 50, 50, 50, 0]
+aulas sur: [0, 0, 0, 0, 0, 100]
+Personas:
+mr SOPER: [50, 50, 50, 50, 50, 0]
+miss REDES: [50, 50, 50, 50, 50, 0]
+mr PROG: [50, 50, 50, 50, 50, 0]
+miss FISICA: [50, 50, 50, 50, 50, 0]
+mr DISCRETO: [50, 50, 50, 50, 50, 0]
+miss IA: [50, 50, 50, 50, 50, 0]
+Armas:
+teclado: [50, 50, 50, 50, 50, 0]
+cable de red: [50, 50, 50, 50, 50, 0]
+cafe envenenado: [50, 50, 50, 50, 50, 0]
+router afilado: [50, 50, 50, 50, 50, 0]
+troyano: [50, 50, 50, 50, 50, 0]
+cd: [50, 50, 50, 50, 50, 0]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 50, 50, 50, 0]
+recepcion: [0, 0, 0, 0, 0, 100]
+laboratorio: [50, 50, 50, 50, 50, 0]
+escaleras: [40, 0, 0, 0, 55, 0]
+biblioteca: [50, 50, 50, 50, 50, 0]
+ba:nos: [50, 50, 50, 50, 50, 0]
+despacho: [0, 0, 0, 0, 0, 100]
+cafeteria: [50, 50, 50, 50, 50, 0]
+aulas sur: [0, 0, 0, 0, 0, 100]
+Personas:
+mr SOPER: [50, 50, 50, 50, 50, 0]
+miss REDES: [50, 50, 50, 50, 50, 0]
+mr PROG: [50, 50, 50, 50, 50, 0]
+miss FISICA: [40, 0, 0, 0, 55, 0]
+mr DISCRETO: [50, 50, 50, 50, 50, 0]
+miss IA: [50, 50, 50, 50, 50, 0]
+Armas:
+teclado: [50, 50, 50, 50, 50, 0]
+cable de red: [50, 50, 50, 50, 50, 0]
+cafe envenenado: [50, 50, 50, 50, 50, 0]
+router afilado: [50, 50, 50, 50, 50, 0]
+troyano: [40, 0, 0, 0, 55, 0]
+cd: [50, 50, 50, 50, 50, 0]
