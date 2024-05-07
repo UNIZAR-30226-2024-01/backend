@@ -26,17 +26,17 @@ const pool = new Pool({
 // Test the database connection
 pool.connect((err, client, done) => {
   if (err) {
-    console.error(constants.ERROR_DATA_BASE, err);
+    //console.error(constants.ERROR_DATA_BASE, err);
     return;
   }
-  console.log(constants.CONNECTED_DB);
+  //console.log(constants.CONNECTED_DB);
   done();
 });
 
 // Manejo de la señal SIGINT para cerrar correctamente la conexión a la base de datos
 process.on('SIGINT', () => {
   pool.end(() => {
-    console.log(constants.DISCONNECTED_DB);
+    //console.log(constants.DISCONNECTED_DB);
     process.exit(0);
   });
 });
