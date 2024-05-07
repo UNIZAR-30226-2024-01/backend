@@ -220,6 +220,7 @@ async function runGame(io, group) {
     //find the index of the player in the players array
     const idx = players.findIndex((player) => player.userName === bot.username); 
     const data = createBot(idx,  dealCards.cards[idx]);
+    console.log("cards_bot", dealCards.cards[idx]);
     await controller.update_players_info(bot.username, data, null);
 
   }

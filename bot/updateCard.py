@@ -95,10 +95,15 @@ def level1():
 
 	return tarjeta
 
-def allInfoFrom(card):
-	if card <= (MIN_PROB+10) or card >= (MAX_PROB-10):
+def allInfoFrom(card, holder):
+
+	if card[holder] <= (MIN_PROB + 10):
 		# Asumo que tengo la info completa de la carta
 		return True
+	for i in range(N_PLAYERS):
+		if i != holder and card[i] >= (MAX_PROB - 10):
+			# Tengo la info completa de la carta
+			return True
 	return False
 
 def level2():
@@ -126,37 +131,16 @@ def level2():
 			line = what+N_PLACES+N_PEOPLE
 
 		for i in range(N_PLAYERS):
-			if i != holder:
+			if i != holder and i != me:
 				tarjeta[line][i] = MIN_PROB
-	else:
-		all_place = allInfoFrom(tarjeta[where][holder])
-		all_who = allInfoFrom(tarjeta[who+N_PLACES][holder])
-		all_what = allInfoFrom(tarjeta[what+N_PLACES+N_PEOPLE][holder])
-		# Si sé 2 cartas aumento MAX_PROB
-		if (all_place and all_who) or (all_place and all_what) or (all_who and all_what):
-			if not all_place:
-				tarjeta[where][holder] = MAX_PROB
-				line = where
-			elif not all_who:
-				tarjeta[who+N_PLACES][holder] = MAX_PROB
-				line = who+N_PLACES
-			elif not all_what:
-				tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
-				line = what+N_PLACES+N_PEOPLE
-			else:
-				# Tengo toda la info de la tarjeta
-				all = True
-			if not all:
-				for i in range(N_PLAYERS):
-					if i != holder:
-						tarjeta[line][i] = MIN_PROB
 
 	idx = (asker + 1) % N_PLAYERS
 	while idx != holder:
 		# Este player no tiene la tarjeta que se pregunta
-		tarjeta[where][idx] = MIN_PROB
-		tarjeta[who+N_PLACES][idx] = MIN_PROB
-		tarjeta[what+N_PLACES+N_PEOPLE][idx] = MIN_PROB
+		if idx != me:
+			tarjeta[where][idx] = MIN_PROB
+			tarjeta[who+N_PLACES][idx] = MIN_PROB
+			tarjeta[what+N_PLACES+N_PEOPLE][idx] = MIN_PROB
 		idx = (idx + 1) % N_PLAYERS
 	
 	return tarjeta
@@ -171,8 +155,12 @@ def level3():
 	what = WEAPONS.index(sys.argv[7])
 	line = -1
 	all = False
-
 	tarjeta = getCard()
+
+	with open('log.txt', 'a') as f:
+		f.write(f"\n\tME: {me}, ASKER: {asker}, HOLDER: {holder}, WHERE: {where}:{PLACES[where]}, WHO: {who}:{PEOPLE[who]}, WHAT: {what}:{WEAPONS[what]}\n")
+		printCard(tarjeta, f)
+
 	if me == asker:
 		hasSmg = int(sys.argv[8])
 
@@ -194,9 +182,9 @@ def level3():
 				tarjeta[line][i] = MIN_PROB
 	else:
 		if holder != me:
-			all_place = allInfoFrom(tarjeta[where][holder])
-			all_who = allInfoFrom(tarjeta[who+N_PLACES][holder])
-			all_what = allInfoFrom(tarjeta[what+N_PLACES+N_PEOPLE][holder])
+			all_place = allInfoFrom(tarjeta[where], holder)
+			all_who = allInfoFrom(tarjeta[who+N_PLACES], holder)
+			all_what = allInfoFrom(tarjeta[what+N_PLACES+N_PEOPLE], holder)
 			increase = 5
 			# Si tengo toda la info de una carta aumento la probabilidad de las demás
 			# No sé nada -> aumento 5, sé 1 -> aumento 10, sé 2 -> aumento MAX_PROB
@@ -218,27 +206,27 @@ def level3():
 					tarjeta[what+N_PLACES+N_PEOPLE][holder] = MAX_PROB
 					line = what+N_PLACES+N_PEOPLE
 				else:
-					# Tengo toda la info de la tarjeta
+					# El jugador no podía tener las cartas que se han enseñado, reinicio las probabilidades
 					all = True
+					tarjeta[where][holder] = 50
+					tarjeta[who+N_PLACES][holder] = 50
+					tarjeta[what+N_PLACES+N_PEOPLE][holder] = 50
 				if not all:
 					for i in range(N_PLAYERS):
-						if i != holder:
+						if i != holder and i != me:
 							tarjeta[line][i] = MIN_PROB
-			elif increase == 10:
+			else:
+				# sé 1 carta o no sé nada
 				if not all_place:
 					tarjeta[where][holder] = min(tarjeta[where][holder] + increase, MAX_PROB)
 				if not all_who:
 					tarjeta[who+N_PLACES][holder] = min(tarjeta[who+N_PLACES][holder] + increase, MAX_PROB)
 				if not all_what:
 					tarjeta[what+N_PLACES+N_PEOPLE][holder] = min(tarjeta[what+N_PLACES+N_PEOPLE][holder] + increase, MAX_PROB)
-			else:
-				tarjeta[where][holder] = min(tarjeta[where][holder] + increase, MAX_PROB)
-				tarjeta[who+N_PLACES][holder] = min(tarjeta[who+N_PLACES][holder] + increase, MAX_PROB)
-				tarjeta[what+N_PLACES+N_PEOPLE][holder] = min(tarjeta[what+N_PLACES+N_PEOPLE][holder] + increase, MAX_PROB)
 
-		tarjeta[where][asker] = max(tarjeta[where][asker] - 15, MIN_PROB)
-		tarjeta[who+N_PLACES][asker] = max(tarjeta[who+N_PLACES][asker] - 15, MIN_PROB)
-		tarjeta[what+N_PLACES+N_PEOPLE][asker] = max(tarjeta[what+N_PLACES+N_PEOPLE][asker] - 15, MIN_PROB)
+		tarjeta[where][asker] = max(tarjeta[where][asker] - 10, MIN_PROB)
+		tarjeta[who+N_PLACES][asker] = max(tarjeta[who+N_PLACES][asker] - 10, MIN_PROB)
+		tarjeta[what+N_PLACES+N_PEOPLE][asker] = max(tarjeta[what+N_PLACES+N_PEOPLE][asker] - 10, MIN_PROB)
 
 	idx = (asker + 1) % N_PLAYERS
 	while idx != holder:
@@ -249,19 +237,29 @@ def level3():
 			tarjeta[what+N_PLACES+N_PEOPLE][idx] = MIN_PROB
 
 		idx = (idx + 1) % N_PLAYERS
+
+	with open('log.txt', 'a') as f:
+		f.write("\n\tTARJETA ACTUALIZADA\n")
+		printCard(tarjeta, f)
 	return tarjeta
 
-def printCard(tarjeta):
-	print("Tarjeta:")
-	print("Lugares:")
+def printCard(tarjeta, f):
+	f.write("\nTarjeta:")
+	f.write("Lugares:")
+	f.write("\n")
 	for i in range(N_PLACES):
-		print(f"{i}: {tarjeta[i]}")
-	print("Personas:")
+		f.write(f"{PLACES[i]}: {tarjeta[i]}")
+		f.write("\n")
+	f.write("Personas:")
+	f.write("\n")
 	for i in range(N_PLACES, N_PLACES+N_PEOPLE):
-		print(f"{i}: {tarjeta[i]}")
-	print("Armas:")
+		f.write(f"{PEOPLE[i-N_PLACES]}: {tarjeta[i]}")
+		f.write("\n")
+	f.write("Armas:")
+	f.write("\n")
 	for i in range(N_PLACES+N_PEOPLE, N_PLACES+N_PEOPLE+N_WEAPONS):
-		print(f"{i}: {tarjeta[i]}")
+		f.write(f"{WEAPONS[i-N_PLACES-N_PEOPLE]}: {tarjeta[i]}")
+		f.write("\n")
 
 def printRes(tarjeta):
 	for i in range(len(tarjeta)):

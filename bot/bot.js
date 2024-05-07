@@ -34,20 +34,20 @@ function createBot(me, cards) {
 
   // Scar el índice de car1, card2 y card3
   for (let i = 0; i < cards.length; i++) {
-    if (constants.ROOMS_NAMES.indexOf(cards[i]) === -1) {
-      if (constants.CHARACTERS_NAMES.indexOf(cards[i]) === -1) {
-        cards[i] = constants.GUNS_NAMES.indexOf(cards[i]) + constants.ROOMS_NAMES.length + constants.CHARACTERS_NAMES.length;
+    if (PLACES.indexOf(cards[i]) === -1) {
+      if (PEOPLE.indexOf(cards[i]) === -1) {
+        cards[i] = WEAPONS.indexOf(cards[i]) + PLACES.length + PEOPLE.length;
       } else {
-        cards[i] = constants.CHARACTERS_NAMES.indexOf(cards[i]) + constants.ROOMS_NAMES.length;
+        cards[i] = PEOPLE.indexOf(cards[i]) + PLACES.length;
       }
     } else {
-      cards[i] = constants.ROOMS_NAMES.indexOf(cards[i]);
+      cards[i] = PLACES.indexOf(cards[i]);
     }
     //console.log('Card: ' + cards[i]);
   }
   // Crear un string de (N_PLACES+N_ROOMS+N_THINGS)*N_PLAYERS
   const tarjeta = [];
-  for (let i = 0; i < constants.CHARACTERS_NAMES.length + constants.GUNS_NAMES.length + constants.ROOMS_NAMES.length; i++) {
+  for (let i = 0; i < PEOPLE.length + WEAPONS.length + PLACES.length; i++) {
     for (let j = 0; j < N_PLAYERS; j++) {
       if (i === cards[0] || i === cards[1] || i === cards[2]) {
         if(j === me) {
@@ -198,31 +198,31 @@ function printCard(tarjeta) {
   const card = String(tarjeta).split(',');
   let strCard = '';
   for (let i = 0; i < card.length; i++) {
-    if (i === (constants.ROOMS_NAMES.length * constants.NUM_PLAYERS) || 
-    i === ((constants.ROOMS_NAMES.length + constants.CHARACTERS_NAMES.length) * constants.NUM_PLAYERS)) {
+    if (i === (PLACES.length * constants.NUM_PLAYERS) || 
+    i === ((PLACES.length + PEOPLE.length) * constants.NUM_PLAYERS)) {
       strCard += '\n';
     }
     if (i === 0){
       strCard += 'PLACES: \n';
     }
-    if (i === (constants.ROOMS_NAMES.length) * constants.NUM_PLAYERS) {
+    if (i === (PLACES.length) * constants.NUM_PLAYERS) {
       strCard += 'CHARACTERS: \n';
     }
-    if (i === (constants.ROOMS_NAMES.length + constants.CHARACTERS_NAMES.length) * constants.NUM_PLAYERS){
+    if (i === (PLACES.length + PEOPLE.length) * constants.NUM_PLAYERS){
       strCard += 'WEAPONS: \n';
     }
     // Añadir el nombre de la carta
-    if (i < constants.ROOMS_NAMES.length * constants.NUM_PLAYERS) {
+    if (i < PLACES.length * constants.NUM_PLAYERS) {
       if (i % constants.NUM_PLAYERS === 0) {
         strCard += PLACES[i/constants.NUM_PLAYERS] + ': ';
       }
-    } else if (i < (constants.ROOMS_NAMES.length + constants.CHARACTERS_NAMES.length) * constants.NUM_PLAYERS) {
+    } else if (i < (PLACES.length + PEOPLE.length) * constants.NUM_PLAYERS) {
       if (i % constants.NUM_PLAYERS === 0){
-        strCard += PEOPLE[(i-constants.ROOMS_NAMES.length*constants.NUM_PLAYERS)/constants.NUM_PLAYERS] + ': ';
+        strCard += PEOPLE[(i-PLACES.length*constants.NUM_PLAYERS)/constants.NUM_PLAYERS] + ': ';
       }
     } else {
       if (i % constants.NUM_PLAYERS === 0){
-        strCard += constants.GUNS_NAMES[(i-constants.ROOMS_NAMES.length*constants.NUM_PLAYERS-constants.CHARACTERS_NAMES.length*constants.NUM_PLAYERS)/constants.NUM_PLAYERS] + ': ';
+        strCard += WEAPONS[(i-PLACES.length*constants.NUM_PLAYERS-PEOPLE.length*constants.NUM_PLAYERS)/constants.NUM_PLAYERS] + ': ';
       }
     }
     strCard += card[i] + ' ';
