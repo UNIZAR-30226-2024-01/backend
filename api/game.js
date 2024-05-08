@@ -168,17 +168,20 @@ async function runGame(io, group) {
     let random_level = Math.floor(Math.random() * 3) + 1;
 
     //select a random character from the available characters
-    const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
-    console.log("character", character);
+    const character = charactersAvailable[0];
+    //const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
+    console.log("character [", i,  "] ", character);
     //remove the character from the available characters
     charactersAvailable = charactersAvailable.filter((char) => char !== character);
+
+    //console.log("charactersAvailable", charactersAvailable);
     
     //1 and 6 for the group
     const idx = constants.CHARACTERS_NAMES.indexOf(character);
     
     //generate a name for the bot's username
     const username = "bot" + group + idx;
-    console.log("Nivel de bot ",username,": ", random_level);
+    //console.log("Nivel de bot ",username,": ", random_level);
     
     //insert bot in the database
     await controller.createBot(username,random_level);
@@ -598,6 +601,22 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 // Lógica para manejar el próximo turno
 const handleNextTurn = async(group, io) => {
 
+  //time to conclude suspicions
+  function esperaActiva(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  }
+  
+  async function ejecucion() {
+    //console.log("Comienzo de la espera activa");
+    //io.to(group).emit('conclude-suspicions', {}); // 📩
+    await esperaActiva(5000); // Espera activa de 10 segundos
+   // console.log("Fin de la espera activa");
+  }
+  
+  await ejecucion();
+
   console.log("Comprobando si la partida sigue viva");
   if (!(await controller.isAlive(group))) return;
   console.log("Partida sigue viva");
@@ -609,6 +628,7 @@ const handleNextTurn = async(group, io) => {
     io.to(group).emit('game-paused-response', {}); // 📩
     return;
   };
+  
   
   setTimeout(async () => {
 
