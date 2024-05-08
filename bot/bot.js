@@ -6,7 +6,8 @@ const N_PLAYERS = 6;
 
 const PYTHON_NAME = process.env.NODE_ENV == 'PRODUCTION' ? 'python3' : 'python';
 
-const PLACES = ['aulas norte',
+const PLACES = [
+  'aulas norte',
   'recepcion',
   'laboratorio',
   'escaleras',
@@ -15,21 +16,62 @@ const PLACES = ['aulas norte',
   'despacho',
   'cafeteria',
   'aulas sur']
-const PEOPLE = ['mr SOPER',
+const PEOPLE = [
+  'mr SOPER',
   'miss REDES',
   'mr PROG',
   'miss FISICA',
   'mr DISCRETO',
   'miss IA']
-const WEAPONS = ['teclado',
+const WEAPONS = [
+  'teclado',
   'cable de red',
   'cafe envenenado',
   'router afilado',
   'troyano',
   'cd']
 
-// me == idx en la lista ordenada de jugadores
+
+// luo
+
 function createBot(me, cards) {
+  console.log('Creating bot...');
+
+  let idx_cartas = [];
+  for (let i = 0; i < cards.length; i++) {
+    if (PLACES.includes(cards[i])) {
+      idx_cartas[i] = PLACES.indexOf(cards[i]);
+      //console.log('PLACES -- card ', cards[i], ' -- idx -- ' + idx_cartas[i]);
+    } else if (PEOPLE.includes(cards[i])) {
+      idx_cartas[i] = PEOPLE.indexOf(cards[i]) + PLACES.length;
+      //console.log('PEOPLE -- card ', cards[i], ' -- idx -- ' + idx_cartas[i]);
+    } else {
+      idx_cartas[i] = WEAPONS.indexOf(cards[i]) + PLACES.length + PEOPLE.length;
+      //console.log('WEAPONS -- card ', cards[i], ' -- idx -- ' + idx_cartas[i]);
+    }
+  }
+
+  const tarjeta = [];
+  tarjeta.length = (PLACES.length + PEOPLE.length + WEAPONS.length) * N_PLAYERS;
+  tarjeta.fill(50);
+  
+  for(let j = 0; j < (PLACES.length + PEOPLE.length + WEAPONS.length); j ++){
+    tarjeta[N_PLAYERS * j + me] =  0;
+  } 
+  
+  for (let i = 0; i < idx_cartas.length; i++) {
+    //console.log('idx_cartas[i] + me * N_Pl', idx_cartas[i] + me * N_PLAYERS);
+    for(let j = 0; j < N_PLAYERS; j ++){
+      tarjeta[idx_cartas[i] * N_PLAYERS + j] =  0;
+    }
+    tarjeta[me + idx_cartas[i] * N_PLAYERS] = 100;
+  }
+
+  const strTarjeta = tarjeta.join(',');
+  return strTarjeta;
+}
+// me == idx en la lista ordenada de jugadores
+/*function createBot(me, cards) {
   console.log('Creating bot...');
 
   // Scar el índice de car1, card2 y card3
@@ -67,7 +109,7 @@ function createBot(me, cards) {
 
   const strTarjeta = tarjeta.join(',');
   return strTarjeta;
-}
+}*/
 
 async function moveBot(pjs_pos, me, dice, tarjeta, group) {
   // console.log('Moving bot...');

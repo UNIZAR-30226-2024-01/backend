@@ -184,6 +184,7 @@ async function runGame(io, group) {
     //console.log("Nivel de bot ",username,": ", random_level);
     
     //insert bot in the database
+    //LUO
     await controller.createBot(username,random_level);
     
     //join bot to the game
@@ -196,7 +197,7 @@ async function runGame(io, group) {
     players.push({userName: username, character: character});
 
     //save bot info in the array
-    bots_inf.push({username: username, level: random_level});
+    bots_inf.push({username: username, level: random_level });
   }
 
   //get player whose character == last_character
@@ -269,6 +270,20 @@ async function runGame(io, group) {
 
 const handleTurnoBot = async (turnoOwner, group, character, io) => {
 
+    //time to conclude suspicions
+  function esperaActiva(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  }
+  
+  async function ejecucion() {
+    //console.log("Comienzo de la espera activa");
+    //io.to(group).emit('conclude-suspicions', {}); // 📩
+    await esperaActiva(10000); // Espera activa de 10 segundos
+   // console.log("Fin de la espera activa");
+  }
+  
   io.to(group).emit('turno-owner', turnoOwner); // 📩
   // get the dice between 2 and 12
   const dice = Math.floor(Math.random() * 11) + 2;
@@ -335,6 +350,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
         const idx_card = -1;
         await actualizar_bots(group, turnoOwner, turnoOwner, idx_card, room, character, gun);
 
+        await ejecucion();
         handleNextTurn(group,io);
 
         return;
@@ -352,6 +368,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
         const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
         await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
 
+        await ejecucion();
         handleNextTurn(group,io);
 
         return;
@@ -375,6 +392,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
           await actualizar_bots(group, username_shower, turnoOwner, card_type, room, character, gun);
 
+          await ejecucion();
           handleNextTurn(group,io);
 
           return;
@@ -393,6 +411,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           const card_type = card == character ? 1 : (card == gun ? 2 : 0);
           await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
           
+          await ejecucion();
           handleNextTurn(group,io);
 
           return;
@@ -412,6 +431,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
         // eliminar al jugador que ha perdido
         // igual esto ya se hace en acuse_to
         console.log("FIN. Ha perdido la partida: ", turnoOwner);
+        
+        await ejecucion();
         handleNextTurn(group,io);
 
         return;
@@ -420,11 +441,12 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   }
   else { // NO se entra en una habitación
     console.log("El turno termina aquí");
+    await ejecucion();
     handleNextTurn(group,io);
 
     return;
   }
-  console.log("WTF");
+
 };
 
 //updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta)
@@ -601,21 +623,6 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 // Lógica para manejar el próximo turno
 const handleNextTurn = async(group, io) => {
 
-  //time to conclude suspicions
-  function esperaActiva(ms) {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
-  }
-  
-  async function ejecucion() {
-    //console.log("Comienzo de la espera activa");
-    //io.to(group).emit('conclude-suspicions', {}); // 📩
-    await esperaActiva(5000); // Espera activa de 10 segundos
-   // console.log("Fin de la espera activa");
-  }
-  
-  await ejecucion();
 
   console.log("Comprobando si la partida sigue viva");
   if (!(await controller.isAlive(group))) return;
