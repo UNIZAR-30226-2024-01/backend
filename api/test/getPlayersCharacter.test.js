@@ -12,9 +12,13 @@ jest.mock('../connectionManager', () => ({
     }),
     release: jest.fn(),
   }),
+  end: jest.fn()
 }));
 
 describe('getPlayersCharacter', () => {
+  afterAll(() => {
+    pool.end();
+  });
   it('should return the players and their characters if the game exists', async () => {
     const result = await getPlayersCharacter('game1');
 

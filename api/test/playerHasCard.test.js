@@ -11,9 +11,15 @@ jest.mock('../connectionManager', () => ({
     }),
     release: jest.fn(),
   }),
+  end: jest.fn()
 }));
 
 describe('playerHasCard', () => {
+  
+  afterAll(() => {
+    pool.end();
+  });
+
   it('should return the card and player if the player has the card', async () => {
     const result = await playerHasCard('mr SOPER', 'card1', 123456);
 

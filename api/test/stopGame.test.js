@@ -22,6 +22,6 @@ describe('stopGame function', () => {
 
     const result = await stopGame(idGame);
 
-    expect(result).toEqual({ exito: true });
+    expect(result).toEqual({ exito: true});
   });
 });

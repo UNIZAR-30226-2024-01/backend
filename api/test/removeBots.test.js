@@ -2,6 +2,11 @@ const { removeBots } = require('../controller');
 const constants = require('../constants'); 
 const pool = require('../connectionManager');
 describe('removeBots function', () => {
+
+  afterAll(() => {
+    pool.end();
+  });
+
   test('removes bots', async () => {
     const mockIdGame = '1';
     const mockClient = {
