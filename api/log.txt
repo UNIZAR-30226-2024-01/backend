@@ -3400,3 +3400,57 @@ cafe envenenado: [50, 50, 50, 0, 50, 50]
 router afilado: [50, 50, 50, 0, 50, 50]
 troyano: [50, 50, 50, 0, 50, 50]
 cd: [50, 50, 50, 0, 50, 50]
+
+	ME: 1, ASKER: 3, HOLDER: 5, WHERE: 4:biblioteca, WHO: 1:miss REDES, WHAT: 4:troyano
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 0, 50, 50, 50]
+recepcion: [50, 50, 0, 50, 50, 50]
+laboratorio: [50, 50, 0, 50, 50, 50]
+escaleras: [50, 50, 0, 50, 50, 50]
+biblioteca: [0, 0, 100, 0, 0, 0]
+ba:nos: [50, 50, 0, 50, 50, 50]
+despacho: [50, 50, 0, 50, 50, 50]
+cafeteria: [50, 50, 0, 50, 50, 50]
+aulas sur: [50, 50, 0, 50, 50, 50]
+Personas:
+mr SOPER: [50, 50, 0, 50, 50, 50]
+miss REDES: [50, 50, 0, 50, 50, 50]
+mr PROG: [50, 50, 0, 50, 50, 50]
+miss FISICA: [50, 50, 0, 50, 50, 50]
+mr DISCRETO: [50, 50, 0, 50, 50, 50]
+miss IA: [50, 50, 0, 50, 50, 50]
+Armas:
+teclado: [0, 0, 100, 0, 0, 0]
+cable de red: [50, 50, 0, 50, 50, 50]
+cafe envenenado: [50, 50, 0, 50, 50, 50]
+router afilado: [50, 50, 0, 50, 50, 50]
+troyano: [0, 0, 100, 0, 0, 0]
+cd: [50, 50, 0, 50, 50, 50]
+
+	TARJETA ACTUALIZADA
+
+Tarjeta:Lugares:
+aulas norte: [50, 50, 0, 50, 50, 50]
+recepcion: [50, 50, 0, 50, 50, 50]
+laboratorio: [50, 50, 0, 50, 50, 50]
+escaleras: [50, 50, 0, 50, 50, 50]
+biblioteca: [0, 0, 100, 0, 0, 0]
+ba:nos: [50, 50, 0, 50, 50, 50]
+despacho: [50, 50, 0, 50, 50, 50]
+cafeteria: [50, 50, 0, 50, 50, 50]
+aulas sur: [50, 50, 0, 50, 50, 50]
+Personas:
+mr SOPER: [50, 50, 0, 50, 50, 50]
+miss REDES: [0, 50, 0, 0, 0, 100]
+mr PROG: [50, 50, 0, 50, 50, 50]
+miss FISICA: [50, 50, 0, 50, 50, 50]
+mr DISCRETO: [50, 50, 0, 50, 50, 50]
+miss IA: [50, 50, 0, 50, 50, 50]
+Armas:
+teclado: [0, 0, 100, 0, 0, 0]
+cable de red: [50, 50, 0, 50, 50, 50]
+cafe envenenado: [50, 50, 0, 50, 50, 50]
+router afilado: [50, 50, 0, 50, 50, 50]
+troyano: [0, 0, 100, 0, 0, 0]
+cd: [50, 50, 0, 50, 50, 50]

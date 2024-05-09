@@ -307,7 +307,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   console.log("data", data.toString());
   data = data.toString().split(',');
 
-  data[data.length - 1] = data[data.length - 1].slice(0, -2);
+  // Eliminar el ultimo elemento del array
+  data = data.slice(0, -1);
 
   //check if the bot has entered a room
   let move = parseInt(data[1]);

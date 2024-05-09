@@ -208,7 +208,7 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
 def sospecha(tarjeta, me, election, group):
 	if info_tablero[election]['roomName'] == '':
 		# print("No se puede hacer una sospecha en una casilla que no es una habitación") (DEBUG)
-		print(f"MOVE,{election},FIN")
+		print(f"MOVE,{election},FIN,")
 	else:
 		# Seleccionar una carta de cada tipo (la de menor información)
 		# La habitación debe ser la de la casilla en la que se encuentra el jugador
@@ -362,12 +362,12 @@ if __name__ == "__main__":
 		# printCard(tarjeta) (DEBUG)
 		if election == -1:
 			# No se puede mover
-			print(f"MOVE,{last_pos},FIN")
+			print(f"MOVE,{last_pos},FIN,")
 		else:
 			if sameRoom(last_pos, election):
 				puerta = getDoor(election, vecinos, casillas_pjs)
 				if puerta == -1:
-					print(f"MOVE,{election},FIN")
+					print(f"MOVE,{election},FIN,")
 				else:
 					sospecha(tarjeta, yo, puerta, group)
 			else:
@@ -376,10 +376,10 @@ if __name__ == "__main__":
 		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
 		if decision == -1:
 			# No me muevo
-			print(f"MOVE,{last_pos},FIN")
+			print(f"MOVE,{last_pos},FIN,")
 		else:
 			if sameRoom(last_pos, decision):
 				puerta = getDoor(decision, vecinos, casillas_pjs)
-				print(f"DOOR,{puerta},FIN")
+				print(f"DOOR,{puerta},FIN,")
 			else:
-				print(f"MOVE,{decision},FIN") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+				print(f"MOVE,{decision},FIN,") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
