@@ -227,7 +227,7 @@ def sospecha(tarjeta, me, election, group):
 
 		# Imprimir la sospecha
 		# print(f"Sospecha: {PLACES[place]}, {PEOPLE[who]}, {WEAPONS[weapon]}") (DEBUG)
-		print(f"MOVE,{election},SUSPECT,{PLACES[place]},{PEOPLE[who]},{WEAPONS[weapon]}")
+		print(f"MOVE,{election},SUSPECT,{PLACES[place]},{PEOPLE[who]},{WEAPONS[weapon]},")
 
 def acusacion(tarjeta):
 	info_place = False
@@ -382,4 +382,4 @@ if __name__ == "__main__":
 				puerta = getDoor(decision, vecinos, casillas_pjs)
 				print(f"DOOR,{puerta},FIN,")
 			else:
-				print(f"MOVE,{decision},FIN,") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE]}")
+				print(f"MOVE,{decision},FIN,") if (info_tablero[decision]['roomName'] == '') else print(f"MOVE,{decision},ACCUSE,{PLACES[idx_place]},{PEOPLE[idx_who-N_PLACES]},{WEAPONS[idx_weapon-N_PLACES-N_PEOPLE],}")
