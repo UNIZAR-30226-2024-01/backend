@@ -4,7 +4,7 @@ const N_PLAYERS = 6;
 
 //require('dotenv').config();
 
-const PYTHON_NAME = process.env.NODE_ENV == 'PRODUCTION' ? 'python3' : 'python';
+const PYTHON_NAME = process.env.NODE_ENV === 'production' ? 'python3' : 'python';
 
 const PLACES = [
   'aulas norte',
