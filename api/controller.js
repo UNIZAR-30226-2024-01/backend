@@ -684,7 +684,6 @@ async function finishGame(idGame) {
     await updateTurno(idGame, null);
     console.log("Eliminando bots")
     await removeBots(idGame);
-    console.log("Bots eliminados");
 
     // Se ejecuta la consulta para actualizar el estado de la partida y del jugador
     const updateStateandPartidaQuery = constants.UPDATE_STATE_PARTIDA_FICHA_JUGADOR_WITH_PARTIDA;
@@ -1166,13 +1165,11 @@ async function removeBots(idGame) {
     // console.log("Eliminando cartas y bots")
     // await client.query(deleteCards, deleteValues);
 
-    console.log("Eliminando bots 2")
     await client.query(deleteBotsQuery, deleteValues);
 
     const deletePlayer = constants.DELETE_ALL_BOTS_FROM_JUGADOR;
     
     await client.query(deletePlayer, deleteValues);
-    console.log("Bots eliminados kk");
 
     return { exito: true };
 

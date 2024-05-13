@@ -170,7 +170,7 @@ async function runGame(io, group) {
     //select a random character from the available characters
     const character = charactersAvailable[0];
     //const character = charactersAvailable[Math.floor(Math.random() * charactersAvailable.length)];
-    console.log("character [", i,  "] ", character);
+    console.log("character [", i,  "] ", character, " level: ", random_level);
     //remove the character from the available characters
     charactersAvailable = charactersAvailable.filter((char) => char !== character);
 
@@ -545,7 +545,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 
           if (username_shower == "") {
             // nadie tiene cartas para enseñar
-            io.to(group).emit('turno-show-cards', username_asking, "", "");
+            io.to(group).emit('turno-show-cards', username_asking, "Nadie", "", character, gun, room);
 
             await actualizar_bots(group, turnoOwner, turnoOwner, -1, room, character, gun);
             handleNextTurn(group, io);
