@@ -286,8 +286,12 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   
   io.to(group).emit('turno-owner', turnoOwner); // 📩
   // get the dice between 2 and 12
-  const dice = Math.floor(Math.random() * 11) + 2;
+  const dice = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
   const me = constants.CHARACTERS_NAMES.indexOf(character);
+
+  console.log("Comprobando si la partida sigue viva");
+  if (!(await controller.isAlive(group))) return;
+  console.log("Partida sigue viva");
   
   const { exito, positions, usernames } = await controller.information_for_bot(group);
   const { sospechas } = await controller.getSospechasBot(turnoOwner)
@@ -447,7 +451,6 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   catch (error) {
     console.error('Hubo un error:', error.toString());
   }
-
 };
 
 //updateCard(me, lvl, asker, holder, where, who, what, hasSmg, tarjeta)
