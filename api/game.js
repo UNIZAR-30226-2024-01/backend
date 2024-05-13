@@ -538,7 +538,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
           }
         } else {
           // buscar quien es el jugador que debe enseñar la carta
-          // llamar función 
+          console.log("Orden de los jugadores", players_in_order.group.username);
           const { user } = await controller.turno_asks_for(group, username_asking, character, gun, room, players_in_order.group.username);
           const username_shower = user;
           // console.log("username_shower", username_shower);

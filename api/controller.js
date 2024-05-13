@@ -992,12 +992,26 @@ async function turno_asks_for(idGame, usernameQuestioner, characterCard, weaponC
       //eliminas las cartas que tiene el jugador que pregunta
       resultArray = resultArray.filter((row) => row.user !== usernameQuestioner);
 
+      console.log("resultArray: ", resultArray);
+
       let i = usernameByOrder.indexOf(usernameQuestioner);
-      resultArray = resultArray.slice(i + 1).concat(resultArray.slice(0, i + 1));
+
+      let result = [];
+      let j = i+1;
+      for (let k = 0; k < usernameByOrder.length; k++) {
+          j %= usernameByOrder.length;
+          let row = resultArray.find((row) => row.user === usernameByOrder[j]);
+          if (row) {
+            result.push(row);
+              break;
+          }
+          j++;
+      }
+      console.log("result: ", result);
       // resultArray tiene ordenados los jugadores que tienen alguna de las cartas
       // quieres el primer jugador en el order de usernameByOrder a partir de ti, que aparece en resultArra
 
-      return resultArray[0] ? { exito: true, user: resultArray[0].user } : { exito: true, user: '' };
+      return result[0] ? { exito: true, user: result[0].user } : { exito: true, user: '' };
     }
 
   } catch (error) {
