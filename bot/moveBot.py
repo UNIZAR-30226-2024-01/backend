@@ -153,7 +153,7 @@ def turn(casillas_pjs, casilla, dados, vecinos):
 	# print(candidatos) (DEBUG)
 	return candidatos
 
-def bfs_habitacion(candidatos, room, vecinos):
+def bfs_habitacion(candidatos, room, vecinos, casillas_pjs):
 
 	room = str(room)
 	# Inicializar la lista de explorados
@@ -175,7 +175,39 @@ def bfs_habitacion(candidatos, room, vecinos):
 			if vecino not in visitados:
 				frontera.append(vecino)
 	
-	# No se encontraron casillas candidatas, el jugador está atrapado
+	# No se encontraron casillas candidatas, el jugador está atrapado, probar sin bloquear las casillas de los jugadores
+	visitados = []
+	frontera = [c['idx'] for c in info_tablero if c['roomName'] == room and c['isDoor'] != False]
+
+	# Comprobación de las casillas de los jugadores
+	for i in range(len(casillas_pjs)):
+		# Marcar las casillas de los jugadores como transitables
+		info_tablero[casillas_pjs[i]]['isWalkable'] = True
+
+	while frontera:
+		casilla_actual = frontera.pop(0)
+		
+		# Verificar si la casilla actual es una candidata
+		if casilla_actual in candidatos:
+			# Restaurar las casillas de los jugadores
+			for i in range(len(casillas_pjs)):
+				# Marcar las casillas de los jugadores como no transitables
+				info_tablero[casillas_pjs[i]]['isWalkable'] = False if info_tablero[casillas_pjs[i]]['isRoom'] == False else None
+			return casilla_actual  # Se encontró una casilla candidata
+		
+		# Marcar la casilla actual como visitada
+		visitados.append(casilla_actual)
+		
+		# Explorar los vecinos de la casilla actual
+		for vecino in checkNeighbours(casilla_actual, vecinos):
+			if vecino not in visitados:
+				frontera.append(vecino)
+
+	# Restaurar las casillas de los jugadores
+	for i in range(len(casillas_pjs)):
+		# Marcar las casillas de los jugadores como no transitables
+		info_tablero[casillas_pjs[i]]['isWalkable'] = False if info_tablero[casillas_pjs[i]]['isRoom'] == False else None
+	
 	return -1
 
 def getLeastInfo(tarjeta, me, group):
@@ -194,7 +226,7 @@ def getLeastInfo(tarjeta, me, group):
 		_me = (_me + 1) % N_PLAYERS
 	return min_info
 
-def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
+def decidirMovimiento(candidatos, tarjeta, vecinos, me, group, casillas_pjs):
 	min_prob = getLeastInfo(tarjeta, me, group)
 
 	# Transformar el indice en las puertas de la habitación
@@ -202,7 +234,7 @@ def decidirMovimiento(candidatos, tarjeta, vecinos, me, group):
 
 	# print("place: ", info_habitaciones[min_prob]['roomName']) (DEBUG)
 
-	return bfs_habitacion(candidatos, room, vecinos)
+	return bfs_habitacion(candidatos, room, vecinos, casillas_pjs)
 
 
 def sospecha(tarjeta, me, election, group):
@@ -234,6 +266,8 @@ def acusacion(tarjeta):
 	info_who = False
 	info_weapon = False
 
+	MIN_INFO = 25
+
 	idx_place = -1
 	idx_who = -1
 	idx_weapon = -1
@@ -242,7 +276,7 @@ def acusacion(tarjeta):
 	for i in range(len(tarjeta)):
 		if i < N_PLACES:
 			# Lugares
-			if sum(tarjeta[i]) <= 10:
+			if sum(tarjeta[i]) <= MIN_INFO:
 				info_place = True
 				idx_place = i
 		else:
@@ -251,7 +285,7 @@ def acusacion(tarjeta):
 				break
 			if i < N_PLACES+N_PEOPLE:
 				# Personas
-				if sum(tarjeta[i]) <= 10:
+				if sum(tarjeta[i]) <= MIN_INFO:
 					info_who = True
 					idx_who = i
 			else:
@@ -259,7 +293,7 @@ def acusacion(tarjeta):
 					# No hay suficiente información para hacer una acusación
 					break
 				# Armas
-				if sum(tarjeta[i]) <= 10:
+				if sum(tarjeta[i]) <= MIN_INFO:
 					info_weapon = True
 					idx_weapon = i
 
@@ -358,7 +392,7 @@ if __name__ == "__main__":
 	
 	if not acusar:
 		# Pasar las primeras N_PLACES componentes de la tarjeta a una lista de lugares
-		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, yo, group)
+		election = decidirMovimiento(candidatos, tarjeta[:N_PLACES], vecinos, yo, group, casillas_pjs)
 		# printCard(tarjeta) (DEBUG)
 		if election == -1:
 			# No se puede mover
@@ -373,7 +407,7 @@ if __name__ == "__main__":
 			else:
 				sospecha(tarjeta, yo, election, group)
 	else:
-		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos)
+		decision = bfs_habitacion(candidatos, info_habitaciones[idx_place]['roomNumber'], vecinos, casillas_pjs)
 		if decision == -1:
 			# No me muevo
 			print(f"MOVE,{last_pos},FIN,")

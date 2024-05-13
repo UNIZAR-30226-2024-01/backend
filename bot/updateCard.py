@@ -158,7 +158,7 @@ def level3():
 	tarjeta = getCard()
 
 	with open('log.txt', 'a') as f:
-		f.write(f"\n\tME: {me}, ASKER: {asker}, HOLDER: {holder}, WHERE: {where}:{PLACES[where]}, WHO: {who}:{PEOPLE[who]}, WHAT: {what}:{WEAPONS[what]}\n")
+		f.write(f"\n\tME: {me}, ASKER: {asker}, HOLDER: {holder}, WHERE: {where}:{PLACES[where]}, WHO: {who}:{PEOPLE[who]}, WHAT: {what}:{WEAPONS[what]}, obj: {sys.argv[8]}\n")
 		printCard(tarjeta, f)
 
 	if me == asker:
@@ -186,6 +186,7 @@ def level3():
 			all_who = allInfoFrom(tarjeta[who+N_PLACES], holder)
 			all_what = allInfoFrom(tarjeta[what+N_PLACES+N_PEOPLE], holder)
 			increase = 5
+			decrease = 15
 			# Si tengo toda la info de una carta aumento la probabilidad de las demás
 			# No sé nada -> aumento 5, sé 1 -> aumento 10, sé 2 -> aumento MAX_PROB
 			if all_place or all_who or all_what:
@@ -224,9 +225,9 @@ def level3():
 				if not all_what:
 					tarjeta[what+N_PLACES+N_PEOPLE][holder] = min(tarjeta[what+N_PLACES+N_PEOPLE][holder] + increase, MAX_PROB)
 
-		tarjeta[where][asker] = max(tarjeta[where][asker] - 10, MIN_PROB)
-		tarjeta[who+N_PLACES][asker] = max(tarjeta[who+N_PLACES][asker] - 10, MIN_PROB)
-		tarjeta[what+N_PLACES+N_PEOPLE][asker] = max(tarjeta[what+N_PLACES+N_PEOPLE][asker] - 10, MIN_PROB)
+		tarjeta[where][asker] = max(tarjeta[where][asker] - decrease, MIN_PROB)
+		tarjeta[who+N_PLACES][asker] = max(tarjeta[who+N_PLACES][asker] - decrease, MIN_PROB)
+		tarjeta[what+N_PLACES+N_PEOPLE][asker] = max(tarjeta[what+N_PLACES+N_PEOPLE][asker] - decrease, MIN_PROB)
 
 	idx = (asker + 1) % N_PLAYERS
 	while idx != holder:
