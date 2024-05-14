@@ -865,7 +865,7 @@ async function updatePosition(username, pos) {
 }
 
 
-async function changeTurn(idGame) {
+async function changeTurn(idGame, idx_player) {
   //Pdte: update sospechas, position and others ..
   const selectQuery = constants.SELECT_TURN_PARTIDA;
   const selectValues = [idGame];
@@ -890,8 +890,12 @@ async function changeTurn(idGame) {
       let next_turn_character = turno_player_character;
       
       while (!valido && i <= constants.CHARACTERS_NAMES.length) {
-        next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) + i ) % constants.CHARACTERS_NAMES.length];
 
+        if (idx_player != -1){
+          next_turn_character = res.characterAvaliable[(idx_player+i) % constants.CHARACTERS_NAMES.length];
+        } else{
+          next_turn_character = res.characterAvaliable[((res.areAvailable.indexOf(turno_player_username)) + i ) % constants.CHARACTERS_NAMES.length];
+        }
         console.log("i: ", next_turn_character)
         // console.log("next_turn_character "+next_turn_character);
         i++;

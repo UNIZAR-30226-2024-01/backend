@@ -39,7 +39,7 @@ const createEventListenersStopGame = (s, group) => {
 
     await controller.resumeGame(group);
 
-    handleNextTurn(group, io);
+    handleNextTurn(group, -1, io);
   });
 }  
 
@@ -264,7 +264,7 @@ async function runGame(io, group) {
   });
 
   // Iniciar el primer turno
-  handleNextTurn(group, io);
+  handleNextTurn(group, -1, io);
 }
   // Avisar al primer jugador del grupo que es su turno
 
@@ -277,10 +277,10 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
     });
   }
   
-  async function ejecucion() {
+  async function ejecucion(time) {
     //console.log("Comienzo de la espera activa");
     //io.to(group).emit('conclude-suspicions', {}); // 📩
-    await esperaActiva(10000); // Espera activa de 10 segundos
+    await esperaActiva(time); // Espera activa de 10 segundos
    // console.log("Fin de la espera activa");
   }
   
@@ -321,8 +321,11 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
     // console.log(typeof data[2])
     // console.log("data[2]: \"" +data[2]+"\"");
     const fin = (data[2] === "FIN");
+    await ejecucion(10000);
+    if (!(await controller.isAlive(group))) return;
   
     if (!fin) { // Se entra en una habitación
+
       console.log("El turno NO termina aquí");
       const suspect = data[2] == 'SUSPECT' ;
       let room = data[3];
@@ -351,8 +354,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           const idx_card = -1;
           await actualizar_bots(group, turnoOwner, turnoOwner, idx_card, room, character, gun);
   
-          await ejecucion();
-          handleNextTurn(group,io);
+          handleNextTurn(group, -1,io);
   
           return;
   
@@ -369,8 +371,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
           await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
   
-          await ejecucion();
-          handleNextTurn(group,io);
+          handleNextTurn(group, -1,io);
   
           return;
   
@@ -392,9 +393,9 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
   
             const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
             await actualizar_bots(group, username_shower, turnoOwner, card_type, room, character, gun);
-  
-            await ejecucion();
-            handleNextTurn(group,io);
+            await ejecucion(12000);
+
+            handleNextTurn(group, -1,io);
   
             return;
           }, 15000); // dejar en 15 segundos
@@ -412,8 +413,8 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
             const card_type = card == character ? 1 : (card == gun ? 2 : 0);
             await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
             
-            await ejecucion();
-            handleNextTurn(group,io);
+            await ejecucion(12000);
+            handleNextTurn(group, -1,io);
   
             return;
           };
@@ -432,7 +433,10 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           // eliminar al jugador que ha perdido
           // igual esto ya se hace en acuse_to
           console.log("FIN. Ha perdido la partida: ", turnoOwner);
-          handleNextTurn(group,io);
+          const idx_player = players_in_order.group.username.indexOf(turnoOwner);
+          
+          await ejecucion(6000);
+          handleNextTurn(group, idx_player,io);
   
           return;
         }
@@ -440,8 +444,7 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
     }
     else { // NO se entra en una habitación
       console.log("El turno termina aquí");
-      await ejecucion();
-      handleNextTurn(group,io);
+      handleNextTurn(group, -1,io);
   
       return;
     }
@@ -493,7 +496,9 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
     // console.log("Se ha acabado el tiempo del turno de", turnoOwner);
     socketOwner.socket.removeAllListeners();
     console.log("El jugador", turnoOwner, "no ha hecho nada en su turno");
-    handleNextTurn(group, io);
+
+    idx_player = players_in_order.group.username.indexOf(turnoOwner);
+    handleNextTurn(group, idx_player, io);
     return;
   }, 47000); // dejar en 47 segundos 
 
@@ -530,7 +535,8 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
             // eliminar al jugador que ha perdido
             // igual esto ya se hace en acuse_to
             console.log("FIN. Ha perdido la partida: ", username_asking);
-            handleNextTurn(group, io);
+            const idx_player = players_in_order.group.username.indexOf(username_asking);
+            handleNextTurn(group, idx_player, io);
             return;
           }
         } else {
@@ -545,7 +551,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
             io.to(group).emit('turno-show-cards', username_asking, "Nadie", "", character, gun, room);
 
             await actualizar_bots(group, turnoOwner, turnoOwner, -1, room, character, gun);
-            handleNextTurn(group, io);
+            handleNextTurn(group, -1, io);
             return;
           }
           else if (username_shower.includes("bot")) {
@@ -559,7 +565,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 
             const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
             await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
-            handleNextTurn(group, io)
+            handleNextTurn(group, -1, io)
             return;
           }
           else {
@@ -582,7 +588,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
               const card_type = card_to_show == character ? 1 : (card_to_show == gun ? 2 : 0);
               await actualizar_bots(group, username_shower, turnoOwner, card_type, room, character, gun);
 
-              handleNextTurn(group, io);
+              handleNextTurn(group, -1, io);
               return;
             }, 15000); // dejar en 15 segundos
 
@@ -599,7 +605,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
               
               const card_type = card == character ? 1 : (card == gun ? 2 : 0);
               await actualizar_bots(group,username_shower,turnoOwner,card_type,room,character,gun);
-              handleNextTurn(group, io);
+              handleNextTurn(group, -1, io);
               return;
             };
             socket_shower.socket.on('turno-card-selected', onTurnoCardSelected);
@@ -612,7 +618,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
       console.log("El turno termina aquí");
 
       // Continuar con el siguiente turno
-      handleNextTurn(group, io);
+      handleNextTurn(group, -1, io);
       return;
     }
     
@@ -622,7 +628,7 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
 };
 
 // Lógica para manejar el próximo turno
-const handleNextTurn = async(group, io) => {
+const handleNextTurn = async(group, last_turn, io) => {
 
 
   console.log("Comprobando si la partida sigue viva");
@@ -640,7 +646,7 @@ const handleNextTurn = async(group, io) => {
   
   setTimeout(async () => {
 
-    const { exito, turno:turno_username, turno_character } = await controller.changeTurn(group); // turno.turno es un username
+    const { exito, turno:turno_username, turno_character } = await controller.changeTurn(group, last_turn); // turno.turno es un username
 
     if (!exito) {
       console.log("Error al cambiar de turno");
@@ -655,7 +661,7 @@ const handleNextTurn = async(group, io) => {
 
     // si al principio de tu turno no estás conectado, se salta al siguiente
     if (!socketOwner && !turnoOwner.includes("bot")) { 
-      handleNextTurn(group, io);
+      handleNextTurn(group, -1, io);
       return;
     }
     else {
