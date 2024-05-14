@@ -364,7 +364,17 @@ if __name__ == "__main__":
 	# Inicialización de variables
 	casillas_pjs = sys.argv[1]
 	# Convertir la lista de casillas de los jugadores a una lista de enteros
-	casillas_pjs = list(map(int, casillas_pjs.split(",")))  
+	str_casillas_pjs = casillas_pjs.split(",")
+	#Replace de empty items en la lista de casillas de los jugadores
+	casillas_pjs = []
+	for i in range(len(str_casillas_pjs)):
+		casillas_pjs.append(int(str_casillas_pjs[i]) if str_casillas_pjs[i] else 1)
+
+	with open('log.txt', 'a') as f:
+		f.write(f"{casillas_pjs}\n")
+		for i in range(len(casillas_pjs)):
+			f.write(f"{type(casillas_pjs[i])}\n")
+
 	yo = int(sys.argv[2])
 	casilla = casillas_pjs[yo]
 	dados = int(sys.argv[3])
@@ -382,12 +392,6 @@ if __name__ == "__main__":
 	last_pos = casillas_pjs[yo]
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
 	# Eliminar los posibles <empty items> de la lista de casillas de los jugadores
-	with open('log.txt', 'a') as f:
-		f.write(f"{casillas_pjs}\n")
-		for i in range(len(casillas_pjs)):
-			if casillas_pjs[i] == 'empty item':
-				casillas_pjs[i] = ''
-			f.write(f"{type(casillas_pjs[i])}\n")
 
 	casillas_pjs = [c for c in casillas_pjs if c != '']
 
