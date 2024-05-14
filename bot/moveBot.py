@@ -382,6 +382,13 @@ if __name__ == "__main__":
 	last_pos = casillas_pjs[yo]
 	casillas_pjs = casillas_pjs[:yo] + casillas_pjs[yo+1:]
 	# Eliminar los posibles <empty items> de la lista de casillas de los jugadores
+	with open('log.txt', 'a') as f:
+		f.write(f"{casillas_pjs}\n")
+		for i in range(len(casillas_pjs)):
+			if casillas_pjs[i] == 'empty item':
+				casillas_pjs[i] = ''
+			f.write(f"{type(casillas_pjs[i])}\n")
+
 	casillas_pjs = [c for c in casillas_pjs if c != '']
 
 	vecinos = [N_COLS, 1, -N_COLS, -1]

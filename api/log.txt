@@ -1,0 +1,32 @@
+[122, 561, 16, 191, 566], tipo <class 'list'>
+[122, 436, 16, 191, 566], tipo <class 'list'>
+[102, 561, 16, 191, 566]
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+[102, 437, 16, 191, 566]
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+[102, 437, 391, 191, 566]
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+[102, 437, 391, 112, 566]
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+[102, 437, 391, 112, 207]
+<class 'int'>
+<class 'int'>
+<class 'int'>
+<class 'int'>
+<class 'int'>

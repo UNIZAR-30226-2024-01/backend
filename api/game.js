@@ -432,8 +432,6 @@ const handleTurnoBot = async (turnoOwner, group, character, io) => {
           // eliminar al jugador que ha perdido
           // igual esto ya se hace en acuse_to
           console.log("FIN. Ha perdido la partida: ", turnoOwner);
-          
-          await ejecucion();
           handleNextTurn(group,io);
   
           return;
@@ -532,7 +530,6 @@ const handleTurno = async (turnoOwner, socketOwner, characterOwner, group,io) =>
             // eliminar al jugador que ha perdido
             // igual esto ya se hace en acuse_to
             console.log("FIN. Ha perdido la partida: ", username_asking);
-
             handleNextTurn(group, io);
             return;
           }

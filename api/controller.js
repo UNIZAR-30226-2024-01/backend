@@ -1035,10 +1035,12 @@ async function acuse_to(player, idGame, characterCard, weaponCard, placeCard) {
     const selectResult = await client.query(selectQuery, selectValues);
 
     if (selectResult.rows.length == 0) {
-      lose(idGame);
+      console.log("perdio");
+      await lose(player);
+      console.log("acabo de perder");
       return { exito: false, msg: constants.WRONG_ACUSE };
     } else {
-      win(idGame, player);
+      await win(idGame, player);
       return { exito: true, msg: constants.CORRECT_ACUSE };
     }
   } catch (error) {
